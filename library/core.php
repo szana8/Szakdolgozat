@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ID: $Id
+ * Link: https://github.com/szana8/Szakdolgozat/blob/master/library/core.php
  * File: core.php
  * Namespace: library
  * 
@@ -15,8 +15,9 @@
 
 namespace library;
 
-class core {
-    //put your code here
+class Core {
+    
+    
 }
 
 ?>
