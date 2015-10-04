@@ -1,0 +1,12 @@
+- Sablonkezelőhöz:
+	- statikus fv-ek (createTableRow(array('align', ...stb)), createTableCol(array('align')), stb)
+	- complier fv a fordításhoz
+	- cahche-elés, a template változóit elmenteni cache-be így ha újra kell generálni nem kell kiszedni belőle újra
+	
+- Menü:
+	- dinamikus, db-ből, rekurziv-an összeállítani (tetszőleges számú almenü)
+	- twitter bootstrap kiegészítést írni ami egy office-os ribbon-t generál / vagy easyUI
+
+- Install:
+	- install részt csinálni, ami bekéri a db adatait és legenerálja az alap táblákat, view-kat, stb.
+	- 
