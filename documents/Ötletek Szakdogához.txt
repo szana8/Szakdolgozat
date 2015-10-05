@@ -10,3 +10,7 @@
 - Install:
 	- install részt csinálni, ami bekéri a db adatait és legenerálja az alap táblákat, view-kat, stb.
 	- 
+- Database
+        - teljesen oop-re írni, minden mező attribútum stb (a fetch-t beállítani)
+        - egy abstract class-t kreálni a különböző db osztályoknak
+        - amit lehet stored procedure-ba beletenni
