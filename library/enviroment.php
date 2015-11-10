@@ -1,5 +1,5 @@
 <?php
-
+namespace library;
 /**
  * Link: 
  * File: enviroment.php
@@ -18,7 +18,7 @@ if(count(get_included_files()) === 1) {
     exit();
 }
 
-namespace library;
+
 
 class Enviroment {
     

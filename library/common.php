@@ -35,31 +35,31 @@ define("APPS_D_ROOT", apps_dirpath(dirname(__DIR__)));
 
 
 // A program konfigurációs állományait tartalmazó könyvtár elérési útja
-define("APPS_D_CONFIG", APPS_D_ROOT."config".APPS_DS);
+define("APPS_D_CONFIG", APPS_D_ROOT."config".APPS_DIRECTORY_SEPARATOR);
 
 // A program által használt keretrendszereket tartalmazó könyvtár elérési útja.
-define("APPS_D_PLGS", APPS_D_ROOT."frameworks".APPS_DS);
+define("APPS_D_PLGS", APPS_D_ROOT."frameworks".APPS_DIRECTORY_SEPARATOR);
 
 // A program programkódjait tartalmazó könyvtár elérési útja.
-define("APPS_D_LIBS", APPS_D_ROOT."library".APPS_DS);
+define("APPS_D_LIBS", APPS_D_ROOT."library".APPS_DIRECTORY_SEPARATOR);
 
 // A program moduljait tartalmazó könyvtár elérési útja.
-define("APPS_D_MODS",  APPS_D_ROOT."modules".APPS_DS);
+define("APPS_D_MODS",  APPS_D_ROOT."modules".APPS_DIRECTORY_SEPARATOR);
 
 // A program moduljait tartalmazó könyvtár elérési útja.
-define("APPS_D_JS",  APPS_D_ROOT."javascript".APPS_DS);
+define("APPS_D_JS",  APPS_D_ROOT."javascript".APPS_DIRECTORY_SEPARATOR);
 
 // A program moduljait tartalmazó könyvtár elérési útja.
-define("APPS_D_CSS",  APPS_D_ROOT."style".APPS_DS);
+define("APPS_D_CSS",  APPS_D_ROOT."style".APPS_DIRECTORY_SEPARATOR);
 
 // Sablon fájlokat tartalmazó könyvtár elérési útja.
-define("APPS_D_TPL", APPS_D_ROOT."templates".APPS_DS);
+define("APPS_D_TPL", APPS_D_ROOT."templates".APPS_DIRECTORY_SEPARATOR);
 
 // Ideiglenes fájlokat tartalmazó könyvtár elérési útja.
-define("APPS_D_TMP", APPS_D_ROOT."tmp".APPS_DS);
+define("APPS_D_TMP", APPS_D_ROOT."tmp".APPS_DIRECTORY_SEPARATOR);
 
-// Tábla definíciót tartalmazó könyvtár elérési útja.
-define("APPS_MYSQL", APPS_ETC."database".APPS_DS."mysql".APPS_DS);
+define("DEFAULT_DATE_FORMAT", "Y-m-d H:i:s");
+
 
 /**
  * A paraméterben megadott könyvtár elérési útvonalban lecseréli
@@ -129,6 +129,7 @@ function autoload($pin_ClassName)
  * @return      string
  */
 function app_root_uri() {
+    return;
     $loc_DocRoot = app_dirpath(\library\Enviroment::GetEnv("DOCUMENT_ROOT"));
     if(substr(APPS_D_ROOT, 0, strlen($loc_DocRoot)) == $loc_DocRoot) {
         return(APPS_DIRECTORY_SEPARATOR.preg_replace("#^".apps_dirpath(\library\Enviroment::GetEnv("DOCUMENT_ROOT"))."#", "", APPS_D_ROOT));
@@ -181,6 +182,7 @@ define("__ROOT_URL__", __CLI__ ? "" : (((\library\Enviroment::GetEnv("HTTPS")) ?
  * @version  1.0
  */
 function set_app_debug() {
+    return;
     restore_error_handler();
     library\File::$FileName = "config.ini";
     $loc_IniObject = (object)library\File::GetIniContent();

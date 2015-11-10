@@ -1,5 +1,5 @@
 <?php
-
+namespace library;
 /**
  * Link: https://github.com/szana8/Szakdolgozat/blob/master/library/core.php
  * File: core.php
@@ -19,7 +19,7 @@ if(count(get_included_files()) === 1) {
     exit();
 }
 
-namespace library;
+
 
 class Core {
     
@@ -41,7 +41,21 @@ class Core {
 # 4. Public Methods ############################################################
 ################################################################################
 
-    
+    public static function arrayToObject($pin_Array, &$pout_Object)
+    {
+        foreach ($pin_Array as $loc_Key => $loc_Value)
+        {
+          if (is_array($loc_Value)) {
+            $pout_Object->$loc_Key = new \stdClass();
+            self::arrayToObject($loc_Value, $pout_Object->$loc_Key);
+          }
+          else {
+            $pout_Object->$loc_Key = $loc_Value;
+          }
+        }
+        
+        return $pout_Object;
+    }
     
 ################################################################################
 # 5. Protected Methods #########################################################

@@ -1,5 +1,5 @@
 <?php
-
+namespace library;
 /**
  * Link: 
  * File: file.php
@@ -18,8 +18,6 @@ if(count(get_included_files()) === 1) {
          . " file directly!</html>";
     exit();
 }
-
-namespace library;
 
 class File extends Core {
     
@@ -110,7 +108,7 @@ class File extends Core {
         if(!$pin_FileName)
             return false;
         
-        return callStatic()->_isFileExists($pin_FileName);
+        return self::callStatic()->_isFileExists($pin_FileName);
     }
     
     /**
@@ -125,7 +123,7 @@ class File extends Core {
         if(!$pin_FileName)
             return false;
         
-        return "";
+        return self::callStatic()->_getFileType($pin_FileName);
     }
     
     
@@ -138,10 +136,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileContent($pin_FileName) {
-        if(!$pin_FileName)
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
             return false;
         
-        return "";
+        return file_get_contents($pin_FileName);
     }
     
     /**
@@ -153,11 +151,12 @@ class File extends Core {
      * @version 1.0
      */
     public static function getIniContent($pin_FileName) {
-        if(!$pin_FileName)
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
             return false;
         
-        $loc_IniContent = NULL;
-        return object($loc_IniContent);
+        $loc_IniContent = new \stdClass();
+            $loc_IniContent = \parse_ini_file($pin_FileName, true);
+        return self::arrayToObject($loc_IniContent, new \stdClass());
     }
     
     /**
@@ -169,11 +168,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileSize($pin_FileName) {
-        if(!$pin_FileName)
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
             return false;
         
-        $loc_Size = NULL;
-        return doubleval($loc_Size);
+        return doubleval(filesize($pin_FileName));
     }
     
     /**
@@ -185,8 +183,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileLastMTime($pin_FileName) {
-        $loc_FileLastMTime = NULL;
-        return date($loc_FileLastMTime, DEFAULT_DATE_FORMAT);
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        return date(DEFAULT_DATE_FORMAT, filemtime($pin_FileName));
     }
     
     /**
@@ -198,8 +198,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileLastMUser($pin_FileName) {
-        $loc_LastMUser = NULL;
-        return $loc_LastMUser;
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        return fileowner($pin_FileName);
     }
     
     /**
@@ -211,8 +213,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function isReadable($pin_FileName) {
-        $loc_IsReadable = false;
-        return $loc_IsReadable;
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        return is_readable($pin_FileName);
     }
     
     /**
@@ -224,8 +228,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function isWritable($pin_FileName) {
-        $loc_IsWritable = false;
-        return $loc_IsWritable;
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        return is_writable($pin_FileName);
     }
     
     /**
@@ -237,6 +243,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function loadFile($pin_FileName) {
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        require_once $pin_FileName;
         return true;
     }
     
@@ -250,7 +260,7 @@ class File extends Core {
      * @version 1.0
      */
     public static function createFile($pin_FileName, $pin_FileContent = "") {
-        return true;
+        return file_put_contents($pin_FileName, $pin_FileContent);
     }
     
     /**
@@ -264,7 +274,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function updateFile($pin_FileName, $pin_FileContent = "", $pin_ForceUpdate = false) {
-        return true;
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        return file_put_contents($pin_FileName, $pin_FileContent);
     }
     
     /**
@@ -277,7 +290,13 @@ class File extends Core {
      * @version 1.0
      */
     public static function removeFile($pin_FileName, $pin_ForceRemove = false) {
-        return true;
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        if($pin_ForceRemove === false && self::getFileSize($pin_FileName) == 0)
+            return false;
+        
+        return unlink($pin_FileName);
     }
     
     /**
@@ -292,6 +311,21 @@ class File extends Core {
      * @version 1.0
      */
     public static function searchFile($pin_FileName, $pin_Directory, $pin_Recursive = false) {
+        if($pin_Recursive === false) {
+            $loc_Dir  = opendir($pin_Directory);
+            while (false !== ($loc_Filename = readdir($loc_Dir))) {
+                if($loc_Filename == $pin_FileName)
+                    return true;
+            }
+            return false;
+        }
+        
+        $loc_Iterator = new \RecursiveDirectoryIterator($pin_Directory);
+        foreach(new \RecursiveIteratorIterator($loc_Iterator) as $loc_File) {
+            $loc_SplInfo = new \SplFileInfo($loc_File);
+            if($loc_SplInfo->getFilename() == $pin_FileName)
+                return true;
+        }
         return false;
     }
     
@@ -305,8 +339,11 @@ class File extends Core {
      * @version 1.0
      */
     public static function searchInFile($pin_FileName, $pin_SearchString) {
-        $loc_IsStringExists = false;
-        return $loc_IsStringExists;
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        $loc_Content = self::getFileContent($pin_FileName);
+        return strpos($loc_Content, $pin_SearchString);
     }
     
     /**
@@ -323,28 +360,40 @@ class File extends Core {
     
     /**
      * A megadott file-t átmozgatja a megadott lokációra. Ha a $pin_ForceMove true
-     * akkor ha nem létezik a cél könyvtár létrehozza előtte. Ha a file nem létezik
+     * akkor ha a file már létezik a cél mappában felülírjuk. Ha a file nem létezik
      * <b>false</b> értékkel tér vissza.
      * 
-     * @param string $pin_FileName          File neve
+     * @param string $pin_SourceFileName    File neve
+     * @param string $pin_Destination       A cél könyvtár ahová mozgatni szeretnénk
      * @param boolean $pin_ForceMove        Ha nem létezik a könyvtár ahová mozgatni 
      *                                      akarjuk létrehozzuk előtte.
      * @return boolean                      Sikeres volt e a file mozgatás vagy sem.
      * @version 1.0
      */
-    public static function moveFile($pin_FileName, $pin_ForceMove = false) {
-        return true;
+    public static function moveFile($pin_SourceFileName, $pin_Destination, $pin_ForceMove = false) {
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        $loc_SplInfo = new \SplFileInfo($loc_File);
+        
+        if($pin_ForceMove === false) {
+            if(!is_file($pin_Destination . "/" . $loc_SplInfo->getFilename()))
+                return rename($pin_SourceFileName, $pin_Destination . "/" . $loc_SplInfo->getFilename());
+            else
+                return false;
+        }
+        
+        return rename($pin_SourceFileName, $pin_Destination . "/" . $loc_SplInfo->getFilename());
     }
     
     /**
      * A <i>FILE</i> globális tömb-ből feltölti a megadott file-t a megadott mappába.
-     * Ha a $pin_ForceUpload paraméter true és nem létezik a megadott könyvtár
-     * először létrehozzuk azt.
+     * Ha a $pin_ForceUpload paraméter true és a file már létezik a célhelyen
+     * felülírjuk azt.
      * 
      * @param string $pin_FileName          A <i>FILE</i> globális tömb-ből a file neve.
      * @param string $pin_DirectoryName     A mappa ahová fel akarjuk tölteni a file-t.  
-     * @param boolean $pin_ForceUpload      Ha nem létezik a könyvtár ahová mozgatni
-     *                                      akarjuk létrehozzuk előtte.
+     * @param boolean $pin_ForceUpload      Ha a cél file létezik már akkor felülírjuk.
      * @return boolean                      Sikeres volt e a file feltöltés vagy sem.
      * @version 1.0
      */
@@ -363,7 +412,13 @@ class File extends Core {
      * @version 1.0
      */
     public static function checkFileType($pin_FileName, $pin_TypeName) {
-        return true;
+        if((!$pin_FileName) || (!self::getFileExists($pin_FileName)))
+            return false;
+        
+        if(self::getFileType($pin_FileName) == $pin_TypeName)
+            return true;
+        
+        return false;
     }
     
     /**
@@ -377,7 +432,7 @@ class File extends Core {
      * @version 1.0
      */
     public static function createDirectory($pin_DirectoryName, $pin_Path) {
-        return true;
+        return mkdir($pin_Path . APPS_DIRECTORY_SEPARATOR . $pin_DirectoryName);
     }
     
     /**
@@ -470,7 +525,20 @@ class File extends Core {
         
         return false;
     }
-   
+    
+    /**
+     * Protected függvény. Megvizsgálja a file kiterjesztését és visszaadja azt.
+     * 
+     * @param string $pin_FileName          File neve.
+     * @return string                       A file kiterjesztése.
+     * @version 1.0                      
+     */
+    protected function _getFileType($pin_FileName) {
+        if(!$this->_isFileExists($pin_FileName))
+            return false;
+        
+        return pathinfo($pin_FileName, PATHINFO_EXTENSION);
+    }
     
 ################################################################################
 # 6. Private Methods ###########################################################
