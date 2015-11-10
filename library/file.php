@@ -27,6 +27,61 @@ class File extends Core {
 # 1. Constants #################################################################
 ################################################################################
     
+    /**
+     * A file nem létezik hibakód.
+     */
+    const   fileNotExists       = 'xf00000';
+    
+    /**
+     * Hibás file típus hibakód.
+     */
+    const   invalidFileType     = 'xf00001';
+    
+    /**
+     * A file mérete 0 byte hibakód.
+     */
+    const   fileSizeNull        = 'xf00002';
+    
+    /**
+     * A file nem olvasható hibakód.
+     */
+    const   fileIsNotReadable   = 'xf00003';
+    
+    /**
+     * A file nem írható hibakód.
+     */
+    const   fileIsNotWritable   = 'xf00004';
+    
+    /**
+     * Hiba a file létrehozásakor.
+     */
+    const   errorFileCreate     = 'xf00005';
+    
+    /**
+     * Hiba a file felülírásakor.
+     */
+    const   errorFileUpdate     = 'xf00006';
+    
+    /**
+     * Hiba a file törlésekor.
+     */
+    const   errorFileDelete     = 'xf00007';
+
+    /**
+     * Hibás könyvtár név.
+     */
+    const   invalidDirectory    = 'xf00008';
+    
+    /**
+     * Elégtelen jogosultság.
+     */
+    const   permissionError     = 'xf00009';
+    
+    /**
+     * Érvénytelen file név.
+     */
+    const   invalidFileName     = 'xf00010';
+    
 ################################################################################
 # 2. Public Properties #########################################################
 ################################################################################
@@ -36,7 +91,6 @@ class File extends Core {
 ################################################################################
 # 3. Protected Properties ######################################################
 ################################################################################
-    
     
     
     
@@ -53,7 +107,10 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileExists($pin_FileName) {
-        return false;
+        if(!$pin_FileName)
+            return false;
+        
+        return callStatic()->_isFileExists($pin_FileName);
     }
     
     /**
@@ -65,6 +122,9 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileType($pin_FileName) {
+        if(!$pin_FileName)
+            return false;
+        
         return "";
     }
     
@@ -78,6 +138,9 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileContent($pin_FileName) {
+        if(!$pin_FileName)
+            return false;
+        
         return "";
     }
     
@@ -90,6 +153,9 @@ class File extends Core {
      * @version 1.0
      */
     public static function getIniContent($pin_FileName) {
+        if(!$pin_FileName)
+            return false;
+        
         $loc_IniContent = NULL;
         return object($loc_IniContent);
     }
@@ -103,6 +169,9 @@ class File extends Core {
      * @version 1.0
      */
     public static function getFileSize($pin_FileName) {
+        if(!$pin_FileName)
+            return false;
+        
         $loc_Size = NULL;
         return doubleval($loc_Size);
     }
@@ -377,6 +446,30 @@ class File extends Core {
 # 5. Protected Methods #########################################################
 ################################################################################
     
+    /**
+     * Önmagát példányosítja és visszatér a File objektummal a statikus függvényeknek.
+     * 
+     * @return \library\File                File objektum.
+     * @version 1.0
+     */
+    protected static function callStatic() {
+        return new \library\File();
+    }
+    
+    /**
+     * Protected függvény. Megvizsgálja, hogy a megadott file létezik e, majd
+     * visszatért az eredménnyel.
+     * 
+     * @param string $pin_FileName          File neve.
+     * @return boolean                      Létezik e a file vagy nem.
+     * @version 1.0
+     */
+    protected function _isFileExists($pin_FileName) {
+        if(is_file($pin_FileName))
+            return true;
+        
+        return false;
+    }
    
     
 ################################################################################
