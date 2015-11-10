@@ -108,7 +108,7 @@ class File extends Core {
         if(!$pin_FileName)
             return false;
         
-        return self::callStatic()->_isFileExists($pin_FileName);
+        return self::_callStatic()->_isFileExists($pin_FileName);
     }
     
     /**
@@ -123,7 +123,7 @@ class File extends Core {
         if(!$pin_FileName)
             return false;
         
-        return self::callStatic()->_getFileType($pin_FileName);
+        return self::_callStatic()->_getFileType($pin_FileName);
     }
     
     
@@ -501,15 +501,7 @@ class File extends Core {
 # 5. Protected Methods #########################################################
 ################################################################################
     
-    /**
-     * Önmagát példányosítja és visszatér a File objektummal a statikus függvényeknek.
-     * 
-     * @return \library\File                File objektum.
-     * @version 1.0
-     */
-    protected static function callStatic() {
-        return new \library\File();
-    }
+    
     
     /**
      * Protected függvény. Megvizsgálja, hogy a megadott file létezik e, majd
@@ -543,6 +535,17 @@ class File extends Core {
 ################################################################################
 # 6. Private Methods ###########################################################
 ################################################################################
+    
+    /**
+     * Önmagát példányosítja és visszatér a File objektummal a statikus függvényeknek.
+     * 
+     * @return \library\File                File objektum.
+     * @version 1.0
+     */
+    private static function _callStatic() {
+        return new \library\File();
+    }
+    
 }
 
 ?>
