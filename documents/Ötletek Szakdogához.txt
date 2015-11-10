@@ -55,21 +55,17 @@
 		- getFileSize
 		- getFileLastMTime
 		- getFileLastMUser
-		
 		- isReadable
 		- isWritable
-		
 		- loadFile
 		- createFile
 		- updateFile
 		- removeFile
-		
 		- createDirectory
 		- updateDirectory
 		- removeDirectory (rekurzív fv. a tölréshez ha nem üres)
 		- listDirectory
 		- searchDirectory
-		
 		- searchFile
 		- searchInFile
 		- downloadFile
@@ -77,3 +73,27 @@
 		- uploadFile
 		- checkFileType
 		- _toString - string-ként tér vissza a file lérési útjával
+
+- Debug osztály: --csak objektumba teszi a debug üzeneteket. Nem formáz!!!!
+    Publikus függvények:
+        - setDebugMessage
+        - setDebugLevel
+        - setDebugSession
+        - setDebugMode
+        - putQueryToComment
+        - startDebugTrace
+        - stopDebugTrace
+        - getDebugMessage
+        - getDebugLevel
+        - getDebugSession
+        - getDebugMode
+        - getDebugTrace
+    
+    Privát függvények:
+        - parseDebugMsg
+        - 
+
+- Enviroment osztály:
+    Publikus függvények:
+        - getEnvitoment
+        - 
