@@ -1,5 +1,5 @@
 <?php
-
+namespace library;
 /**
  * Link: 
  * File: debug.php
@@ -19,7 +19,6 @@ if(count(get_included_files()) === 1) {
     exit();
 }
 
-namespace library;
 
 class Debug {
     
@@ -27,6 +26,31 @@ class Debug {
 # 1. Constants #################################################################
 ################################################################################
     
+    /**
+     * A debug SESSION neve ahol az üzeneteket tároljuk.
+     */
+    const   debugSessionName            =   'APP_DEBUG_SESSION';
+    
+    /**
+     * Aktív e a debug trace vagy sem.
+     */
+    const   debugSessionTrace           =   'APP_DEBUG_TRACE';
+    
+    /**
+     * A Debug trace file neve, ahol a trace üzeneteket tároljuk
+     */
+    const   debugSessionTraceName       =   'APP_DEBUG_TRACE_NAME';
+    
+    /**
+     * A Debug módot tároljuk ebben a SESSION-ben
+     */
+    const   debugSessionMode            =   'APP_DEBUG_MODE';
+    
+    /**
+     * A Debug üzenetek szintjét tároljuk ebben a SESSION-ben.
+     */
+    const   debugSessionLevel           =   'APP_DEBUG_LEVEL';
+
 ################################################################################
 # 2. Public Properties #########################################################
 ################################################################################
@@ -36,180 +60,175 @@ class Debug {
 ################################################################################
     
     /**
-     *
+     * Debug üzenetek tárolására szolgáló osztály.
+     * 
      * @var type 
      */
-    public static $_DebugMessage = null;
+    private static $_debugMessages;
     
     /**
-     *
+     * A különböző debug módok tömbje.
+     * 
+     * @var array 
+     */
+    private static $_debugMode = array("comment", 
+                                       "screen",
+                                       "file", 
+                                       "none");
+    
+    /**
+     * Az ini file helye ahol a debug configurációját tároljuk.
+     * 
      * @var type 
      */
-    public static $_DebugScreen = null;
-    
+    private static $_debugIniFile = APPS_D_CONFIG . 'config.ini';
     
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
     
     /**
-     * Megnézi hogy a debug mód be van e kapcsolva a config ini file-ban.
+     * Vissza adja a debug üzeneteket tartalmazó tömb-öt, a $pin_DebugLevel paraméter-ben
+     * kapott szintnek megfelelően. Ha nincs debug üzenet <b>false</b> értékkel
+     * tér vissza.
      * 
-     * @return boolean
+     * @param string $pin_DebugLevel            A debug üzenetek típusa (ALL, ERROR, WARNING, NOTICE)
+     * @return array                            A debug üzeneteket tartalmazó tömb.
      * @version 1.0
-     * @access public
      */
-    public static function IsDebug() {
-        return (boolean)(self::_System()->Debug['DEBUG']);
+    public static function getDebugMessage(string $pin_DebugLevel = "ALL") {
+        if(!$pin_DebugLevel)
+            return false;
+        
+        return Session::getSession(self::debugSessionName);
     }
-
+    
     /**
+     * Vissza adja a debug üzenetek tárolásának szintjét. A default szint az ALL.
      * 
-     * @param type $pin_Msg
-     * @param type $pin_Class
-     * @param type $pin_Function
+     * @return string                           A debug üzenetek tárolásának szintje.
+     * @version 1.0
      */
-    public static function DebugMsg($pin_Msg, $pin_Class = null, $pin_Function = null, $pin_Type = null) {
-        $loc_Dbt = debug_backtrace(); // Hivási lánc információ lekérdezése.
-        $loc_ClassID = isset($loc_Dbt[1]) ? 1 : 0;
-        $loc_LineFileID = ($loc_Dbt[0]['function'] === __FUNCTION__ && $loc_Dbt[0]['class'] === __CLASS__) ? 1 : 0;
-        $pin_Class = ($pin_Class) ? $pin_Class : (isset($loc_Dbt[$loc_ClassID]['class']) ? $loc_Dbt[$loc_ClassID]['class'] : "");
-        $loc_Line = isset($loc_Dbt[$loc_LineFileID]['line']) ? $loc_Dbt[$loc_LineFileID]['line'] : "N/A"; // Hívó elem sora.
-        $loc_File = isset($loc_Dbt[$loc_LineFileID]['file']) ? $loc_Dbt[$loc_LineFileID]['file'] : "N/A"; // Hívó elem fájlja. Melyik fájlból hívták meg.
-        
-        $loc_Calls = array();
-        foreach($loc_Dbt as $loc_Key => $loc_Call) {
-            if($loc_Key > $loc_LineFileID && isset($loc_Call['class']) && strlen($loc_Call['class'])) {
-                $loc_Calls[] = $loc_Call['class']."::".$loc_Call['function'];
-            }
-        }
-
-        $loc_Message = array(
-            'message' => $pin_Msg,
-            'line' => $loc_Line,
-            'file' => $loc_File,
-            'class' => $pin_Class,
-            'type' => $pin_Type,
-            'function' => $pin_Function,
-            'call' => implode(", ", array_reverse($loc_Calls)),
-            'backtrace' => "disabled"
-        );
-        
-        self::$_DebugMessage[] = $loc_Message;
-        $_SESSION['DebugMessage'][] = $loc_Message;
-    }
-
-    
-    /**
-     * Tömböket és objektumokat jelenít meg szinezve.
-     * @example
-     *      PSS_Debug::PrintA($_POST);
-     * @access      public
-     * @param       mixed       $pin_Var        Megjelenítendő tömb vagy objektum.
-     * @param       integer     $pin_FontSize   Betűméret.
-     * @param       boolean     $pin_Show       A megjelenítést szabályozza. Ha értéke true akkor ki echo-zza, ha false akkor csak visszatér a HTML kóddal.
-     * @return      string
-     */
-    public static function PrintA($pin_Var, $pin_FontSize = 14, $pin_Show = true) {
-        // A print_r segítségével megjeleníthető formára hozzuk a $pin_Var változóban tárolt tömböt vagy objektumot.
-        // A szövegesen reprezentált tömbben vagy objektumban található HTML kódokat megjeleníthető formára hozzuk,
-        // hogy a böngésző ne értelmezze és ne dolgozza fel, hanem csak megjelenítse.
-        $loc_Text = htmlspecialchars(print_r($pin_Var, true));
-        // Megszínezi az Object szöveget.
-        $loc_Text = preg_replace("#(\w+)(\s+Object\s+\()#s", "<span style=\"color: #079700; font-weight: bold;\">$1</span>$2", $loc_Text);
-        // Megszínezi a public, private, protected szöveget.
-        $loc_Text = preg_replace("#\[(\w+)\:(public|private|protected)\]#", "[<span style=\"color: #000099; font-weight: bold;\">$1</span>:<span style=\"color: #009999; font-weight: bold;\">$2</span>]", $loc_Text);
-        // Megszínezi a pontal elválasztott szavakat, melyek a tömb kulcsaiklént szerepelnek.
-        $loc_Text = preg_replace("#\[(\w+)\.(\w+)\]#", "[<span style=\"color: #088A08; font-weight: bold;\">$1</span>.<span style=\"color: #009999; font-weight: bold;\">$2</span>]", $loc_Text);
-        // Megszínezi a \ jellel elválasztott szavakat, melyek a tömb kulcsaiklént szerepelnek.
-        $loc_Text = preg_replace("#\[(\w+)\\\\(\w+)\]#", "[<span style=\"color: #088A08; font-weight: bold;\">$1</span>\\<span style=\"color: #009999; font-weight: bold;\">$2</span>]", $loc_Text);
-        // Megszínezi a tömb kulcsait.
-        $loc_Text = preg_replace("#\[(\w+)\]#", "[<span style=\"color: #088A08; font-weight: bold;\">$1</span>]", $loc_Text);
-        // A speciális html kódokat a böngésző által értelmezhetó html kóddá alakítja.
-        $loc_Text = self::_FormatMessage($loc_Text);
-        // Megadja a szövegméretet.
-        $loc_Text = "<pre style=\"font-size: {$pin_FontSize}px; line-height: {$pin_FontSize}px;\">{$loc_Text}</pre>";
-        if($pin_Show) {
-            echo $loc_Text;
-        }
-        else {
-            return($loc_Text);
-        }
+    public static function getDebugLevel() {
+        return Session::getSession(self::debugSessionLevel);
     }
     
     /**
-     * A tárolt hibaüzeneteket jeleníti meg táblázat formájában.
-     *
-     * @example
-     *      PSS_Debug::SendMsg("Tipikus hiba", "Test");
-     *      PSS_Debug::ShowClassTable();
-     * @access      public
-     * @param       boolean     $pin_Buffered   Bufferelés bekapcsolása.
-     * @param       string      $pin_Param      Az osztályok megjelenítését szabályozza.
-     * @return      string
+     * Vissza adja a debug üzenetek megjelenítési módját. Pl. Comment-ha a forráskódban
+     * komment-ként jelenik meg, Screen ha a képernyőre íratjuk, stb. A teljes listát
+     * lsd. dokumentáció->debug osztály->_debugMode attrubútum.
+     * 
+     * @return string                           A debug üzenetek megjelenítési módja.
+     * @version 1.0
      */
-    public static function ShowClassTable($pin_Buffered = false, $pin_Param = "all") {
-        if($pin_Buffered) { // Bufferelés bekapcsolása.
-            ob_start();
+    public static function getDebugMode() {
+        return Session::getSession(self::debugSessionMode);
+    }
+    
+    /**
+     * Hozzáadja a megadott hibaüzenetet tartalmazó tömböt a többi debug üzenethez.
+     * Ha nincs debug üzenet <b>false</b> értékkel tér vissza.
+     * 
+     * @param array $pin_MessageArray           A debug üzenetet tartalmazó tömb.      
+     * @return boolean                          Sikeres volt e a hozzáadás vagy sem.
+     * @version 1.0
+     */
+    public static function setDebugMessage(array $pin_MessageArray) {
+        if(empty($pin_MessageArray))
+            return false;
+        
+        if(Session::getSession(self::debugSessionTrace) === true)
+            self::_setDebugTraceMessage($pin_MessageArray);
+        
+        return Session::setSession(self::debugSessionName, array_push(Session::getSession(self::debugSessionName), $pin_MessageArray));
+    }
+    
+    /**
+     * Beállítja a debug üzenetek tárolási módját. Alapértelmezetten minden üzenetet
+     * tárolunk. 
+     * 
+     * @param string $pin_DebugLevel            A debug üzenetek megjelenítési módja.
+     * @return boolean                          Sikeres volt e a beállítás vagy sem.
+     * @version 1.0
+     */
+    public static function setDebugLevel(string $pin_DebugLevel) {
+        if(!$pin_DebugLevel)
+            return false;
+        
+        return Session::setSession(self::debugSessionLevel, $pin_DebugLevel);
+    }
+    
+    /**
+     * Beállítja a debug módot. Pl. comment-ha a forráskódban comment-ként jelenik 
+     * meg, screen ha a képernyőre íratjuk, stb. A teljes listát lsd. 
+     * dokumentáció->debug osztály->_debugMode attrubútum.
+     * 
+     * @param string $pin_DebugMode             A debug mód amit be szeretnénk állítani
+     * @return boolean                          Sikeres volt e a beállítás vagy sem.
+     * @version 1.0
+     */
+    public static function setDebugMode(string $pin_DebugMode) {
+        if(!$pin_DebugMode)
+            return false;
+        
+        if(in_array($pin_DebugMode, self::$_debugMode))
+            return Session::setSession(self::debugSessionMode, $pin_DebugMode);
+    }
+    
+    /**
+     * Elindítja a debug trace-t. Ilyenkor minden esemény, alprogram hívás log-olva
+     * van a debug/trace mappában.
+     * 
+     * @return boolean                          Elindult e a debug trace vagy sem.
+     * @version 1.0
+     */
+    public static function startDebugTrace() {
+        $loc_FileName = "l" . strtotime(date());
+        File::createFile($loc_FileName, "Start debug trace: " . date("".DEFAULT_DATE_FORMAT.""));
+        Session::setSession(self::debugSessionTrace, true);
+        
+        return Session::setSession(self::debugSessionTraceName, $loc_FileName);
+    }
+    
+    /**
+     * Megállítja a debug trace-t.
+     * 
+     * @return boolean                          Sikeres volt e a művelet vagy sem.
+     * @version 1.0
+     */
+    public static function stopDebugTrace() {
+        $loc_Filename = "";
+        fclose($loc_Filename);
+        Session::setSession(self::debugSessionTrace, false);
+        
+        return Session::unsetSession(self::debugSessionTraceName);
+    }
+    
+    /**
+     * Lekérdezi a debug.ini-ben beállított értékeket, majd visszaadja hogy be van
+     * e állítva a debugolás vagy sem.
+     * 
+     * @return boolean                          Be van e állítva a debugolás vagy sem.
+     * @version 1.0
+     */
+    public static function isDebug() {
+        $loc_IniObj = File::getIniContent(self::$_debugIniFile);
+        foreach($loc_IniObj as $loc_Key => $loc_Value) {
+            if($loc_Key == "DEBUG")
+                return $loc_Value;
         }
-        $loc_Array = $_SESSION['DebugMessage'];
-        if(count($loc_Array)) { // Legenerálja a táblázatot és megjeleníti azt.
-            
-            echo "\n\n<!-- DEBUG INFORMATION BEGIN ".__CLASS__."::".__FUNCTION__." -->\n".
-                "<style type=\"text/css\">\n".
-                "html, body { overflow: auto !important;}\n".
-                "</style>\n".
-                "<font face=\"Consolas\" size=\"2\">\n".
-                str_repeat(" ", 4)."<table border=\"0\" width=\"100%\" bgcolor=\"#C0504D\">\n";
-            foreach($loc_Array as $loc_Class => $loc_Msg) {
-                echo str_repeat(" ", 8)."<tr>\n".
-                    str_repeat(" ", 12)."<td>\n".
-                    str_repeat(" ", 16)."<font color=\"#FFFFFF\" size=\"3\"><b>{$loc_Class}</b></font>\n".
-                    str_repeat(" ", 16)."<table border=\"0\" width=\"100%\">\n";
-                if(is_array($loc_Msg)) {
-                    foreach($loc_Msg as $loc_Key => $loc_Text) {
-                       
-                        switch($loc_Array[$loc_Class]['type']):
-                            case 'error':
-                                $loc_BgColor  = "bgcolor=\"#E6B9B8\"";
-                                break;
-                            case 'info':
-                                $loc_BgColor = "bgcolor=\"teal\"";
-                                break;
-                            case 'success':
-                                $loc_BgColor = "bgcolor=\"green\"";
-                                break;
-                            case 'wrong':
-                                $loc_BgColor = "bgcolor=\"#E6B9B8\"";
-                                break;
-                            default:
-                                $loc_BgColor = "bgcolor=\"#E6B9B8\"";
-                                break;
-                        endswitch;
-
-                        $loc_Bt = "<br>".(isset($loc_Text['backtrace']) ? self::PrintA($loc_Text['backtrace'], 14, false) : "");
-                        echo str_repeat(" ", 20)."<tr>\n".
-                            str_repeat(" ", 24)."<td width=\"50\" {$loc_BgColor}><center><b><sub>{$loc_Key}</sub></b></center></td>\n".
-                            str_repeat(" ", 24)."<td {$loc_BgColor}><font size=\"3\">".
-                                 $loc_Text;
-                                "</font><font size=\"2\">".
-                                "</font>{$loc_Bt}</td>\n".
-                            str_repeat(" ", 20)."</tr>\n";
-                    }
-                }
-                echo str_repeat(" ", 16)."</table>\n".
-                    str_repeat(" ", 12)."</td>\n".
-                    str_repeat(" ", 8)."<tr>\n";
-            }
-            echo str_repeat(" ", 4)."</table>\n".
-                "</font>\n".
-                "<!-- DEBUG INFORMATION END ".__CLASS__."::".__FUNCTION__." -->\n";
-        }
-        if($pin_Buffered) { // Ha buffereltünk akkor visszatérünk a HTML kóddal és nem echo-zunk.
-            $loc_Buffer = ob_get_contents();
-            ob_end_clean();
-            return($loc_Buffer);
-        }
+        return false;
+    }
+    
+    /**
+     * Vissza adja, hogy a debug üzenetek trace-elve vannak e. Ha igen az debug üzenetek
+     * és az hívási lánc log-golásra kerül a debug/trace mappába.
+     * 
+     * @return boolean                          A debug trace be van kapcsolva.
+     * @version 1.0
+     */
+    public static function isDebugTrace() {
+        return Session::getSession(self::debugSessionTrace);
     }
     
 ################################################################################
@@ -217,36 +236,64 @@ class Debug {
 ################################################################################
 
 
-    protected static function _System() {
-        File::$FileName = "config.ini";
-        return (object)File::GetIniContent();
-    }
-
 ################################################################################
 # 6. Private Methods ###########################################################
 ################################################################################
     
     /**
-     * A hibakereső üzenetben megadott formázásokat alakítja át HTML formázássá.
-     *
-     * @example
-     * @access      private
-     * @param       string      $pin_Msg        Hibakereső üzenet.
-     * @return      string
+     * Szétszedi a debug message tömböt és visszaad-ja azt amit a $pin_DebugKey-ben
+     * megadtunk.
+     * 
+     * @param array $pin_DebugMessage           A dbug üzenetet tartalmazó tömb.
+     * @param string $pin_DebugKey              A debug tömb egy kulcsa.
+     * @return string                           A debug tömb[kulcs] értéke.
+     * @version 1.0
      */
-    private static function _FormatMessage($pin_Msg) {
-        $loc_Str = $pin_Msg;
-        $loc_Str = str_replace("{nbsp}", "&nbsp;", $loc_Str);
-        $loc_Str = str_replace("{nbt}", "&nbsp;&nbsp;&nbsp;&nbsp;", $loc_Str);
-        $loc_Str = str_replace("{br}", "<br>", $loc_Str);
-        $loc_Str = str_replace("{i}", "<i>", $loc_Str);
-        $loc_Str = str_replace("{/i}", "</i>", $loc_Str);
-        $loc_Str = str_replace("{b}", "<b>", $loc_Str);
-        $loc_Str = str_replace("{/b}", "</b>", $loc_Str);
-        $loc_Str = preg_replace("#\{color:(\#?[0-9A-Fa-f]{3,6}|(aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|purple|red|silver|teal|white|yellow))\}#", "<span style=\"color: $1;\">", $loc_Str);
-        $loc_Str = str_replace("{/color}","</span>", $loc_Str);
-        return($loc_Str);
+    private static function parseDebugMsg(array $pin_DebugMessage, string $pin_DebugKey) {
+        if(empty($pin_DebugMessage) || !$pin_DebugKey)
+            return false;
+        
+        $loc_MsgCode    = $pin_DebugMessage[0];
+        $loc_MsgValue   = $pin_DebugMessage[1];
+        $loc_MsgType    = $pin_DebugMessage[2];
+        $loc_MsgFile    = $pin_DebugMessage[3];
+        
+        $loc_DebugMsg = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": " 
+                        . $loc_MsgCode . " " . $loc_MsgValue . " " . $loc_MsgFile;
+        
+        return $loc_DebugMsg;
     }
+    
+    /**
+     * Összeállítja a debug trace üzenetet a $pin_DebugMessage paraméterben kapott
+     * tömb-ből, majd visszatér vele.
+     * 
+     * @param array $pin_DebugMessage           A Debug üzenetet tartalmazó tömb.
+     * @return string                           A debug trace üzenet.
+     * @version 1.0
+     */
+    private static function _parseTraceMsg(array $pin_DebugMessage) {
+        $loc_MsgCode    = $pin_DebugMessage[0];
+        $loc_MsgValue   = $pin_DebugMessage[1];
+        $loc_MsgType    = $pin_DebugMessage[2];
+        $loc_MsgFile    = $pin_DebugMessage[3];
+        
+        $loc_TraceMsg = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": " 
+                        . $loc_MsgCode . " " . $loc_MsgValue . " " . $loc_MsgFile;
+        
+        return $loc_TraceMsg;
+    }
+    
+    /**
+     * Beállítja a debug trace üzenetet, majd beírja file-ba. 
+     * 
+     * @param array $pin_DebugMessage           A debug üzenetet tartalmazó tömb.
+     * @return boolean                          Sikeres volt e a file-ba írás vagy sem.
+     */
+    private static function _setDebugTraceMessage(array $pin_DebugMessage) {
+        return File::updateFile(Session::getSession(self::debugSessionTraceName), self::_parseTraceMsg($pin_DebugMessage));
+    }
+    
 }
 
 ?>

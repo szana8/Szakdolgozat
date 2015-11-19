@@ -41,7 +41,7 @@ class Core {
 # 4. Public Methods ############################################################
 ################################################################################
 
-    public static function arrayToObject($pin_Array, &$pout_Object)
+    public static function arrayToObject(array $pin_Array, object &$pout_Object)
     {
         foreach ($pin_Array as $loc_Key => $loc_Value)
         {
@@ -70,7 +70,7 @@ class Core {
      * @param string $pin_Type                      Üzenet típusa
      * @return string                               Hibakereső üzenet
      */
-    protected static function _DebugMsg($pin_Msg, $pin_Namespace, $pin_Type) {
+    protected static function _DebugMsg(string $pin_Msg, string $pin_Namespace, string $pin_Type) {
         Debug::DebugMsg($pin_Msg, $pin_Namespace, "", $pin_Type);
         return($pin_Msg);
     }

@@ -131,6 +131,7 @@ function autoload($pin_ClassName)
 function app_root_uri() {
     return;
     $loc_DocRoot = app_dirpath(\library\Enviroment::GetEnv("DOCUMENT_ROOT"));
+    
     if(substr(APPS_D_ROOT, 0, strlen($loc_DocRoot)) == $loc_DocRoot) {
         return(APPS_DIRECTORY_SEPARATOR.preg_replace("#^".apps_dirpath(\library\Enviroment::GetEnv("DOCUMENT_ROOT"))."#", "", APPS_D_ROOT));
     }

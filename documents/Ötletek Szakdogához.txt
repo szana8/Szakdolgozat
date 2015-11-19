@@ -1,78 +1,78 @@
 - Sablonkezelőhöz:
-	- statikus fv-ek (createTableRow(array('align', ...stb)), createTableCol(array('align')), stb)
-	- complier fv a fordításhoz
-	- cahche-elés, a template változóit elmenteni cache-be így ha újra kell generálni nem kell kiszedni belőle újra
+    - statikus fv-ek (createTableRow(array('align', ...stb)), createTableCol(array('align')), stb)
+    - complier fv a fordításhoz
+    - cahche-elés, a template változóit elmenteni cache-be így ha újra kell generálni nem kell kiszedni belőle újra
 
 - Forráskód szabványok
-	- camelCase-t használni
-	- a forráskódban eklülöníteni a public, private protected metódusokat és attribútumokat
-	- paramétereknél jelölni mi a kimenő mi a bejövő $pin_, $pout_
-	- a lokális változókat $loc_-al
-	- az osztály példányokat és objektumokat $obj_ kezdjük.
+    - camelCase-t használni
+    - a forráskódban eklülöníteni a public, private protected metódusokat és attribútumokat
+    - paramétereknél jelölni mi a kimenő mi a bejövő $pin_, $pout_
+    - a lokális változókat $loc_-al
+    - az osztály példányokat és objektumokat $obj_ kezdjük.
+    - a fv-eknél a paramétereknél típus-t megadni
 	
 - Menü:
-	- dinamikus, db-ből, rekurziv-an összeállítani (tetszőleges számú almenü)
-	- twitter bootstrap kiegészítést írni ami egy office-os ribbon-t generál / vagy easyUI
+    - dinamikus, db-ből, rekurziv-an összeállítani (tetszőleges számú almenü)
+    - twitter bootstrap kiegészítést írni ami egy office-os ribbon-t generál / vagy easyUI
 
 - Install:
-	- install részt csinálni, ami bekéri a db adatait és legenerálja az alap táblákat, view-kat, stb.
-	- 
+    - install részt csinálni, ami bekéri a db adatait és legenerálja az alap táblákat, view-kat, stb.
 	
 - Framework
-	- a keretrendszer osztályai objektumokkal kommunikálnak egymással
-	- csak a view és a helper osztályok hozhatnak létre html kódokat.
-	- authentikációs és authorizációs osztály a bejelentkezésért és a resp kezelésért (az authentikáció-nak absztrakt osztályt vagy interface-t írni)
+    - a keretrendszer osztályai objektumokkal kommunikálnak egymással
+    - csak a view és a helper osztályok hozhatnak létre html kódokat.
+    - authentikációs és authorizációs osztály a bejelentkezésért és a resp kezelésért (az authentikáció-nak absztrakt osztályt vagy interface-t írni)
 
 - Dashboard
-	- a userek editálhatják a saját dashboard-jukat (mi hova kerül - megadott lehetőségekből)
+    - a userek editálhatják a saját dashboard-jukat (mi hova kerül - megadott lehetőségekből)
 	
 - Egyszerű workflow API-t írni:
-	- meg lehet hívni majd a controller-ből, ha státuszt akarunk léptetni, így biztosan le fogja futtatni a workflow item post and pre function-jait, mielőtt léptet.
+    - meg lehet hívni majd a controller-ből, ha státuszt akarunk léptetni, így biztosan le fogja futtatni a workflow item post and pre function-jait, mielőtt léptet.
 	
 - Felugró üzenetek
-	- külön osztályt írni rá
-	- template-ekből dolgozzon a különböző típusú üzenetekhez
-	- meg lehessen adni hogy csak akkor ugorjon föl ha a window aktív (http://stackoverflow.com/questions/1060008/is-there-a-way-to-detect-if-a-browser-window-is-not-currently-active)
-	- queue-ba pakolni az üzeneteket, hogy elkerüljük a több üzenet ablak felugrását
+    - külön osztályt írni rá
+    - template-ekből dolgozzon a különböző típusú üzenetekhez
+    - meg lehessen adni hogy csak akkor ugorjon föl ha a window aktív (http://stackoverflow.com/questions/1060008/is-there-a-way-to-detect-if-a-browser-window-is-not-currently-active)
+    - queue-ba pakolni az üzeneteket, hogy elkerüljük a több üzenet ablak felugrását
 	
 - Database
     - teljesen oop-re írni, minden mező attribútum stb (a fetch-t beállítani)
     - egy abstract class-t kreálni a különböző db osztályoknak
     - amit lehet stored procedure-ba beletenni
-	- ahol csak lehet view-t használni
+    - ahol csak lehet view-t használni
 	
 - Image osztály
-	- a képek kezelésére osztályt írni
-	- átméretezés, paraméterül kapja meg hogy a ratio-t tartsa e meg vagy sem
-	- egy javascript könyvtárat írni a méretezéshez
+    - a képek kezelésére osztályt írni
+    - átméretezés, paraméterül kapja meg hogy a ratio-t tartsa e meg vagy sem
+    - egy javascript könyvtárat írni a méretezéshez
 	
 - File osztály
-	Publikus fv-ek:
-		- getFileExists
-		- getFileType
-		- getFileContent
-		- getIniContent
-		- getFileSize
-		- getFileLastMTime
-		- getFileLastMUser
-		- isReadable
-		- isWritable
-		- loadFile
-		- createFile
-		- updateFile
-		- removeFile
-		- createDirectory
-		- updateDirectory
-		- removeDirectory (rekurzív fv. a tölréshez ha nem üres)
-		- listDirectory
-		- searchDirectory
-		- searchFile
-		- searchInFile
-		- downloadFile
-		- moveFile
-		- uploadFile
-		- checkFileType
-		- _toString - string-ként tér vissza a file lérési útjával
+    Publikus fv-ek:
+        - getFileExists
+        - getFileType
+        - getFileContent
+        - getIniContent
+        - getFileSize
+        - getFileLastMTime
+        - getFileLastMUser
+        - isReadable
+        - isWritable
+        - loadFile
+        - createFile
+        - updateFile
+        - removeFile
+        - createDirectory
+        - updateDirectory
+        - removeDirectory (rekurzív fv. a tölréshez ha nem üres)
+        - listDirectory
+        - searchDirectory
+        - searchFile
+        - searchInFile
+        - downloadFile
+        - moveFile
+        - uploadFile
+        - checkFileType
+        - _toString - string-ként tér vissza a file lérési útjával
 
 - Debug osztály: --csak objektumba teszi a debug üzeneteket. Nem formáz!!!!
     Publikus függvények:
@@ -80,7 +80,9 @@
         - setDebugLevel
         - setDebugSession
         - setDebugMode
-        - putQueryToComment
+        - putQueryToComment - a model osztály vissza adja a result objektumot amibe benne van a query-is. A ctrl-ben megvizsgáljuk be van e
+                              kapcsolva a query comment-be írása, ha igen átalakítjuk a query-t html comment-é majd berakjuk az obj-be
+                              a view-ban megvizsgáljuk hogy a comment attribútum nem üres e. Ha nem kiírjuk.
         - startDebugTrace
         - stopDebugTrace
         - getDebugMessage
@@ -96,4 +98,41 @@
 - Enviroment osztály:
     Publikus függvények:
         - getEnvitoment
-        - 
+
+- Httprespons osztály:
+    Publikus függvények:
+        - initialize
+        - sendContent
+        - redirectPage
+        - addHeaderStatus
+        - addMetaTag
+        - addScriptFile
+        - addScript
+        - addStyleFile
+        - addStyle
+        - setTitle
+        - setCache
+
+    Privát függvények:
+        - _sendAjaxContent
+        - _sendHTMLContent
+        - _sendContent
+        - _sendHttpContent
+        - _addHttpHeader
+
+- Httprequest osztály:
+    Publikus függvények:
+        - getPOST
+        - getGET
+        - escapeVariables
+
+- Template osztály:
+    Publikus függvények:
+        - getTemplateInfo
+        - getVariables
+        - getLanguageElements
+        - getType
+        - compile
+        - setCache
+        - isCache
+        - show
