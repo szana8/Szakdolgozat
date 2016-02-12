@@ -66,13 +66,8 @@ class Session {
      * @return boolean|string                   A SESSION értéke vagy false ha nem létezik.
      * @version 1.0                   
      */
-    public static function getSession(string $pin_SessionName) {
-        if(!$pin_SessionName) {
-            Debug::setDebugMessage(array(self::invalidSessionName, "{MSG.ERROR.INVALID_SESSION_NAME}"), "err", $pin_SessionName);
-            return false;
-        }
-        if(!isset($_SESSION[$pin_SessionName])) {
-            Debug::setDebugMessage(array(self::sessionValueNotExists, "{MSG.ERROR.SESSION_VALUE_NOT_EXISTS}"), "err", $pin_SessionName);
+    public static function getSession($pin_SessionName) {
+        if(!$pin_SessionName || !isset($_SESSION[$pin_SessionName])) {
             return false;
         }
             
@@ -89,14 +84,8 @@ class Session {
      * @return boolean                          Sikeres volt e a SESSION létrehozás vagy sem.
      * @version 1.0
      */
-    public static function setSession(string $pin_SessionName, $pin_SessionValue) {
-        if(!$pin_SessionName) {
-            Debug::setDebugMessage(array(self::invalidSessionName, "{MSG.ERROR.INVALID_SESSION_NAME}"), "err", $pin_SessionName);
-            return false;
-        }
-        
-        if(!$pin_SessionValue) {
-            Debug::setDebugMessage(array(self::invalidSessionValue, "{MSG.ERROR.INVALID_SESSION_VALUE}", "err", $pin_SessionValue));
+    public static function setSession($pin_SessionName, $pin_SessionValue) {
+        if(!$pin_SessionName || !$pin_SessionValue) {
             return false;
         }
         
@@ -113,7 +102,7 @@ class Session {
      */
     public static function destroySession() {
         if(session_destroy() === false) {
-            Debug::setDebugMessage(array(self::sessionDestroyFailed, "{MSG.ERROR.SESSION_DESTROY_FAILED}", "err", ""));
+            Debug::setDebugMessage(array(__METHOD__, self::sessionDestroyFailed, "{MSG.ERROR.SESSION_DESTROY_FAILED}", "err", ""));
             return false;
         }
         session_unset();
@@ -127,9 +116,9 @@ class Session {
      * @return boolean                          Sikeres volt e a kiürítés vagy sem.
      * @version 1.0
      */
-    public static function unsetSession(string $pin_SessionName) {
+    public static function unsetSession($pin_SessionName) {
         if(!$pin_SessionName || !isset($_SESSION[$pin_SessionName])) {
-            Debug::setDebugMessage(array(self::invalidSessionName, "{MSG.ERROR.INVALID_SESSION_NAME}"), "err", $pin_SessionName);
+            Debug::setDebugMessage(array(__METHOD__, self::invalidSessionName, "{MSG.ERROR.INVALID_SESSION_NAME}"), "err", $pin_SessionName);
             return false;
         }
         

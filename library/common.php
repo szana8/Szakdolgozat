@@ -58,6 +58,9 @@ define("APPS_D_TPL", APPS_D_ROOT."templates".APPS_DIRECTORY_SEPARATOR);
 // Ideiglenes fájlokat tartalmazó könyvtár elérési útja.
 define("APPS_D_TMP", APPS_D_ROOT."tmp".APPS_DIRECTORY_SEPARATOR);
 
+// Ideiglenes fájlokat tartalmazó könyvtár elérési útja.
+define("APPS_D_TRACE", APPS_D_ROOT."debug".APPS_DIRECTORY_SEPARATOR."trace".APPS_DIRECTORY_SEPARATOR);
+
 define("DEFAULT_DATE_FORMAT", "Y-m-d H:i:s");
 
 

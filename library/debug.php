@@ -96,7 +96,7 @@ class Debug {
      * @return array                            A debug üzeneteket tartalmazó tömb.
      * @version 1.0
      */
-    public static function getDebugMessage(string $pin_DebugLevel = "ALL") {
+    public static function getDebugMessage($pin_DebugLevel = "ALL") {
         if(!$pin_DebugLevel)
             return false;
         
@@ -133,14 +133,17 @@ class Debug {
      * @return boolean                          Sikeres volt e a hozzáadás vagy sem.
      * @version 1.0
      */
-    public static function setDebugMessage(array $pin_MessageArray) {
+    public static function setDebugMessage($pin_MessageArray) {
         if(empty($pin_MessageArray))
             return false;
         
-        if(Session::getSession(self::debugSessionTrace) === true)
-            self::_setDebugTraceMessage($pin_MessageArray);
-        
-        return Session::setSession(self::debugSessionName, array_push(Session::getSession(self::debugSessionName), $pin_MessageArray));
+        if(Session::getSession(self::debugSessionTrace) === true) {
+            if(Session::getSession(self::debugSessionTraceName) != "") {
+                self::_setDebugTraceMessage($pin_MessageArray);
+            }
+        }
+        return true;
+        //return Session::setSession(self::debugSessionName, array_push(Session::getSession(self::debugSessionName), $pin_MessageArray));
     }
     
     /**
@@ -183,11 +186,14 @@ class Debug {
      * @version 1.0
      */
     public static function startDebugTrace() {
-        $loc_FileName = "l" . strtotime(date());
-        File::createFile($loc_FileName, "Start debug trace: " . date("".DEFAULT_DATE_FORMAT.""));
-        Session::setSession(self::debugSessionTrace, true);
+        if(!Session::getSession(self::debugSessionTraceName)) {
+            $loc_FileName = APPS_D_TRACE . "l" . strtotime(date("".DEFAULT_DATE_FORMAT."")) . ".trc";
+            File::createFile($loc_FileName, "Start debug trace: " . date("".DEFAULT_DATE_FORMAT.""));
+            Session::setSession(self::debugSessionTrace, true);
+            return Session::setSession(self::debugSessionTraceName, $loc_FileName);
+        }
         
-        return Session::setSession(self::debugSessionTraceName, $loc_FileName);
+        return true;
     }
     
     /**
@@ -217,7 +223,7 @@ class Debug {
             if($loc_Key == "DEBUG")
                 return $loc_Value;
         }
-        return false;
+        return true;
     }
     
     /**
@@ -253,13 +259,14 @@ class Debug {
         if(empty($pin_DebugMessage) || !$pin_DebugKey)
             return false;
         
-        $loc_MsgCode    = $pin_DebugMessage[0];
-        $loc_MsgValue   = $pin_DebugMessage[1];
-        $loc_MsgType    = $pin_DebugMessage[2];
-        $loc_MsgFile    = $pin_DebugMessage[3];
+        $loc_MsgBckTrc  = $pin_DebugMessage[0];
+        $loc_MsgCode    = $pin_DebugMessage[1];
+        $loc_MsgValue   = $pin_DebugMessage[2];
+        $loc_MsgType    = $pin_DebugMessage[3];
+        $loc_MsgFile    = $pin_DebugMessage[4];
         
         $loc_DebugMsg = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": " 
-                        . $loc_MsgCode . " " . $loc_MsgValue . " " . $loc_MsgFile;
+                        . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;
         
         return $loc_DebugMsg;
     }
@@ -272,14 +279,15 @@ class Debug {
      * @return string                           A debug trace üzenet.
      * @version 1.0
      */
-    private static function _parseTraceMsg(array $pin_DebugMessage) {
-        $loc_MsgCode    = $pin_DebugMessage[0];
-        $loc_MsgValue   = $pin_DebugMessage[1];
-        $loc_MsgType    = $pin_DebugMessage[2];
-        $loc_MsgFile    = $pin_DebugMessage[3];
+    private static function _parseTraceMsg($pin_DebugMessage) {
+        $loc_MsgBckTrc  = $pin_DebugMessage[0];
+        $loc_MsgCode    = $pin_DebugMessage[1];
+        $loc_MsgValue   = $pin_DebugMessage[2];
+        $loc_MsgType    = $pin_DebugMessage[3];
+        $loc_MsgFile    = $pin_DebugMessage[4];
         
         $loc_TraceMsg = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": " 
-                        . $loc_MsgCode . " " . $loc_MsgValue . " " . $loc_MsgFile;
+                        . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;
         
         return $loc_TraceMsg;
     }
@@ -290,7 +298,7 @@ class Debug {
      * @param array $pin_DebugMessage           A debug üzenetet tartalmazó tömb.
      * @return boolean                          Sikeres volt e a file-ba írás vagy sem.
      */
-    private static function _setDebugTraceMessage(array $pin_DebugMessage) {
+    private static function _setDebugTraceMessage($pin_DebugMessage) {
         return File::updateFile(Session::getSession(self::debugSessionTraceName), self::_parseTraceMsg($pin_DebugMessage));
     }
     

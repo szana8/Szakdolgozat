@@ -14,10 +14,10 @@ if (!isset($_SESSION)){session_start();}
     ini_set('display_errors', 1);
      
     $_SESSION['DebugMessage'] = null;
+    
     require_once 'library/common.php';
+    library\Debug::startDebugTrace();
+    
+    library\File::getIniContent(APPS_D_CONFIG . "config.ini");
 
-    echo"<pre>" , print_r(library\File::getIniContent(APPS_D_CONFIG . "config.ini")), "</pre>";
-
-    var_dump(library\File::searchFile("NetbeansSettings.zip", APPS_D_ROOT . "documents", true));
-    //\library\Controller::main();
 ?>

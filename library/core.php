@@ -41,7 +41,7 @@ class Core {
 # 4. Public Methods ############################################################
 ################################################################################
 
-    public static function arrayToObject(array $pin_Array, object &$pout_Object)
+    public static function arrayToObject($pin_Array, &$pout_Object)
     {
         foreach ($pin_Array as $loc_Key => $loc_Value)
         {

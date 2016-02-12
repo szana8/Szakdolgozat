@@ -42,9 +42,15 @@
     - ahol csak lehet view-t használni
 	
 - Image osztály
+    - wideimage library-t használni
     - a képek kezelésére osztályt írni
     - átméretezés, paraméterül kapja meg hogy a ratio-t tartsa e meg vagy sem
     - egy javascript könyvtárat írni a méretezéshez
+
+- LDAP -hoz (opcionális):
+    adldap-ot használni
+    configurációs page-et csinálni neki.
+
 	
 - File osztály
     Publikus fv-ek:
@@ -99,7 +105,7 @@
     Publikus függvények:
         - getEnvitoment
 
-- Httprespons osztály:
+- Httpresponse osztály:
     Publikus függvények:
         - initialize
         - sendContent

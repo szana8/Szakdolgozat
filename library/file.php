@@ -124,10 +124,10 @@ class File extends Core {
      *                                      különben false-al.
      * @version 1.0
      */
-    public static function getFileExists(string $pin_FileName) {
+    public static function getFileExists($pin_FileName) {
         if(!$pin_FileName) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -142,10 +142,10 @@ class File extends Core {
      * @return string                       A file típusa string-ként.
      * @version 1.0
      */
-    public static function getFileType(string $pin_FileName) {
+    public static function getFileType($pin_FileName) {
         if(!$pin_FileName) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -161,10 +161,10 @@ class File extends Core {
      * @return string                       A file tartalma, string-ként.
      * @version 1.0
      */
-    public static function getFileContent(string $pin_FileName) {
+    public static function getFileContent($pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -179,10 +179,10 @@ class File extends Core {
      * @return object                       Az ini file tartalma objektum-ként.
      * @version 1.0
      */
-    public static function getIniContent(string $pin_FileName) {
+    public static function getIniContent($pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -199,10 +199,10 @@ class File extends Core {
      * @return double                       A file mérete.
      * @version 1.0
      */
-    public static function getFileSize(string $pin_FileName) {
+    public static function getFileSize($pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -220,7 +220,7 @@ class File extends Core {
     public static function getFileLastMTime(string $pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -235,10 +235,10 @@ class File extends Core {
      * @return string                       A módosító user neve.
      * @version 1.0
      */
-    public static function getFileLastMUser(string $pin_FileName) {
+    public static function getFileLastMUser($pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -253,10 +253,10 @@ class File extends Core {
      * @return boolean                      Olvasható e vagy nem.
      * @version 1.0
      */
-    public static function isReadable(string $pin_FileName) {
+    public static function isReadable($pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -271,10 +271,10 @@ class File extends Core {
      * @return boolean                      Írható e vagy nem.
      * @version 1.0
      */
-    public static function isWritable(string $pin_FileName) {
+    public static function isWritable($pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -289,10 +289,10 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a betöltés vagy sem.
      * @version 1.0
      */
-    public static function loadFile(string $pin_FileName) {
+    public static function loadFile($pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -309,7 +309,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a file létrehozás vagy sem.
      * @version 1.0
      */
-    public static function createFile(string $pin_FileName, string $pin_FileContent = "") {
+    public static function createFile($pin_FileName, $pin_FileContent = "") {
         return file_put_contents($pin_FileName, $pin_FileContent);
     }
     
@@ -323,14 +323,15 @@ class File extends Core {
      * @return boolean                      Sikeres volt e az update vagy sem.
      * @version 1.0
      */
-    public static function updateFile(string $pin_FileName, string $pin_FileContent = "", boolean $pin_ForceUpdate = false) {
+    public static function updateFile($pin_FileName, $pin_FileContent = "", $pin_ForceUpdate = false) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
-        
-        return file_put_contents($pin_FileName, $pin_FileContent, FILE_APPEND);
+
+        $loc_File = fopen($pin_FileName, "a");
+        fwrite($loc_File, $pin_FileContent);
     }
     
     /**
@@ -342,10 +343,10 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a törlés vagy sem.
      * @version 1.0
      */
-    public static function removeFile(string $pin_FileName, boolean $pin_ForceRemove = false) {
+    public static function removeFile($pin_FileName, $pin_ForceRemove = false) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -366,7 +367,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a keresés
      * @version 1.0
      */
-    public static function searchFile(string $pin_FileName, string $pin_Directory, boolean $pin_Recursive = false) {
+    public static function searchFile($pin_FileName, $pin_Directory, $pin_Recursive = false) {
         if($pin_Recursive === false) {
             $loc_Dir  = opendir($pin_Directory);
             while (false !== ($loc_Filename = readdir($loc_Dir))) {
@@ -394,10 +395,10 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a keresés vagy sem.
      * @version 1.0
      */
-    public static function searchInFile(string $pin_FileName, string $pin_SearchString) {
+    public static function searchInFile($pin_FileName, $pin_SearchString) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -414,7 +415,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a letöltés vagy sem.
      * @version 1.0
      */
-    public static function downloadFile(string $pin_FileName, string $pin_FileLocation) {
+    public static function downloadFile($pin_FileName, $pin_FileLocation) {
         return file_put_contents($pin_FileName, fopen($pin_FileLocation, 'r'));
     }
     
@@ -430,10 +431,10 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a file mozgatás vagy sem.
      * @version 1.0
      */
-    public static function moveFile(string $pin_SourceFileName, string $pin_Destination, boolean $pin_ForceMove = false) {
+    public static function moveFile($pin_SourceFileName, $pin_Destination, $pin_ForceMove = false) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -460,27 +461,27 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a file feltöltés vagy sem.
      * @version 1.0
      */
-    public static function uploadFile(string $pin_FileName, string $pin_DirectoryName, boolean $pin_ForceUpload = false) {
+    public static function uploadFile($pin_FileName, $pin_DirectoryName, $pin_ForceUpload = false) {
         if (!isset($_FILES[$pin_FileName]['error']) || is_array($_FILES[$pin_FileName]['error'])) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::errorUploadingFile, "{MSG.ERROR.FILE_UPLOAD_ERROR}", "err", $_FILES[$pin_FileName]['error']));
+                Debug::setDebugMessage(array(__METHOD__, self::errorUploadingFile, "{MSG.ERROR.FILE_UPLOAD_ERROR}", "err", $_FILES[$pin_FileName]['error']));
             throw new RuntimeException('Invalid parameters.' . $_FILES[$pin_FileName]['error']);
         }
         
         if(is_file($pin_DirectoryName . $pin_FileName) && $pin_ForceUpload === false) {
             if(Debug::isDebug())
-                Debug::setDebugMessage (array(self::destinationFileExists, "{MSG.ERROR.THE_DEST_FILE_EXISTS}", "err", $pin_DirectoryName . $pin_FileName));
+                Debug::setDebugMessage (array(__METHOD__, self::destinationFileExists, "{MSG.ERROR.THE_DEST_FILE_EXISTS}", "err", $pin_DirectoryName . $pin_FileName));
             return false;
         }
         
         if(move_uploaded_file($_FILES[$pin_FileName]['temp_name'], $pin_DirectoryName . $pin_FileName) === true) {
             if(Debug::isDebug())
-                Debug::setDebugMessage (array(self::fileUploadSuccess, "{MSG.SUCCESS.FILE_UPLOAD_SUCCESS}", "succ", $pin_DirectoryName . $pin_FileName));
+                Debug::setDebugMessage (array(__METHOD__, self::fileUploadSuccess, "{MSG.SUCCESS.FILE_UPLOAD_SUCCESS}", "succ", $pin_DirectoryName . $pin_FileName));
             return true;
         }
         else {
             if(Debug::isDebug())
-                Debug::setDebugMessage (array(self::fileUploadFailed, "{MSG.SUCCESS.FILE_UPLOAD_FAILED}", "err", $pin_DirectoryName . $pin_FileName));
+                Debug::setDebugMessage (array(__METHOD__, self::fileUploadFailed, "{MSG.SUCCESS.FILE_UPLOAD_FAILED}", "err", $pin_DirectoryName . $pin_FileName));
             return true;
         }
     }
@@ -495,10 +496,10 @@ class File extends Core {
      * @return boolean                      Egyezik e a file típusa a megadottal vagy sem.
      * @version 1.0
      */
-    public static function checkFileType(string $pin_FileName, string $pin_TypeName) {
+    public static function checkFileType($pin_FileName, $pin_TypeName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
@@ -518,7 +519,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a könyvtár létrehozás vagy sem.
      * @version 1.0
      */
-    public static function createDirectory(string $pin_DirectoryName, string $pin_Path) {
+    public static function createDirectory($pin_DirectoryName, $pin_Path) {
         return mkdir($pin_Path . APPS_DIRECTORY_SEPARATOR . $pin_DirectoryName);
     }
     
@@ -537,10 +538,10 @@ class File extends Core {
      * @version 1.0
      * @uses File::listDirectory("images", false, array("jpg", "png", "jpeg"), true);
      */
-    public static function listDirectory(string $pin_DirectoryName, boolean $pin_DirectoryOnly = false, array $pin_FileTypes = NULL, boolean $pin_Recursive = false) {
+    public static function listDirectory($pin_DirectoryName, $pin_DirectoryOnly = false, $pin_FileTypes = NULL, $pin_Recursive = false) {
         if(!$pin_DirectoryName || !is_dir($pin_DirectoryName)) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
             return false;
         }
         
@@ -563,10 +564,10 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a keresés vagy sem.
      * @version 1.0
      */
-    public static function searchDirectory(string $pin_DirectoryName, string $pin_Path, boolean $pin_Recursive = false) {
+    public static function searchDirectory($pin_DirectoryName, $pin_Path, $pin_Recursive = false) {
         if(!$pin_Path || !$pin_DirectoryName || !is_dir($pin_Path)) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
             return false;
         }
         
@@ -591,7 +592,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt a az update vagy sem.
      * @version 1.0
      */
-    public static function updateDirectory(string $pin_DirectoryName, string $pin_NewName, boolean $pin_ForceUpdate = false) {
+    public static function updateDirectory($pin_DirectoryName, $pin_NewName, $pin_ForceUpdate = false) {
         return false;
     }
     
@@ -604,7 +605,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a törlés vagy sem.
      * @version 1.0
      */
-    public static function removeDirectory(string $pin_DirectoryName, boolean $pin_ForceRemove = false) {
+    public static function removeDirectory($pin_DirectoryName, $pin_ForceRemove = false) {
         return true;
     }
     
@@ -623,12 +624,12 @@ class File extends Core {
      * @return boolean                      Létezik e a file vagy nem.
      * @version 1.0
      */
-    protected function _isFileExists(string $pin_FileName) {
+    protected function _isFileExists($pin_FileName) {
         if(is_file($pin_FileName))
             return true;
         
         if(Debug::isDebug())
-            Debug::setDebugMessage(array(self::fileNotExists, "{MSG.ERROR.FILE_NOT_EXISTS}", "err", $pin_FileName));
+            Debug::setDebugMessage(array(__METHOD__, self::fileNotExists, "{MSG.ERROR.FILE_NOT_EXISTS}", "err", $pin_FileName));
         
         return false;
     }
@@ -655,7 +656,7 @@ class File extends Core {
      * @return array                        A mappában található mappák és file-ok tömbje.
      * @version 1.0
      */
-    protected function _listDirectoryRecursive(string $pin_DirectoryName, boolean $pin_DirectoryOnly = false, array $pin_FileType = NULL) {
+    protected function _listDirectoryRecursive($pin_DirectoryName, $pin_DirectoryOnly = false, $pin_FileType = NULL) {
         if(is_null($pin_FileType)) {
             
         }
@@ -677,7 +678,7 @@ class File extends Core {
      * @return array                        A mappában található mappák és file-ok tömbje.
      * @version 1.0  
      */
-    protected function _listDirectory(string $pin_DirecroryName, boolean $pin_DirectoryOnly = false, array $pin_FileType = NULL) {
+    protected function _listDirectory($pin_DirecroryName, $pin_DirectoryOnly = false, $pin_FileType = NULL) {
         if(is_null($pin_FileType)) {
             
         }
@@ -685,7 +686,7 @@ class File extends Core {
             
         }
         
-        return array();
+        return false;
     }
     
 ################################################################################
