@@ -16,8 +16,10 @@ if (!isset($_SESSION)){session_start();}
     $_SESSION['DebugMessage'] = null;
     
     require_once 'library/common.php';
-    library\Debug::startDebugTrace();
+    //library\Debug::startDebugTrace();
     
-    library\File::getIniContent(APPS_D_CONFIG . "config.ini");
-
+    //library\File::getIniContent(APPS_D_CONFIG . "config.ini");
+    $loc_Script = "alert('asdasdas');";
+    library\Httpresponse::addScript($loc_Script);
+    \library\Httpresponse::sendContent();
 ?>

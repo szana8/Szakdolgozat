@@ -21,6 +21,10 @@ ob_start();
 
 ignore_user_abort(true);
 
+define("APPS_NAME", "Application");
+
+define("APPS_VER", "1.0.0");
+
 //Kód futásának kezdete
 define("APPS_START_TIME", microtime());
 
