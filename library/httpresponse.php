@@ -26,11 +26,23 @@ class Httpresponse extends Core {
 # 1. Constants #################################################################
 ################################################################################
     
-    const   errorHttpHeaderSent      = 'xhr0001';
+    const   errorHttpHeaderSent     = 'xhr0001';
     
-    const   invalidMetaTag           = 'xhr0002';
+    const   invalidMetaTag          = 'xhr0002';
     
-    const   cacheDisabled            = 'xhr0003';
+    const   cacheDisabled           = 'xhr0003';
+    
+    const   addScriptFile           = 'xhr0004';
+    
+    const   addStyleFile            = 'xhr0005';
+    
+    const   addScript               = 'xhr0006';
+    
+    const   addStyle                = 'xhr0007';
+    
+    const   addTitle                = 'xhr0008';
+    
+    const   addHeader               = 'xhr0009';
     
 ################################################################################
 # 2. Public Properties #########################################################
@@ -202,7 +214,7 @@ class Httpresponse extends Core {
             self::$_htmlHeader['metatag'][$pin_Type] = $pin_Content;
         }
         else {
-            Debug::setDebugMessage(array(__METHOD__, self::invalidMetaTag, "{MSG.ERROR.INVALID_META_TAG}", "err", ""));
+            Debug::setDebugMessage(array(__METHOD__, self::invalidMetaTag, "{MSG.ERROR.INVALID_META_TAG}", "err", $pin_Type));
         }
     }
     
@@ -212,6 +224,7 @@ class Httpresponse extends Core {
      */
     public static function addScriptFile($pin_URL) {
         self::$_htmlHeader['script_file'][] = $pin_URL;
+        Debug::setDebugMessage(array(__METHOD__, self::addScriptFile, "{MSG.SUCC.ADD_SCRIPT_FILE}", "info", $pin_URL));
     }
     
     /**
@@ -220,6 +233,7 @@ class Httpresponse extends Core {
      */
     public static function addStyleFile($pin_URL) {
         self::$_htmlHeader['style_file'][] = $pin_URL;
+        Debug::setDebugMessage(array(__METHOD__, self::addStyleFile, "{MSG.SUCC.ADD_STYLE_FILE}", "info", $pin_URL));
     }
     
     /**
@@ -228,6 +242,7 @@ class Httpresponse extends Core {
      */
     public static function addScript($pin_Script) {
         self::$_htmlHeader['script'][] = $pin_Script;
+        Debug::setDebugMessage(array(__METHOD__, self::addScript, "{MSG.SUCC.ADD_SCRIPT}", "info", $pin_Script));
     }
     
     /**
@@ -236,6 +251,7 @@ class Httpresponse extends Core {
      */
     public static function addStyle($pin_Style) {
         self::$_htmlHeader['style'][] = $pin_Style;
+        Debug::setDebugMessage(array(__METHOD__, self::addStyle, "{MSG.SUCC.ADD_STYLE}", "info", $pin_Style));
     }
     
     /**
@@ -244,6 +260,7 @@ class Httpresponse extends Core {
      */
     public static function setTitle($pin_Title) {
         self::$_htmlHeader['title'] = $pin_Title;
+        Debug::setDebugMessage(array(__METHOD__, self::addTitle, "{MSG.SUCC.ADD_TITLE}", "info", $pin_Title));
     }
     
     /**
@@ -294,6 +311,12 @@ class Httpresponse extends Core {
 # 6. Private Methods ###########################################################
 ################################################################################
     
+    /**
+     * Összeállítja a HTML content-et a megadott adatok alapján.
+     * 
+     * @param type $pin_Content
+     * @param type $pin_Cache
+     */
     private static function _sendContentHTML($pin_Content = null, $pin_Cache = null) {
         $loc_Content = "";
         $loc_HTML = implode("\n", self::$_htmlCode);
@@ -331,7 +354,7 @@ class Httpresponse extends Core {
         
         $loc_Styles = "";
         foreach (self::$_htmlHeader['style'] as $loc_Style) {
-            $loc_Style .= "     <style type=\"text/css\">".$loc_Style."</style>";
+            $loc_Style .= "    <style type=\"text/css\">".$loc_Style."</style>";
         }
         
         $loc_HTML = str_replace(array("{ROOT_URI}", 
@@ -417,6 +440,7 @@ class Httpresponse extends Core {
         if(!self::$_sentHeader) {
             $pin_HeaderType[0] = strtoupper($pin_HeaderType[0]);
             self::$_httpHeader[] = array($pin_HeaderType, $pin_HeaderValue);
+            Debug::setDebugMessage(array(__METHOD__, self::addHeader, "{MSG.SUCC.ADD_HEADER}", "info", $pin_HeaderType[0] . ": " . $pin_HeaderValue));
         }
         else {
             Debug::setDebugMessage(array(__METHOD__, self::errorHttpHeaderSent, "{MSG.ERROR.HTTP_HEADER_SENT}", "err", ""));

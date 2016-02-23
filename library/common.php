@@ -38,6 +38,7 @@ define("APPS_ENV_SEPARATOR", DIRECTORY_SEPARATOR);
 define("APPS_D_ROOT", apps_dirpath(dirname(__DIR__)));
 
 
+
 // A program konfigurációs állományait tartalmazó könyvtár elérési útja
 define("APPS_D_CONFIG", APPS_D_ROOT."config".APPS_DIRECTORY_SEPARATOR);
 
@@ -126,6 +127,11 @@ function autoload($pin_ClassName)
     }
 }
 
+//Beállítja az autoload függvényt.
+spl_autoload_register('autoload');
+
+//Beállítja a debug üzenetek szintjét
+set_app_debug();
 
 /**
  * Meghatározza a root uri-t.
@@ -136,8 +142,8 @@ function autoload($pin_ClassName)
  * @return      string
  */
 function app_root_uri() {
-    return;
-    $loc_DocRoot = app_dirpath(\library\Enviroment::GetEnv("DOCUMENT_ROOT"));
+    
+    $loc_DocRoot = apps_dirpath(library\Enviroment::GetEnv("DOCUMENT_ROOT"));
     
     if(substr(APPS_D_ROOT, 0, strlen($loc_DocRoot)) == $loc_DocRoot) {
         return(APPS_DIRECTORY_SEPARATOR.preg_replace("#^".apps_dirpath(\library\Enviroment::GetEnv("DOCUMENT_ROOT"))."#", "", APPS_D_ROOT));
@@ -160,13 +166,6 @@ function app_root_uri() {
         return(implode(APPS_DIRECTORY_SEPARATOR, $loc_Uris).APPS_DIRECTORY_SEPARATOR);
     }
 }
-
-//Beállítja az autoload függvényt.
-spl_autoload_register('autoload');
-
-//Beállítja a debug üzenetek szintjét
-set_app_debug();
-
 
 // CI parancssori futtatás jelzése. Ha parancssorból hívnak meg egy CI 
 // futtatható fájlt, értéke true lesz. 

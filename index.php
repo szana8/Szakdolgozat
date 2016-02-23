@@ -19,7 +19,11 @@ if (!isset($_SESSION)){session_start();}
     //library\Debug::startDebugTrace();
     
     //library\File::getIniContent(APPS_D_CONFIG . "config.ini");
-    $loc_Script = "alert('asdasdas');";
+    $loc_Tmp = \library\Httprequest::getData('url');
+    $loc_Script = "alert('{$loc_Tmp}');";
+    //\library\Httpresponse::sendContent();
+    
+    library\Pluginmanager::initialize();
     library\Httpresponse::addScript($loc_Script);
     \library\Httpresponse::sendContent();
 ?>

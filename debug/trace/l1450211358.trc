@@ -1,3 +1,0 @@
-Start debug trace: 2015-12-15 21:29:18
-2015-Dec-15 21:29:18 err: xf00000 library\File::_isFileExists {MSG.ERROR.FILE_NOT_EXISTS} C:/xampp/htdocs/Szakdoga/Szakdolgozat/config/consfig.ini
-2015-Dec-15 21:29:18 err: xf00010 library\File::getIniContent {MSG.ERROR.INVALID_FILE_NAME} C:/xampp/htdocs/Szakdoga/Szakdolgozat/config/consfig.ini

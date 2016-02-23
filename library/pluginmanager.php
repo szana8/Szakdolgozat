@@ -2,30 +2,30 @@
 namespace library;
 /**
  * Link: 
- * File: httprequest.php
+ * File: pluginmanager.php
  * Namespace: library
  * 
- * Description of httprequest
+ * Description of pluginmanager
  * 
  * 
  *  Version     Date            Author               Changelog   
- *   1.0.0      2015.11.28.     Pisti              Created
+ *   1.0.0      2016.02.22.     Pisti              Created
  * 
  */
-
 if(count(get_included_files()) === 1) {
     echo "<html><head><title>Object not found!</title></head>You can not call this"
          . " file directly!</html>";
     exit();
 }
 
-class Httprequest {
-    
+
+class Pluginmanager {
+
 ################################################################################
 # 1. Constants #################################################################
 ################################################################################    
     
-    const   initHttpRequest         = 'xhq0001';
+    const   initPluginsManager         = 'xhq0001';
 
 ################################################################################
 # 2. Public Properties #########################################################
@@ -35,33 +35,29 @@ class Httprequest {
 # 3. Protected Properties ######################################################
 ################################################################################
     
-    private static $_httpRequestArray   = array();
+    private static $_autloadJSPlugins       = array();
+    
+    private static $_autloadCSSPlugins      = array();
+    
+    private static $_moduleJSPlugins        = array();
+    
+    private static $_moduleCSSPlugins       = array();
+    
     
 ################################################################################
 # 4. Public Methods ############################################################
-################################################################################
+################################################################################    
     
-    /**
-     * 
-     */
-    public static function init() {
-        self::$_httpRequestArray = array('DateTime' => date('Y-m-d H:i:s'));
-        Debug::setDebugMessage(array(__METHOD__, self::initHttpRequest, "{MSG.ERROR.INIT_HTTP_REQEST}", "info", self::$_httpRequestArray['DateTime']));
-    }
-    
-    /**
-     * 
-     * @param type $pin_Name
-     * @return type
-     */
-    public static function getData($pin_Name) {
-        if(isset($_GET[$pin_Name]))
-            return $_GET[$pin_Name];
+    public static function initialize() {
+        $loc_IniContent = File::getIniContent(APPS_D_CONFIG . 'extensions.ini');
+        foreach ($loc_IniContent->JavaScriptExtensions as $loc_Key => $loc_Path) {
+            Httpresponse::addScriptFile(__ROOT_URL__ . $loc_Path);
+        }
         
-        return null;
+        foreach ($loc_IniContent->CSSExtensions as $loc_Key => $loc_Path) {
+            Httpresponse::addStyleFile(__ROOT_URL__ . $loc_Path);
+        }
     }
-    
-    
     
 ################################################################################
 # 5. Protected Methods #########################################################
@@ -70,7 +66,6 @@ class Httprequest {
 ################################################################################
 # 6. Private Methods ###########################################################
 ################################################################################
-    
-    
 }
+
 ?>
