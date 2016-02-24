@@ -59,6 +59,7 @@ class Extensionmanager {
      */
     private static $_moduleCSSExtensions       = array();
     
+    private static $_extensionIni              = 'extensions.ini';
     
 ################################################################################
 # 4. Public Methods ############################################################
@@ -69,9 +70,17 @@ class Extensionmanager {
      */
     public static function initialize() {
         $loc_IniContent = File::getIniContent(APPS_D_CONFIG . 'autoload.ini');
+        $loc_Path = null;
+        foreach ($loc_IniContent->JavaScriptExtensions as $loc_Name) {
+            $loc_Path = self::_getExtLocation($loc_Name);
+            self::$_autloadJSExtensions = array_push($loc_Path);
+        }
         
-        self::$_autloadJSExtensions = $loc_IniContent->JavaScriptExtensions;
-        self::$_autloadCSSExtensions = $loc_IniContent->CSSExtensions;
+        foreach ($loc_IniContent->CSSExtensions as $loc_Name) {
+            $loc_Path = self::_getExtLocation($loc_Name);
+            self::$_autloadCSSExtensions = array_push($loc_Path);
+        }
+
         self::_registrateExtensions(true);
         Debug::setDebugMessage(array(__METHOD__, self::initExtensionManager, "{MSG.INFO.INITIALIZE_EXT_MANAGER}", "info", ""));
     }
@@ -92,6 +101,24 @@ class Extensionmanager {
 # 6. Private Methods ###########################################################
 ################################################################################
     
+    /**
+     * 
+     * @param type $pin_ExtName
+     * @return boolean
+     */
+    private static function _getExtLocation($pin_ExtName) {
+        $loc_IniContent = File::getIniContent(APPS_D_CONFIG . self::$_extensionIni);
+        foreach ($loc_IniContent as $loc_Name => $loc_Path) {
+            if($loc_Name == $pin_ExtName)
+                return $loc_Path;
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @param type $pin_Mode
+     */
     private static function _registrateExtensions($pin_Mode = false) {
         if($pin_Mode) {
             if(!empty(self::$_autloadJSExtensions))
