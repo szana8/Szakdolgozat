@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/library/httprequest.php</file>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/library/httpresponse.php</file>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/.htaccess</file>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/index.php</file>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/library/pluginmanager.php</file>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/library/enviroment.php</file>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/library/common.php</file>
-            <file>file:/C:/xampp/htdocs/Szakdoga/Szakdolgozat/config/extensions.ini</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
