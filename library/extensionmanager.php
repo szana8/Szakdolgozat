@@ -19,7 +19,7 @@ if(count(get_included_files()) === 1) {
 }
 
 
-class Extensionmanager {
+class Extensionmanager extends Core {
 
 ################################################################################
 # 1. Constants #################################################################
@@ -72,13 +72,15 @@ class Extensionmanager {
         $loc_IniContent = File::getIniContent(APPS_D_CONFIG . 'autoload.ini');
         $loc_Path = null;
         foreach ($loc_IniContent->JavaScriptExtensions as $loc_Name) {
-            $loc_Path = self::_getExtLocation($loc_Name);
-            self::$_autloadJSExtensions = array_push($loc_Path);
+            $loc_Path = self::_getExtLocation($loc_Name, 'JavaScriptExtensions');
+            if($loc_Path)
+                self::$_autloadJSExtensions[] = $loc_Path;
         }
         
         foreach ($loc_IniContent->CSSExtensions as $loc_Name) {
-            $loc_Path = self::_getExtLocation($loc_Name);
-            self::$_autloadCSSExtensions = array_push($loc_Path);
+            $loc_Path = self::_getExtLocation($loc_Name, 'CSSExtensions');
+            if($loc_Path)
+                self::$_autloadCSSExtensions[] = $loc_Path;
         }
 
         self::_registrateExtensions(true);
@@ -106,11 +108,12 @@ class Extensionmanager {
      * @param type $pin_ExtName
      * @return boolean
      */
-    private static function _getExtLocation($pin_ExtName) {
+    private static function _getExtLocation($pin_ExtName, $pin_Type) {
         $loc_IniContent = File::getIniContent(APPS_D_CONFIG . self::$_extensionIni);
-        foreach ($loc_IniContent as $loc_Name => $loc_Path) {
-            if($loc_Name == $pin_ExtName)
+        foreach ($loc_IniContent->$pin_Type as $loc_Name => $loc_Path) {
+            if(trim($loc_Name) == trim($pin_ExtName)) {
                 return $loc_Path;
+            }
         }
         return false;
     }

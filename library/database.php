@@ -1,5 +1,5 @@
 <?php
-
+namespace library;
 /**
  * Link: 
  * File: database.php
@@ -12,8 +12,6 @@
  *   1.0.0      2015.11.28.     Istvan Szana         Created
  * 
  */
-
-namespace library;
 
 interface Database {
     

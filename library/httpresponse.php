@@ -25,23 +25,50 @@ class Httpresponse extends Core {
 ################################################################################
 # 1. Constants #################################################################
 ################################################################################
-    
+
+    /**
+     *  Hiba a http fejléc küldésekor. 
+     */
     const   errorHttpHeaderSent     = 'xhr0001';
     
+    /**
+     * Invalid meta tag. 
+     */
     const   invalidMetaTag          = 'xhr0002';
     
+    /**
+     * Gyorsító tárazás kikapcsolva.
+     */
     const   cacheDisabled           = 'xhr0003';
     
+    /**
+     * Egy JavaScript file hozzáadva.
+     */
     const   addScriptFile           = 'xhr0004';
     
+    /**
+     * Egy stílus file hozzáadva.
+     */
     const   addStyleFile            = 'xhr0005';
     
+    /**
+     * Egy JavaScript kód hozzáadva.
+     */
     const   addScript               = 'xhr0006';
     
+    /**
+     * Egy stílus kód kozzáadva.
+     */
     const   addStyle                = 'xhr0007';
     
+    /**
+     * Egy HTTP title hozzáadva.
+     */
     const   addTitle                = 'xhr0008';
     
+    /**
+     * Egy HTTP fejléchozzáadva.
+     */
     const   addHeader               = 'xhr0009';
     
 ################################################################################
@@ -52,6 +79,11 @@ class Httpresponse extends Core {
 # 3. Protected Properties ######################################################
 ################################################################################
     
+    /**
+     * HTTP fejléceket tartalmazó tömb.
+     * 
+     * @var type 
+     */
     private static $_httpHeader = array();
     
     /**
@@ -123,12 +155,28 @@ class Httpresponse extends Core {
         "rating"
     );
     
+    /**
+     * A content típusa amit elküldünk a böngésző felé.
+     * @var array
+     */
     private static $_contentType = "";
     
+    /**
+     * A content karakter típusa.
+     * @var string
+     */
     private static $_charset = "";
     
+    /**
+     * Az eredmény küldésének típusa.
+     * @var string 
+     */
     private static $_sendType = "";
     
+    /**
+     * El lett e küldve már a tartalom.
+     * @var boolean
+     */
     private static $_sentContent = false;
     
 ################################################################################
@@ -154,12 +202,12 @@ class Httpresponse extends Core {
      * @return boolean                      Sikeres volt e a küldés vagy sem.
      * @version 1.0
      */
-    public static function sendContent($pin_ContentType = "HTML") {
+    public static function sendContent($pin_Content = null, $pin_ContentType = "HTML") {
         if(!$pin_ContentType)
             return false;
         
         //ide jön még egy ellenőrzés hogy ajax vagy html vagy egyéb e
-        self::_sendContentHTML();
+        self::_sendContentHTML($pin_Content);
     }
     
     /**
@@ -314,8 +362,8 @@ class Httpresponse extends Core {
     /**
      * Összeállítja a HTML content-et a megadott adatok alapján.
      * 
-     * @param type $pin_Content
-     * @param type $pin_Cache
+     * @param string $pin_Content                   A content string-je.
+     * @param string $pin_Cache                     Be van e kapcsolva a cache.
      */
     private static function _sendContentHTML($pin_Content = null, $pin_Cache = null) {
         $loc_Content = "";
@@ -432,9 +480,9 @@ class Httpresponse extends Core {
     }
     
     /**
-     * 
-     * @param type $pin_HeaderType
-     * @param type $pin_HeaderValue
+     * Hozzáad egy fejlécet a $_httpHeader tömbhöz ha még nem lett elküldve.
+     * @param string $pin_HeaderType                A fejléc típusa.
+     * @param string $pin_HeaderValue               A fejléc értéke.
      */
     private static function _addHttpHeader($pin_HeaderType, $pin_HeaderValue = "") {
         if(!self::$_sentHeader) {

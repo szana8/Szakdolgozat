@@ -19,7 +19,7 @@ if(count(get_included_files()) === 1) {
     exit();
 }
 
-class Session {
+class Session extends Core {
     
 ################################################################################
 # 1. Constants #################################################################
@@ -53,9 +53,23 @@ class Session {
 # 3. Protected Properties ######################################################
 ################################################################################
     
+    /**
+     * Post metódussal átadott ürlapmező nevek melyeket el kell menteni a munkamenetben.
+     * @access private
+     */
+    private static $_formFields = array();
+    
+    
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
+    
+    
+    public static function initialize() {
+        if (!isset($_SESSION)){session_start();}
+    }
+
+
     
     /**
      * Megvizsgálja, hogy a $pin_SessionName paraméterben kapott session létezik-e,
@@ -123,6 +137,23 @@ class Session {
         }
         
         unset($_SESSION[$pin_SessionName]);
+        return true;
+    }
+    
+    
+    public static function saveFormFields() {
+        
+    }
+    
+    /**
+     * Beregisztráljuk a menteni kívánt form elemeit.
+     * @param type $pin_FieldName
+     * @return boolean
+     */
+    public static function registrateForm($pin_FieldName) {
+        if(!isset(self::$_formFields[$pin_FieldName])) {
+            array_push(self::$_formFields, $pin_FieldName);
+        }
         return true;
     }
     

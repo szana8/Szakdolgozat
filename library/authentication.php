@@ -1,5 +1,5 @@
 <?php
-
+namespace library;
 /**
  * Link: 
  * File: authentication.php
@@ -13,9 +13,7 @@
  * 
  */
 
-namespace library;
-
-class Authentication {
+class Authentication extends Core {
     //put your code here
 }
 

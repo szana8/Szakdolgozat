@@ -19,7 +19,7 @@ if(count(get_included_files()) === 1) {
     exit();
 }
 
-class Httprequest {
+class Httprequest extends Core {
     
 ################################################################################
 # 1. Constants #################################################################
@@ -44,7 +44,7 @@ class Httprequest {
     /**
      * 
      */
-    public static function init() {
+    public static function initialize() {
         self::$_httpRequestArray = array('DateTime' => date('Y-m-d H:i:s'));
         Debug::setDebugMessage(array(__METHOD__, self::initHttpRequest, "{MSG.ERROR.INIT_HTTP_REQEST}", "info", self::$_httpRequestArray['DateTime']));
     }
@@ -54,13 +54,23 @@ class Httprequest {
      * @param type $pin_Name
      * @return type
      */
-    public static function getData($pin_Name) {
+    public static function getGETData($pin_Name) {
         if(isset($_GET[$pin_Name]))
             return $_GET[$pin_Name];
         
         return null;
     }
     
+    /**
+     * 
+     * @return type
+     */
+    public static function getPOSTData() {
+        if(!empty($_POST))
+            return $_POST;
+        
+        return null;
+    }
     
     
 ################################################################################

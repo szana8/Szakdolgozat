@@ -127,11 +127,13 @@ function autoload($pin_ClassName)
     }
 }
 
-//Beállítja az autoload függvényt.
-spl_autoload_register('autoload');
 
-//Beállítja a debug üzenetek szintjét
-set_app_debug();
+    //Beállítja az autoload függvényt.
+    spl_autoload_register('autoload');
+
+    //Beállítja a debug üzenetek szintjét
+    set_app_debug();
+
 
 /**
  * Meghatározza a root uri-t.
@@ -189,13 +191,11 @@ define("__ROOT_URL__", __CLI__ ? "" : (((\library\Enviroment::GetEnv("HTTPS")) ?
  * @version  1.0
  */
 function set_app_debug() {
-    return;
-    restore_error_handler();
-    library\File::$FileName = "config.ini";
-    $loc_IniObject = (object)library\File::GetIniContent();
+    $loc_FilaName = APPS_D_CONFIG . "config.ini";
+    $loc_IniObject = library\File::getIniContent($loc_FilaName);
 
-    ini_set("display_error", ($loc_IniObject->Loging['DISPLAY'] == true ? 1 : 0));
-    if($loc_IniObject->Loging['ERROR'] == true) {
+    ini_set("display_error", ($loc_IniObject->Loging->DISPLAY == true ? 1 : 0));
+    if($loc_IniObject->Loging->ERROR == true) {
         error_reporting(E_ALL);
     }
     else {
@@ -216,7 +216,14 @@ function app_register_shutdown($pin_Function) {
     static $stc_Debug = array();
     if(!in_array($pin_Function, $stc_Function)) {
         $stc_Function[] = $pin_Function;
-        $stc_Debug[] = $pin_Function;
         register_shutdown_function($pin_Function);
     }
 }
+
+
+    //Inicializálunk
+    \library\Httprequest::initialize();
+    \library\Session::initialize();
+    \library\Extensionmanager::initialize();
+    \library\Httpresponse::initialize();
+    library\Modulemanager::initialize();
