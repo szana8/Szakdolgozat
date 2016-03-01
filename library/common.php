@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types = 1);
 /**
  * File: Common.php
  * Description:
@@ -143,7 +143,7 @@ function autoload($pin_ClassName)
  * @subpackage  Core\Functions
  * @return      string
  */
-function app_root_uri() {
+function app_root_uri() : string {
     
     $loc_DocRoot = apps_dirpath(library\Enviroment::GetEnv("DOCUMENT_ROOT"));
     
@@ -194,7 +194,7 @@ function set_app_debug() {
     $loc_FilaName = APPS_D_CONFIG . "config.ini";
     $loc_IniObject = library\File::getIniContent($loc_FilaName);
 
-    ini_set("display_error", ($loc_IniObject->Loging->DISPLAY == true ? 1 : 0));
+    ini_set("display_error", ($loc_IniObject->Loging->DISPLAY == true ? '1' : '0'));
     if($loc_IniObject->Loging->ERROR == true) {
         error_reporting(E_ALL);
     }
