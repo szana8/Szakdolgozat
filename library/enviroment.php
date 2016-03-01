@@ -48,7 +48,7 @@ class Enviroment extends Core {
      * @param       string      $pin_EnvKey     Környezeti változó neve.
      * @return      string
      */
-    public static function GetEnv($pin_EnvKey) {
+    public static function GetEnv(string $pin_EnvKey) : string {
         // get HTTPS
         if($pin_EnvKey == "HTTPS") {
             if(isset($_SERVER) && !empty($_SERVER)) {

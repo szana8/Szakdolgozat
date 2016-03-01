@@ -29,27 +29,27 @@ class Debug {
     /**
      * A debug SESSION neve ahol az üzeneteket tároljuk.
      */
-    const   debugSessionName            =   'APP_DEBUG_SESSION';
+    const   debugSessionName            =  'APP_DEBUG_SESSION';
     
     /**
      * Aktív e a debug trace vagy sem.
      */
-    const   debugSessionTrace           =   'APP_DEBUG_TRACE';
+    const   debugSessionTrace           =  'APP_DEBUG_TRACE';
     
     /**
      * A Debug trace file neve, ahol a trace üzeneteket tároljuk
      */
-    const   debugSessionTraceName       =   'APP_DEBUG_TRACE_NAME';
+    const   debugSessionTraceName       =  'APP_DEBUG_TRACE_NAME';
     
     /**
      * A Debug módot tároljuk ebben a SESSION-ben
      */
-    const   debugSessionMode            =   'APP_DEBUG_MODE';
+    const   debugSessionMode            =  'APP_DEBUG_MODE';
     
     /**
      * A Debug üzenetek szintjét tároljuk ebben a SESSION-ben.
      */
-    const   debugSessionLevel           =   'APP_DEBUG_LEVEL';
+    const   debugSessionLevel           =  'APP_DEBUG_LEVEL';
 
 ################################################################################
 # 2. Public Properties #########################################################
@@ -60,12 +60,18 @@ class Debug {
 ################################################################################
     
     /**
-     * Debug üzenetek tárolására szolgáló osztály.
+     * Debug üzenetek tárolására szolgáló attribútum.
      * 
      * @var type 
      */
-    private static $_debugMessages;
-    
+    private static $_debugMessages = "";
+
+    /**
+     * Trace üzenetek tárolására szolgáló attribútum.
+     * @var string
+     */
+    private static $_traceMessage = "";
+
     /**
      * A különböző debug módok tömbje.
      * 
@@ -96,7 +102,7 @@ class Debug {
      * @return array                            A debug üzeneteket tartalmazó tömb.
      * @version 1.0
      */
-    public static function getDebugMessage($pin_DebugLevel = "ALL") {
+    public static function getDebugMessage(string $pin_DebugLevel = "ALL") : string {
         if(!$pin_DebugLevel)
             return false;
         
@@ -110,7 +116,7 @@ class Debug {
      * @version 1.0
      */
     public static function getDebugLevel() {
-        return Session::getSession(self::debugSessionLevel);
+        return Session::getSession((string) self::debugSessionLevel);
     }
     
     /**
@@ -122,7 +128,7 @@ class Debug {
      * @version 1.0
      */
     public static function getDebugMode() {
-        return Session::getSession(self::debugSessionMode);
+        return Session::getSession((string) self::debugSessionMode);
     }
     
     /**
@@ -133,17 +139,16 @@ class Debug {
      * @return boolean                          Sikeres volt e a hozzáadás vagy sem.
      * @version 1.0
      */
-    public static function setDebugMessage($pin_MessageArray) {
+    public static function setDebugMessage(array $pin_MessageArray) : bool {
         if(empty($pin_MessageArray))
             return false;
-        
+
         if(Session::getSession(self::debugSessionTrace) === true) {
             if(Session::getSession(self::debugSessionTraceName) != "") {
                 self::_setDebugTraceMessage($pin_MessageArray);
             }
         }
         return true;
-        //return Session::setSession(self::debugSessionName, array_push(Session::getSession(self::debugSessionName), $pin_MessageArray));
     }
     
     /**
@@ -154,7 +159,7 @@ class Debug {
      * @return boolean                          Sikeres volt e a beállítás vagy sem.
      * @version 1.0
      */
-    public static function setDebugLevel(string $pin_DebugLevel) {
+    public static function setDebugLevel(string $pin_DebugLevel) : bool {
         if(!$pin_DebugLevel)
             return false;
         
@@ -170,7 +175,7 @@ class Debug {
      * @return boolean                          Sikeres volt e a beállítás vagy sem.
      * @version 1.0
      */
-    public static function setDebugMode(string $pin_DebugMode) {
+    public static function setDebugMode(string $pin_DebugMode) : bool {
         if(!$pin_DebugMode)
             return false;
         
@@ -185,24 +190,24 @@ class Debug {
      * @return boolean                          Elindult e a debug trace vagy sem.
      * @version 1.0
      */
-    public static function startDebugTrace() {
+    public static function startDebugTrace() : bool {
         if(!Session::getSession(self::debugSessionTraceName)) {
             $loc_FileName = APPS_D_TRACE . "l" . strtotime(date("".DEFAULT_DATE_FORMAT."")) . ".trc";
             File::createFile($loc_FileName, "Start debug trace: " . date("".DEFAULT_DATE_FORMAT.""));
             Session::setSession(self::debugSessionTrace, true);
             return Session::setSession(self::debugSessionTraceName, $loc_FileName);
         }
-        
+
         return true;
     }
-    
+
     /**
      * Megállítja a debug trace-t.
-     * 
+     *
      * @return boolean                          Sikeres volt e a művelet vagy sem.
      * @version 1.0
      */
-    public static function stopDebugTrace() {
+    public static function stopDebugTrace() : bool {
         $loc_Filename = "";
         fclose($loc_Filename);
         Session::setSession(self::debugSessionTrace, false);
@@ -217,11 +222,11 @@ class Debug {
      * @return boolean                          Be van e állítva a debugolás vagy sem.
      * @version 1.0
      */
-    public static function isDebug() {
+    public static function isDebug() : bool {
         $loc_IniObj = File::getIniContent(self::$_debugIniFile);
         foreach($loc_IniObj as $loc_Key => $loc_Value) {
-            if($loc_Key == "DEBUG")
-                return $loc_Value;
+            if(($loc_Key == "DEBUG") && ($loc_Value == 'true'))
+                return true;
         }
         return true;
     }
@@ -233,7 +238,7 @@ class Debug {
      * @return boolean                          A debug trace be van kapcsolva.
      * @version 1.0
      */
-    public static function isDebugTrace() {
+    public static function isDebugTrace() : bool {
         return Session::getSession(self::debugSessionTrace);
     }
     
@@ -255,7 +260,7 @@ class Debug {
      * @return string                           A debug tömb[kulcs] értéke.
      * @version 1.0
      */
-    private static function parseDebugMsg(array $pin_DebugMessage, string $pin_DebugKey) {
+    private static function parseDebugMsg(array $pin_DebugMessage, string $pin_DebugKey) : bool {
         if(empty($pin_DebugMessage) || !$pin_DebugKey)
             return false;
         
@@ -265,10 +270,10 @@ class Debug {
         $loc_MsgType    = $pin_DebugMessage[3];
         $loc_MsgFile    = $pin_DebugMessage[4];
         
-        $loc_DebugMsg = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": " 
-                        . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;
+        self::$_debugMessages = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": "
+                                . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;
         
-        return $loc_DebugMsg;
+        return true;
     }
     
     /**
@@ -279,17 +284,17 @@ class Debug {
      * @return string                           A debug trace üzenet.
      * @version 1.0
      */
-    private static function _parseTraceMsg($pin_DebugMessage) {
+    private static function _parseTraceMsg(array $pin_DebugMessage) : bool {
         $loc_MsgBckTrc  = $pin_DebugMessage[0];
         $loc_MsgCode    = $pin_DebugMessage[1];
         $loc_MsgValue   = $pin_DebugMessage[2];
         $loc_MsgType    = $pin_DebugMessage[3];
         $loc_MsgFile    = $pin_DebugMessage[4];
         
-        $loc_TraceMsg = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": " 
-                        . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;
+        self::$_traceMessage = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": "
+                                . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;
         
-        return $loc_TraceMsg;
+        return true;
     }
     
     /**
@@ -298,8 +303,9 @@ class Debug {
      * @param array $pin_DebugMessage           A debug üzenetet tartalmazó tömb.
      * @return boolean                          Sikeres volt e a file-ba írás vagy sem.
      */
-    private static function _setDebugTraceMessage($pin_DebugMessage) {
-        return File::updateFile(Session::getSession(self::debugSessionTraceName), self::_parseTraceMsg($pin_DebugMessage));
+    private static function _setDebugTraceMessage(array $pin_DebugMessage) : bool {
+        self::_parseTraceMsg($pin_DebugMessage);
+        return File::updateFile(Session::getSession(self::debugSessionTraceName), self::$_traceMessage);
     }
     
 }

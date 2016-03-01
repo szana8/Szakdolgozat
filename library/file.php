@@ -124,7 +124,7 @@ class File extends Core {
      *                                      különben false-al.
      * @version 1.0
      */
-    public static function getFileExists($pin_FileName) {
+    public static function getFileExists(string $pin_FileName) : bool {
         if(!$pin_FileName) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -142,7 +142,7 @@ class File extends Core {
      * @return string                       A file típusa string-ként.
      * @version 1.0
      */
-    public static function getFileType($pin_FileName) {
+    public static function getFileType(string $pin_FileName) : bool {
         if(!$pin_FileName) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -161,7 +161,7 @@ class File extends Core {
      * @return string                       A file tartalma, string-ként.
      * @version 1.0
      */
-    public static function getFileContent($pin_FileName) {
+    public static function getFileContent(string $pin_FileName) {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -179,7 +179,7 @@ class File extends Core {
      * @return object                       Az ini file tartalma objektum-ként.
      * @version 1.0
      */
-    public static function getIniContent($pin_FileName) {
+    public static function getIniContent(string $pin_FileName) : \stdClass {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -199,7 +199,7 @@ class File extends Core {
      * @return double                       A file mérete.
      * @version 1.0
      */
-    public static function getFileSize($pin_FileName) {
+    public static function getFileSize(string $pin_FileName) : double {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -217,7 +217,7 @@ class File extends Core {
      * @return date                         File módosításának dátuma.
      * @version 1.0
      */
-    public static function getFileLastMTime(string $pin_FileName) {
+    public static function getFileLastMTime(string $pin_FileName) : DateTime {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -235,7 +235,7 @@ class File extends Core {
      * @return string                       A módosító user neve.
      * @version 1.0
      */
-    public static function getFileLastMUser($pin_FileName) {
+    public static function getFileLastMUser(string $pin_FileName) : string {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -253,7 +253,7 @@ class File extends Core {
      * @return boolean                      Olvasható e vagy nem.
      * @version 1.0
      */
-    public static function isReadable($pin_FileName) {
+    public static function isReadable(string $pin_FileName) : bool {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -271,7 +271,7 @@ class File extends Core {
      * @return boolean                      Írható e vagy nem.
      * @version 1.0
      */
-    public static function isWritable($pin_FileName) {
+    public static function isWritable(string $pin_FileName) : bool {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -289,14 +289,14 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a betöltés vagy sem.
      * @version 1.0
      */
-    public static function loadFile($pin_FileName) {
+    public static function loadFile(string $pin_FileName) : bool {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
             return false;
         }
         
-        require_once $pin_FileName;
+        @require_once $pin_FileName;
         return true;
     }
     
@@ -309,7 +309,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a file létrehozás vagy sem.
      * @version 1.0
      */
-    public static function createFile($pin_FileName, $pin_FileContent = "") {
+    public static function createFile(string $pin_FileName, string $pin_FileContent = "") : bool {
         return file_put_contents($pin_FileName, $pin_FileContent);
     }
     
@@ -323,7 +323,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e az update vagy sem.
      * @version 1.0
      */
-    public static function updateFile($pin_FileName, $pin_FileContent = "", $pin_ForceUpdate = false) {
+    public static function updateFile(string $pin_FileName, string $pin_FileContent = "", bool $pin_ForceUpdate = false) : bool {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -331,7 +331,7 @@ class File extends Core {
         }
 
         $loc_File = fopen($pin_FileName, "a");
-        fwrite($loc_File, $pin_FileContent);
+        return fwrite($loc_File, $pin_FileContent);
     }
     
     /**
@@ -343,7 +343,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a törlés vagy sem.
      * @version 1.0
      */
-    public static function removeFile($pin_FileName, $pin_ForceRemove = false) {
+    public static function removeFile(string $pin_FileName, bool $pin_ForceRemove = false) : bool {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -367,7 +367,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a keresés
      * @version 1.0
      */
-    public static function searchFile($pin_FileName, $pin_Directory, $pin_Recursive = false) {
+    public static function searchFile(string $pin_FileName, string $pin_Directory, bool $pin_Recursive = false) : bool {
         if($pin_Recursive === false) {
             $loc_Dir  = opendir($pin_Directory);
             while (false !== ($loc_Filename = readdir($loc_Dir))) {
@@ -395,7 +395,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a keresés vagy sem.
      * @version 1.0
      */
-    public static function searchInFile($pin_FileName, $pin_SearchString) {
+    public static function searchInFile(string $pin_FileName, string $pin_SearchString) : bool {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -403,7 +403,7 @@ class File extends Core {
         }
         
         $loc_Content = self::getFileContent($pin_FileName);
-        return strpos($loc_Content, $pin_SearchString);
+        return (boolean) strpos($loc_Content, $pin_SearchString);
     }
     
     /**
@@ -415,7 +415,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a letöltés vagy sem.
      * @version 1.0
      */
-    public static function downloadFile($pin_FileName, $pin_FileLocation) {
+    public static function downloadFile(string $pin_FileName, string $pin_FileLocation) : bool {
         return file_put_contents($pin_FileName, fopen($pin_FileLocation, 'r'));
     }
     
@@ -431,14 +431,14 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a file mozgatás vagy sem.
      * @version 1.0
      */
-    public static function moveFile($pin_SourceFileName, $pin_Destination, $pin_ForceMove = false) {
-        if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
+    public static function moveFile(string $pin_SourceFileName, string $pin_Destination, bool $pin_ForceMove = false) : bool {
+        if((!$pin_SourceFileName) || (!self::getFileExists($pin_SourceFileName))) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_SourceFileName));
             return false;
         }
         
-        $loc_SplInfo = new \SplFileInfo($loc_File);
+        $loc_SplInfo = new \SplFileInfo($pin_SourceFileName);
         
         if($pin_ForceMove === false) {
             if(!is_file($pin_Destination . "/" . $loc_SplInfo->getFilename()))
@@ -461,7 +461,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a file feltöltés vagy sem.
      * @version 1.0
      */
-    public static function uploadFile($pin_FileName, $pin_DirectoryName, $pin_ForceUpload = false) {
+    public static function uploadFile(string $pin_FileName, string $pin_DirectoryName, bool $pin_ForceUpload = false) : bool {
         if (!isset($_FILES[$pin_FileName]['error']) || is_array($_FILES[$pin_FileName]['error'])) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::errorUploadingFile, "{MSG.ERROR.FILE_UPLOAD_ERROR}", "err", $_FILES[$pin_FileName]['error']));
@@ -496,7 +496,7 @@ class File extends Core {
      * @return boolean                      Egyezik e a file típusa a megadottal vagy sem.
      * @version 1.0
      */
-    public static function checkFileType($pin_FileName, $pin_TypeName) {
+    public static function checkFileType(string $pin_FileName, string $pin_TypeName) : bool {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
@@ -519,7 +519,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a könyvtár létrehozás vagy sem.
      * @version 1.0
      */
-    public static function createDirectory($pin_DirectoryName, $pin_Path) {
+    public static function createDirectory(string $pin_DirectoryName, string $pin_Path) : bool {
         return mkdir($pin_Path . APPS_DIRECTORY_SEPARATOR . $pin_DirectoryName);
     }
     
@@ -538,7 +538,8 @@ class File extends Core {
      * @version 1.0
      * @uses File::listDirectory("images", false, array("jpg", "png", "jpeg"), true);
      */
-    public static function listDirectory($pin_DirectoryName, $pin_DirectoryOnly = false, $pin_FileTypes = NULL, $pin_Recursive = false) {
+    public static function listDirectory(string $pin_DirectoryName, bool $pin_DirectoryOnly = false,
+                                         array $pin_FileTypes = NULL, bool $pin_Recursive = false) : array {
         if(!$pin_DirectoryName || !is_dir($pin_DirectoryName)) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
@@ -551,7 +552,7 @@ class File extends Core {
         else
             $loc_Directory = self::_callStatic()->_listDirectory($pin_DirectoryName, $pin_DirectoryOnly, $pin_FileTypes);
         
-        return array();
+        return $loc_Directory;
     }
     
     /**
@@ -564,7 +565,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a keresés vagy sem.
      * @version 1.0
      */
-    public static function searchDirectory($pin_DirectoryName, $pin_Path, $pin_Recursive = false) {
+    public static function searchDirectory(string $pin_DirectoryName, string $pin_Path, bool $pin_Recursive = false) : bool {
         if(!$pin_Path || !$pin_DirectoryName || !is_dir($pin_Path)) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
@@ -592,7 +593,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt a az update vagy sem.
      * @version 1.0
      */
-    public static function updateDirectory($pin_DirectoryName, $pin_NewName, $pin_ForceUpdate = false) {
+    public static function updateDirectory(string $pin_DirectoryName, string $pin_NewName, bool $pin_ForceUpdate = false) : bool {
         return false;
     }
     
@@ -605,7 +606,7 @@ class File extends Core {
      * @return boolean                      Sikeres volt e a törlés vagy sem.
      * @version 1.0
      */
-    public static function removeDirectory($pin_DirectoryName, $pin_ForceRemove = false) {
+    public static function removeDirectory(string $pin_DirectoryName, bool $pin_ForceRemove = false) : bool {
         return true;
     }
     
@@ -624,7 +625,7 @@ class File extends Core {
      * @return boolean                      Létezik e a file vagy nem.
      * @version 1.0
      */
-    protected function _isFileExists($pin_FileName) {
+    protected function _isFileExists(string $pin_FileName) : bool {
         if(is_file($pin_FileName))
             return true;
         
@@ -641,7 +642,7 @@ class File extends Core {
      * @return string                       A file kiterjesztése.
      * @version 1.0                      
      */
-    protected function _getFileType(string $pin_FileName) {
+    protected function _getFileType(string $pin_FileName) : string {
         return pathinfo($pin_FileName, PATHINFO_EXTENSION);
     }
     
@@ -656,7 +657,7 @@ class File extends Core {
      * @return array                        A mappában található mappák és file-ok tömbje.
      * @version 1.0
      */
-    protected function _listDirectoryRecursive($pin_DirectoryName, $pin_DirectoryOnly = false, $pin_FileType = NULL) {
+    protected function _listDirectoryRecursive(string $pin_DirectoryName, bool $pin_DirectoryOnly = false, array $pin_FileType = NULL) : array {
         if(is_null($pin_FileType)) {
             
         }
@@ -678,7 +679,7 @@ class File extends Core {
      * @return array                        A mappában található mappák és file-ok tömbje.
      * @version 1.0  
      */
-    protected function _listDirectory($pin_DirecroryName, $pin_DirectoryOnly = false, $pin_FileType = NULL) {
+    protected function _listDirectory(string $pin_DirecroryName, bool $pin_DirectoryOnly = false, array $pin_FileType = NULL) : array {
         if(is_null($pin_FileType)) {
             
         }
@@ -699,10 +700,9 @@ class File extends Core {
      * @return \library\File                File objektum.
      * @version 1.0
      */
-    private static function _callStatic() {
+    private static function _callStatic() : \library\File {
         return new \library\File();
     }
-    
-}
 
+}
 ?>

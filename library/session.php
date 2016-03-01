@@ -66,7 +66,7 @@ class Session extends Core {
     
     
     public static function initialize() {
-        if (!isset($_SESSION)){session_start();}
+        session_start();
     }
 
 
@@ -80,7 +80,7 @@ class Session extends Core {
      * @return boolean|string                   A SESSION értéke vagy false ha nem létezik.
      * @version 1.0                   
      */
-    public static function getSession($pin_SessionName) {
+    public static function getSession(string $pin_SessionName) {
         if(!$pin_SessionName || !isset($_SESSION[$pin_SessionName])) {
             return false;
         }
@@ -98,11 +98,10 @@ class Session extends Core {
      * @return boolean                          Sikeres volt e a SESSION létrehozás vagy sem.
      * @version 1.0
      */
-    public static function setSession($pin_SessionName, $pin_SessionValue) {
+    public static function setSession(string $pin_SessionName, $pin_SessionValue) : bool {
         if(!$pin_SessionName || !$pin_SessionValue) {
             return false;
         }
-        
         $_SESSION[$pin_SessionName] = $pin_SessionValue;
         return true;
     }
@@ -114,7 +113,7 @@ class Session extends Core {
      * @return boolean                          Sikeres volt e a törlés vagy sem.
      * @version 1.0
      */
-    public static function destroySession() {
+    public static function destroySession() : bool {
         if(session_destroy() === false) {
             Debug::setDebugMessage(array(__METHOD__, self::sessionDestroyFailed, "{MSG.ERROR.SESSION_DESTROY_FAILED}", "err", ""));
             return false;
@@ -130,7 +129,7 @@ class Session extends Core {
      * @return boolean                          Sikeres volt e a kiürítés vagy sem.
      * @version 1.0
      */
-    public static function unsetSession($pin_SessionName) {
+    public static function unsetSession(string $pin_SessionName) : bool {
         if(!$pin_SessionName || !isset($_SESSION[$pin_SessionName])) {
             Debug::setDebugMessage(array(__METHOD__, self::invalidSessionName, "{MSG.ERROR.INVALID_SESSION_NAME}"), "err", $pin_SessionName);
             return false;
@@ -150,7 +149,7 @@ class Session extends Core {
      * @param type $pin_FieldName
      * @return boolean
      */
-    public static function registrateForm($pin_FieldName) {
+    public static function registrateForm(string $pin_FieldName) : bool {
         if(!isset(self::$_formFields[$pin_FieldName])) {
             array_push(self::$_formFields, $pin_FieldName);
         }

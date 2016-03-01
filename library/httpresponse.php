@@ -70,6 +70,11 @@ class Httpresponse extends Core {
      * Egy HTTP fejléchozzáadva.
      */
     const   addHeader               = 'xhr0009';
+
+    /**
+     *
+     */
+    const   contentAlreadySent      = 'xhr0010';
     
 ################################################################################
 # 2. Public Properties #########################################################
@@ -202,12 +207,13 @@ class Httpresponse extends Core {
      * @return boolean                      Sikeres volt e a küldés vagy sem.
      * @version 1.0
      */
-    public static function sendContent($pin_Content = null, $pin_ContentType = "HTML") {
+    public static function sendContent(string $pin_Content = null, string $pin_ContentType = "HTML") : bool {
         if(!$pin_ContentType)
             return false;
         
         //ide jön még egy ellenőrzés hogy ajax vagy html vagy egyéb e
         self::_sendContentHTML($pin_Content);
+        return true;
     }
     
     /**
@@ -217,7 +223,7 @@ class Httpresponse extends Core {
      * @return boolean
      * @version 1.0
      */
-    public static function redirectPage($pin_PageURL, $pin_Now = false) {
+    public static function redirectPage(string $pin_PageURL, bool $pin_Now = false) : bool {
         if(!$pin_PageURL)
             return false;
         
@@ -227,6 +233,7 @@ class Httpresponse extends Core {
         else {
             self::_addHttpHeader("Location", $pin_PageURL);
         }
+        return true;
     }
     
     /**
@@ -235,7 +242,7 @@ class Httpresponse extends Core {
      * @param string $pin_HeaderStatus
      * @return boolean
      */
-    public static function addHeaderStatus($pin_HeaderStatus) {
+    public static function addHeaderStatus(string $pin_HeaderStatus) {
         self::_AddHttpHeader("HTTP/1.1 {$pin_HeaderStatus} ".self::$_StatusCodes[$pin_HeaderStatus]); 
     }
     
@@ -247,7 +254,7 @@ class Httpresponse extends Core {
      * @param       string      $pin_Disposition    Meghatározza, hogy mentésre vagy megtekintésre szánjuk e a tartalmat (mentésre: "attachment" megtekintésre: "inline").
      * @return      null
      */
-    public static function contentFile($pin_Filename, $pin_Disposition = "inline") {
+    public static function contentFile(string $pin_Filename, string $pin_Disposition = "inline") {
         self::_AddHttpHeader("Content-Disposition", "{$pin_Disposition}; filename=\"{$pin_Filename}\"");
     }
     
@@ -256,7 +263,7 @@ class Httpresponse extends Core {
      * @param string $pin_Type              A metatag típusa
      * @param string $pin_Content           A metatag tartalma
      */
-    public static function addMetaTag($pin_Type, $pin_Content = "") {
+    public static function addMetaTag(string $pin_Type, string $pin_Content = "") {
         $pin_Type = strtolower($pin_Type);
         if(in_array($pin_Type, self::$_MetaTags)) {
             self::$_htmlHeader['metatag'][$pin_Type] = $pin_Content;
@@ -270,7 +277,7 @@ class Httpresponse extends Core {
      * Hozzáad egy JavaScript file-t a fejléchez.
      * @param string $pin_URL               A Javascript file url-je.
      */
-    public static function addScriptFile($pin_URL) {
+    public static function addScriptFile(string $pin_URL) {
         self::$_htmlHeader['script_file'][] = $pin_URL;
         Debug::setDebugMessage(array(__METHOD__, self::addScriptFile, "{MSG.SUCC.ADD_SCRIPT_FILE}", "info", $pin_URL));
     }
@@ -279,7 +286,7 @@ class Httpresponse extends Core {
      * Hozzáad egy CSS stílus file-t a fejléchez.
      * @param string $pin_URL               A css file url-je
      */
-    public static function addStyleFile($pin_URL) {
+    public static function addStyleFile(string $pin_URL) {
         self::$_htmlHeader['style_file'][] = $pin_URL;
         Debug::setDebugMessage(array(__METHOD__, self::addStyleFile, "{MSG.SUCC.ADD_STYLE_FILE}", "info", $pin_URL));
     }
@@ -288,7 +295,7 @@ class Httpresponse extends Core {
      * Hozzáad egy javascript kódot a fejléchez.
      * @param string $pin_Script            A javascript kód
      */
-    public static function addScript($pin_Script) {
+    public static function addScript(string $pin_Script) {
         self::$_htmlHeader['script'][] = $pin_Script;
         Debug::setDebugMessage(array(__METHOD__, self::addScript, "{MSG.SUCC.ADD_SCRIPT}", "info", $pin_Script));
     }
@@ -297,7 +304,7 @@ class Httpresponse extends Core {
      * Hozzáad egy CSS kódot a fejléchez.
      * @param string $pin_Style             A CSS kód.
      */
-    public static function addStyle($pin_Style) {
+    public static function addStyle(string $pin_Style) {
         self::$_htmlHeader['style'][] = $pin_Style;
         Debug::setDebugMessage(array(__METHOD__, self::addStyle, "{MSG.SUCC.ADD_STYLE}", "info", $pin_Style));
     }
@@ -306,7 +313,7 @@ class Httpresponse extends Core {
      * Beállítja a HTML címét.
      * @param string $pin_Title             A HTML oldal címe.
      */
-    public static function setTitle($pin_Title) {
+    public static function setTitle(string $pin_Title) {
         self::$_htmlHeader['title'] = $pin_Title;
         Debug::setDebugMessage(array(__METHOD__, self::addTitle, "{MSG.SUCC.ADD_TITLE}", "info", $pin_Title));
     }
@@ -335,7 +342,7 @@ class Httpresponse extends Core {
      * @param       string      $pin_StatusCode HTTP státuszkód.
      * @return      null
      */
-    public static function Status($pin_StatusCode) {
+    public static function Status(string $pin_StatusCode) {
         self::_AddHttpHeader("HTTP/1.1 {$pin_StatusCode} ".self::$_StatusCodes[$pin_StatusCode]);
     }
     
@@ -346,7 +353,7 @@ class Httpresponse extends Core {
      * @param       string      $pin_Date       Az utolsó módosítás dátuma.
      * @return      null
      */
-    public static function LastModified($pin_Date) {
+    public static function LastModified(string $pin_Date) {
         self::_AddHttpHeader("Last-Modified", $pin_Date);
     }
     
@@ -365,7 +372,7 @@ class Httpresponse extends Core {
      * @param string $pin_Content                   A content string-je.
      * @param string $pin_Cache                     Be van e kapcsolva a cache.
      */
-    private static function _sendContentHTML($pin_Content = null, $pin_Cache = null) {
+    private static function _sendContentHTML(string $pin_Content = null, bool $pin_Cache = null) {
         $loc_Content = "";
         $loc_HTML = implode("\n", self::$_htmlCode);
         
@@ -426,7 +433,7 @@ class Httpresponse extends Core {
      * @param type $pin_Content
      * @param type $pin_Cache
      */
-    private static function _sendContent($pin_Content = null, $pin_Cache = null) {
+    private static function _sendContent(string $pin_Content = null, $pin_Cache = false) {
         if(!self::$_sentContent) {
             $loc_Content = "";
             if($pin_Content === null) {
@@ -463,7 +470,7 @@ class Httpresponse extends Core {
      * 
      * @return boolean
      */
-    private static function _sendHTTPHeader() {
+    private static function _sendHTTPHeader() : bool {
         if(!headers_sent()) {
             foreach (self::$_httpHeader as $loc_Header) {
                 if(strlen($loc_Header[1]) > 0) {
@@ -484,7 +491,7 @@ class Httpresponse extends Core {
      * @param string $pin_HeaderType                A fejléc típusa.
      * @param string $pin_HeaderValue               A fejléc értéke.
      */
-    private static function _addHttpHeader($pin_HeaderType, $pin_HeaderValue = "") {
+    private static function _addHttpHeader(string $pin_HeaderType, string $pin_HeaderValue = "") {
         if(!self::$_sentHeader) {
             $pin_HeaderType[0] = strtoupper($pin_HeaderType[0]);
             self::$_httpHeader[] = array($pin_HeaderType, $pin_HeaderValue);

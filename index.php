@@ -1,4 +1,4 @@
-<?php   
+<?php
     /**
      * File: Common.php
      * Description:
@@ -13,7 +13,7 @@
     ini_set('display_errors', 1);
      
     $_SESSION['DebugMessage'] = null;
-    
+
     require_once 'library/common.php';
-    
+    library\Debug::startDebugTrace();
 ?>

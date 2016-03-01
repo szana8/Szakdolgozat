@@ -54,7 +54,7 @@ class Httprequest extends Core {
      * @param type $pin_Name
      * @return type
      */
-    public static function getGETData($pin_Name) {
+    public static function getGETData($pin_Name) : string {
         if(isset($_GET[$pin_Name]))
             return $_GET[$pin_Name];
         
@@ -65,7 +65,7 @@ class Httprequest extends Core {
      * 
      * @return type
      */
-    public static function getPOSTData() {
+    public static function getPOSTData() : string {
         if(!empty($_POST))
             return $_POST;
         
@@ -80,7 +80,6 @@ class Httprequest extends Core {
 ################################################################################
 # 6. Private Methods ###########################################################
 ################################################################################
-    
     
 }
 ?>

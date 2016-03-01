@@ -21,52 +21,52 @@ ob_start();
 
 ignore_user_abort(true);
 
-define("APPS_NAME", "Application");
+define("APPS_NAME", (string) "Application");
 
-define("APPS_VER", "1.0.0");
+define("APPS_VER", (string) "1.0.0");
 
 //Kód futásának kezdete
-define("APPS_START_TIME", microtime());
+define("APPS_START_TIME", (int) microtime());
 
 //Könytár elválasztó
-define("APPS_DIRECTORY_SEPARATOR", "/");
+define("APPS_DIRECTORY_SEPARATOR", (string) "/");
 
 //Op rendszer álltal használt elválasztó
-define("APPS_ENV_SEPARATOR", DIRECTORY_SEPARATOR);
+define("APPS_ENV_SEPARATOR", (string) DIRECTORY_SEPARATOR);
 
  //A program gyökerének elérési útja. Az a ROOT könyvtárunk, amiben a core.php található.
-define("APPS_D_ROOT", apps_dirpath(dirname(__DIR__)));
+define("APPS_D_ROOT", (string) apps_dirpath(dirname(__DIR__)));
 
 
 
 // A program konfigurációs állományait tartalmazó könyvtár elérési útja
-define("APPS_D_CONFIG", APPS_D_ROOT."config".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_CONFIG", (string) APPS_D_ROOT."config".APPS_DIRECTORY_SEPARATOR);
 
 // A program által használt keretrendszereket tartalmazó könyvtár elérési útja.
-define("APPS_D_PLGS", APPS_D_ROOT."frameworks".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_PLGS", (string) APPS_D_ROOT."frameworks".APPS_DIRECTORY_SEPARATOR);
 
 // A program programkódjait tartalmazó könyvtár elérési útja.
-define("APPS_D_LIBS", APPS_D_ROOT."library".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_LIBS", (string) APPS_D_ROOT."library".APPS_DIRECTORY_SEPARATOR);
 
 // A program moduljait tartalmazó könyvtár elérési útja.
-define("APPS_D_MODS",  APPS_D_ROOT."modules".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_MODS", (string) APPS_D_ROOT."modules".APPS_DIRECTORY_SEPARATOR);
 
 // A program moduljait tartalmazó könyvtár elérési útja.
-define("APPS_D_JS",  APPS_D_ROOT."javascript".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_JS", (string) APPS_D_ROOT."javascript".APPS_DIRECTORY_SEPARATOR);
 
 // A program moduljait tartalmazó könyvtár elérési útja.
-define("APPS_D_CSS",  APPS_D_ROOT."style".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_CSS", (string) APPS_D_ROOT."style".APPS_DIRECTORY_SEPARATOR);
 
 // Sablon fájlokat tartalmazó könyvtár elérési útja.
-define("APPS_D_TPL", APPS_D_ROOT."templates".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_TPL", (string) APPS_D_ROOT."templates".APPS_DIRECTORY_SEPARATOR);
 
 // Ideiglenes fájlokat tartalmazó könyvtár elérési útja.
-define("APPS_D_TMP", APPS_D_ROOT."tmp".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_TMP", (string) APPS_D_ROOT."tmp".APPS_DIRECTORY_SEPARATOR);
 
 // Ideiglenes fájlokat tartalmazó könyvtár elérési útja.
-define("APPS_D_TRACE", APPS_D_ROOT."debug".APPS_DIRECTORY_SEPARATOR."trace".APPS_DIRECTORY_SEPARATOR);
+define("APPS_D_TRACE", (string) APPS_D_ROOT."debug".APPS_DIRECTORY_SEPARATOR."trace".APPS_DIRECTORY_SEPARATOR);
 
-define("DEFAULT_DATE_FORMAT", "Y-m-d H:i:s");
+define("DEFAULT_DATE_FORMAT", (string) "Y-m-d H:i:s");
 
 
 /**
@@ -80,7 +80,7 @@ define("DEFAULT_DATE_FORMAT", "Y-m-d H:i:s");
  * @param       string          $pin_Path       Elérési útvonal.
  * @return      string
  */
-function apps_dirpath($pin_Path) {
+function apps_dirpath(string $pin_Path) : string {
     $v_path_trim = rtrim($pin_Path, APPS_ENV_SEPARATOR.APPS_DIRECTORY_SEPARATOR);
     return(str_replace(APPS_ENV_SEPARATOR, APPS_DIRECTORY_SEPARATOR, $v_path_trim).APPS_DIRECTORY_SEPARATOR);
 }
@@ -96,7 +96,7 @@ function apps_dirpath($pin_Path) {
  * @param type      $pin_ClassName              Osztály neve namespace-el
  * @return boolean;
  */
-function autoload($pin_ClassName) 
+function autoload(string $pin_ClassName) : bool
 {        
     $loc_Directory = explode("\\", $pin_ClassName);
     $loc_Location = NULL;
@@ -112,7 +112,7 @@ function autoload($pin_ClassName)
         $loc_Location .= '/' . end($loc_Directory) . '/' .  end($loc_Directory);
     }
     else {
-        $loc_Location .= '/'. end($loc_Directory); 
+        $loc_Location .= '/'. end($loc_Directory);
     }
 
     $loc_File = str_replace('/', APPS_DIRECTORY_SEPARATOR, APPS_D_ROOT . strtolower($loc_Location) . '.php');
@@ -120,11 +120,13 @@ function autoload($pin_ClassName)
     if(strlen($loc_File) <= 260) {
         if(is_file($loc_File)) {
             require_once $loc_File;
+            return true;
         }
         else {
             return false;
         }
     }
+    return false;
 }
 
 
@@ -171,16 +173,16 @@ function app_root_uri() : string {
 
 // CI parancssori futtatás jelzése. Ha parancssorból hívnak meg egy CI 
 // futtatható fájlt, értéke true lesz. 
-define("__CLI__", defined("STDIN") && strtolower(php_sapi_name()) == "cli");
+define("__CLI__", (string) defined("STDIN") && strtolower(php_sapi_name()) == "cli");
 
 // A futtatott script (amit meghívtak a böngészőből) abszolút elérési útja a szerveren.
-define("__SCRIPT_DIR__", apps_dirpath(dirname(realpath(\library\Enviroment::GetEnv("SCRIPT_FILENAME")))));
+define("__SCRIPT_DIR__", (string) apps_dirpath(dirname(realpath(\library\Enviroment::GetEnv("SCRIPT_FILENAME")))));
 
 // Az alkalmazás gyökér URI-ja.
-define("__ROOT_URI__", app_root_uri());
+define("__ROOT_URI__", (string) app_root_uri());
 
 // Az alkalmazás gyökér URL-je.
-define("__ROOT_URL__", __CLI__ ? "" : (((\library\Enviroment::GetEnv("HTTPS")) ? "https://" : "http://").\library\Enviroment::GetEnv("HTTP_HOST").__ROOT_URI__));
+define("__ROOT_URL__", (string)  __CLI__ ? "" : (((\library\Enviroment::GetEnv("HTTPS")) ? "https://" : "http://").\library\Enviroment::GetEnv("HTTP_HOST").__ROOT_URI__));
 
 
 /**
@@ -194,7 +196,7 @@ function set_app_debug() {
     $loc_FilaName = APPS_D_CONFIG . "config.ini";
     $loc_IniObject = library\File::getIniContent($loc_FilaName);
 
-    ini_set("display_error", ($loc_IniObject->Loging->DISPLAY == true ? '1' : '0'));
+    ini_set("display_error", (string)($loc_IniObject->Loging->DISPLAY == true ? 1 : 0));
     if($loc_IniObject->Loging->ERROR == true) {
         error_reporting(E_ALL);
     }
@@ -211,7 +213,7 @@ function set_app_debug() {
  * @param       integer         $pin_Function   Függvénynév.
  * @return      null
  */
-function app_register_shutdown($pin_Function) {
+function app_register_shutdown(string $pin_Function) {
     static $stc_Function = array();
     static $stc_Debug = array();
     if(!in_array($pin_Function, $stc_Function)) {
@@ -226,4 +228,4 @@ function app_register_shutdown($pin_Function) {
     \library\Session::initialize();
     \library\Extensionmanager::initialize();
     \library\Httpresponse::initialize();
-    library\Modulemanager::initialize();
+    \library\Modulemanager::initialize();
