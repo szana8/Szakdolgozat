@@ -15,5 +15,5 @@
     $_SESSION['DebugMessage'] = null;
 
     require_once 'library/common.php';
-    library\Debug::startDebugTrace();
+    //library\Debug::startDebugTrace();
 ?>

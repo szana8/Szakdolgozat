@@ -1,5 +1,5 @@
 <?php
-
+namespace library;
 /**
  * Link: 
  * File: template.php
@@ -13,10 +13,21 @@
  * 
  */
 
-namespace library;
+
 
 class Template {
-    //put your code here
+
+    private static $_templateContent    = "";
+
+
+    public static function loadTemplate(string $pin_Template) : bool {
+        self::$_templateContent = File::getFileContent($pin_Template);
+        return true;
+    }
+
+    public static function renderTemplate() : string {
+        return self::$_templateContent;
+    }
 }
 
 ?>

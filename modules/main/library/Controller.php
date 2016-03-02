@@ -31,7 +31,10 @@ class Controller {
     
     public static function Run() {
         \library\Httpresponse::addScriptFile(__ROOT_URL__ . 'modules/main/scripts/main.js');
-        \library\Httpresponse::sendContent('Ide kerül a module content');
+        \library\Template::loadTemplate(APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . "main" .
+                                        APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html");
+        $loc_Template = \library\Template::renderTemplate();
+        \library\Httpresponse::sendContent($loc_Template);
     }
     
 ################################################################################
