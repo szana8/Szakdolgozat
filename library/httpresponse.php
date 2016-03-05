@@ -72,7 +72,7 @@ class Httpresponse extends Core {
     const   addHeader               = 'xhr0009';
 
     /**
-     *
+     * A tartalom már el lett küldve.
      */
     const   contentAlreadySent      = 'xhr0010';
     

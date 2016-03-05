@@ -27,6 +27,7 @@ class Httprequest extends Core {
     
     const   initHttpRequest         = 'xhq0001';
 
+
 ################################################################################
 # 2. Public Properties #########################################################
 ################################################################################
@@ -54,20 +55,27 @@ class Httprequest extends Core {
      * @param type $pin_Name
      * @return type
      */
-    public static function getGETData($pin_Name) : string {
+    public static function getGETElement($pin_Name) : string {
         if(isset($_GET[$pin_Name]))
             return $_GET[$pin_Name];
         
         return null;
     }
-    
+
+    /**
+     * @return mixed
+     */
+    public static function getGET() : array {
+        return $_GET;
+    }
+
     /**
      * 
      * @return type
      */
-    public static function getPOSTData() : string {
-        if(!empty($_POST))
-            return $_POST;
+    public static function getPOSTData($pin_Name) : string {
+        if(!empty($_POST[$pin_Name]))
+            return $_POST[$pin_Name];
         
         return null;
     }

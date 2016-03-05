@@ -110,12 +110,12 @@ class File extends Core {
 # 3. Protected Properties ######################################################
 ################################################################################
     
-    
+
     
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
-    
+
     /**
      * Megvizsgálja, hogy az adott file létezik e, majd visszatért az eredménnyel.
      * 
@@ -128,27 +128,28 @@ class File extends Core {
         if(!$pin_FileName) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileType);
         }
-        
+
         return self::_callStatic()->_isFileExists($pin_FileName);
     }
-    
+
     /**
      * Megvizsgálja a file típusát, majd visszatért vele. Ha a file nem létezik
      * <b>false</b> értékkel tér vissza.
-     * 
+     *
      * @param string $pin_FileName          File neve.
      * @return string                       A file típusa string-ként.
+     * @throws Exception                    Ha a fájl nem létezik Exception-t dobunk
      * @version 1.0
      */
     public static function getFileType(string $pin_FileName) : bool {
         if(!$pin_FileName) {
             if(Debug::isDebug())
-                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+                Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_TYPE}", "err", $pin_FileName));
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileType);
         }
-        
+
         return self::_callStatic()->_getFileType($pin_FileName);
     }
     
@@ -159,13 +160,14 @@ class File extends Core {
      * 
      * @param string $pin_FileName          File neve.
      * @return string                       A file tartalma, string-ként.
+     * @throws Exception                    Ha a fájl nem létezik Exception-t dobunk
      * @version 1.0
      */
-    public static function getFileContent(string $pin_FileName) {
+    public static function getFileContent(string $pin_FileName) : string {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         return file_get_contents($pin_FileName);
@@ -177,17 +179,18 @@ class File extends Core {
      * 
      * @param string $pin_FileName          File neve.
      * @return object                       Az ini file tartalma objektum-ként.
+     * @throws Exception                    Ha a fájl nem létezik Exception-t dobunk
      * @version 1.0
      */
     public static function getIniContent(string $pin_FileName) : \stdClass {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         $loc_IniContent = new \stdClass();
-            $loc_IniContent = \parse_ini_file($pin_FileName, true);
+        $loc_IniContent = \parse_ini_file($pin_FileName, true);
         return self::arrayToObject($loc_IniContent, new \stdClass());
     }
     
@@ -203,7 +206,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         return doubleval(filesize($pin_FileName));
@@ -221,7 +224,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         return date(DEFAULT_DATE_FORMAT, filemtime($pin_FileName));
@@ -239,7 +242,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         return fileowner($pin_FileName);
@@ -257,7 +260,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         return is_readable($pin_FileName);
@@ -275,7 +278,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         return is_writable($pin_FileName);
@@ -293,7 +296,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         @require_once $pin_FileName;
@@ -327,7 +330,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
 
         $loc_File = fopen($pin_FileName, "a");
@@ -347,11 +350,11 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         if($pin_ForceRemove === false && self::getFileSize($pin_FileName) == 0)
-            return false;
+            throw new \Exception("{MSG.ERROR.FILE_SIZE_ZERO}", self::invalidFileName);
         
         return unlink($pin_FileName);
     }
@@ -399,7 +402,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         $loc_Content = self::getFileContent($pin_FileName);
@@ -435,7 +438,7 @@ class File extends Core {
         if((!$pin_SourceFileName) || (!self::getFileExists($pin_SourceFileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_SourceFileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         $loc_SplInfo = new \SplFileInfo($pin_SourceFileName);
@@ -465,13 +468,13 @@ class File extends Core {
         if (!isset($_FILES[$pin_FileName]['error']) || is_array($_FILES[$pin_FileName]['error'])) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::errorUploadingFile, "{MSG.ERROR.FILE_UPLOAD_ERROR}", "err", $_FILES[$pin_FileName]['error']));
-            throw new RuntimeException('Invalid parameters.' . $_FILES[$pin_FileName]['error']);
+            throw new \Exception('Invalid parameters.' . $_FILES[$pin_FileName]['error']);
         }
         
         if(is_file($pin_DirectoryName . $pin_FileName) && $pin_ForceUpload === false) {
             if(Debug::isDebug())
                 Debug::setDebugMessage (array(__METHOD__, self::destinationFileExists, "{MSG.ERROR.THE_DEST_FILE_EXISTS}", "err", $pin_DirectoryName . $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         if(move_uploaded_file($_FILES[$pin_FileName]['temp_name'], $pin_DirectoryName . $pin_FileName) === true) {
@@ -500,7 +503,7 @@ class File extends Core {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_TYPE}", self::invalidFileType);
         }
         
         if(self::getFileType($pin_FileName) == $pin_TypeName)
@@ -543,7 +546,7 @@ class File extends Core {
         if(!$pin_DirectoryName || !is_dir($pin_DirectoryName)) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_DIRECTORY_NAME}", self::invalidDirectory);
         }
         
         $loc_Directory = array();
@@ -569,7 +572,7 @@ class File extends Core {
         if(!$pin_Path || !$pin_DirectoryName || !is_dir($pin_Path)) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_DirectoryName));
-            return false;
+            throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
         $loc_Directory = array();

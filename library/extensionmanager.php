@@ -24,12 +24,26 @@ class Extensionmanager extends Core {
 ################################################################################
 # 1. Constants #################################################################
 ################################################################################    
-    
+
+    /**
+     * Hibakód a bővítménykezelő inicializálásakor.
+     */
     const   initExtensionManager         = 'xhq0001';
 
+    /**
+     * Hibakód a JavaScript bővítmények regisztrálásakor.
+     */
     const   initExtensionJSFailed        = 'xhq0002';
 
+    /**
+     * Hibakód a stílus könyvtár bővítmények regisztrálásakor.
+     */
     const   initExtensionCSSFailed       = 'xhq0003';
+
+    /**
+     * Hibakód a bővítmények helyének meghatározásakor.
+     */
+    const   missingExtLocation           = 'xhq0004';
 
 ################################################################################
 # 2. Public Properties #########################################################
@@ -62,18 +76,31 @@ class Extensionmanager extends Core {
      * @var array
      */
     private static $_moduleCSSExtensions       = array();
-    
+
+    /**
+     * A bővítmények elérését tartalmazó ini file.
+     * @var string
+     */
     private static $_extensionIni              = 'extensions.ini';
+
+    /**
+     * A alap bővítmények listálya amit mindig betöltünk.
+     * Ezek kellenek az alap rendszer működéséhez.
+     * @var string
+     */
+    private static $_autloadIni                = 'autoload.ini';
     
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################    
     
     /**
-     * 
+     * Inicializáljuk a bővítményeket, amik az autoload.ini-ben vannak be fognak töltődni a lap fejlécében.
+     *
+     * @version 1.0
      */
     public static function initialize() {
-        $loc_IniContent = File::getIniContent(APPS_D_CONFIG . 'autoload.ini');
+        $loc_IniContent = File::getIniContent(APPS_D_CONFIG . self::$_autloadIni);
         $loc_Path = null;
         foreach ($loc_IniContent->JavaScriptExtensions as $loc_Name) {
             try {
@@ -96,9 +123,12 @@ class Extensionmanager extends Core {
         self::_registrateExtensions(true);
         Debug::setDebugMessage(array(__METHOD__, self::initExtensionManager, "{MSG.INFO.INITIALIZE_EXT_MANAGER}", "info", ""));
     }
-    
+
+
     /**
-     * 
+     * Regisztrálja a js és css bővítményeket amik a property-ben meg vannak adva.
+     *
+     * @version 1.0
      */
     public static function registrateExtensions() {
         self::_registrateExtensions(false);
@@ -114,8 +144,10 @@ class Extensionmanager extends Core {
 ################################################################################
     
     /**
-     * 
-     * @param type $pin_ExtName
+     * Megkeresi a bővítmény lokációját az extensions.ini-ben.
+     *
+     * @param string $pin_ExtName           A bővítmény neve.
+     * @param string $pin_Type              A bővítmény típusa.
      * @return boolean
      */
     private static function _getExtLocation(string $pin_ExtName, string $pin_Type) : string {
@@ -125,12 +157,17 @@ class Extensionmanager extends Core {
                 return $loc_Path;
             }
         }
-        return false;
+        throw new \Exception("{MSG.WRN.MISSING_EXTENSION_LOCATION}", self::missingExtLocation);
     }
     
     /**
-     * 
-     * @param type $pin_Mode
+     * A paraméter alapján beregisztrálja a bővítményeket.
+     *
+     * Ha a paraméter true akkor az autload.ini-ből töltjük be a bővítményeket,
+     * ha false akkor amit megadtunk a property-kben.
+     *
+     * @param boolean $pin_Mode             A bővítmény típusa
+     * @version 1.0
      */
     private static function _registrateExtensions(bool $pin_Mode = false) {
         if($pin_Mode) {
@@ -148,9 +185,11 @@ class Extensionmanager extends Core {
     }
     
     /**
-     * 
-     * @param type $pin_JSArray
+     * Beregisztrálja a Httpresponse osztályban a paraméterben kapott JavaScript könyvtárakat.
+     *
+     * @param array $pin_JSArray                    A JavaScript könyvtárak tömbje.
      * @return boolean
+     * @version 1.0
      */
     private static function _registrateJS(array $pin_JSArray) : bool {
         if(empty($pin_JSArray))
@@ -163,9 +202,11 @@ class Extensionmanager extends Core {
     }
     
     /**
-     * 
-     * @param type $pin_CSSArray
+     * Beregisztrálja a Httpresponse osztályban a paraméterben kapott stílus könyvtárakat.
+     *
+     * @param array $pin_CSSArray                   A stílus könyvtárak tömbje.
      * @return boolean
+     * @version 1.0
      */
     private static function _registrateCSS(array $pin_CSSArray) : bool {
         if(empty($pin_CSSArray))
