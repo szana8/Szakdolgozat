@@ -37,7 +37,7 @@ define("APPS_ENV_SEPARATOR", (string) DIRECTORY_SEPARATOR);
  //A program gyökerének elérési útja. Az a ROOT könyvtárunk, amiben a core.php található.
 define("APPS_D_ROOT", (string) apps_dirpath(dirname(__DIR__)));
 
-
+define("APPS_D_LOCALE", APPS_D_ROOT . "locale" . APPS_DIRECTORY_SEPARATOR);
 
 // A program konfigurációs állományait tartalmazó könyvtár elérési útja
 define("APPS_D_CONFIG", (string) APPS_D_ROOT."config".APPS_DIRECTORY_SEPARATOR);
@@ -228,4 +228,5 @@ function app_register_shutdown(string $pin_Function) {
     \library\Session::initialize();
     \library\Extensionmanager::initialize();
     \library\Httpresponse::initialize();
+    \library\Language::initialize();
     \library\Modulemanager::initialize();

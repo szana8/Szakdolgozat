@@ -46,7 +46,8 @@ class Modulemanager extends Core {
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
-    
+
+
     public static function initialize() {
         //A főmodule-t mindig betöltjük
         //Ha nincs meghatározva betöltendő module akkor a main-be megyünk.

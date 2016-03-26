@@ -220,7 +220,7 @@ class File extends Core {
      * @return date                         File módosításának dátuma.
      * @version 1.0
      */
-    public static function getFileLastMTime(string $pin_FileName) : DateTime {
+    public static function getFileLastMTime(string $pin_FileName) : \DateTime {
         if((!$pin_FileName) || (!self::getFileExists($pin_FileName))) {
             if(Debug::isDebug())
                 Debug::setDebugMessage(array(__METHOD__, self::invalidFileName, "{MSG.ERROR.INVALID_FILE_NAME}", "err", $pin_FileName));

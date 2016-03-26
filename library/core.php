@@ -9,7 +9,7 @@ namespace library;
  * 
  * 
  *  Version     Date            Author               Changelog   
- *   1.0.0      2015.09.29.     HUSzanaI              Created
+ *  1.0.0       2015.09.29.      HUSzanaI            Created
  * 
  */
 

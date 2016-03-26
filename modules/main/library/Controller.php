@@ -1,16 +1,24 @@
 <?php
 namespace modules\main\library;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- * Description of Controller
+ * File: Controller.php
+ * Namespace: modules\main\library
  *
- * @author Pisti
+ *
+ *
+ *  Version     Date            Author               Changelog
+ *  1.0.0       2015.09.29.     HUSzanaI             Created
+ *
  */
+
+
+if(count(get_included_files()) === 1) {
+    echo "<html><head><title>Object not found!</title></head>You can not call this"
+        . " file directly!</html>";
+    exit();
+}
+
 class Controller {
 
 ################################################################################
@@ -35,7 +43,6 @@ class Controller {
                                         APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html");
         $loc_Template = \library\Template::renderTemplate();
         \library\Httpresponse::sendContent($loc_Template->compiled);
-        var_dump($loc_Template->info);
     }
     
 ################################################################################

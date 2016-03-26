@@ -41,9 +41,14 @@ class Extensionmanager extends Core {
     const   initExtensionCSSFailed       = 'xhq0003';
 
     /**
+     * Hibakód a stílus könyvtár bővítmények regisztrálásakor.
+     */
+    const   initExtensionPHPFailed       = 'xhq0004';
+
+    /**
      * Hibakód a bővítmények helyének meghatározásakor.
      */
-    const   missingExtLocation           = 'xhq0004';
+    const   missingExtLocation           = 'xhq0005';
 
 ################################################################################
 # 2. Public Properties #########################################################
@@ -64,7 +69,13 @@ class Extensionmanager extends Core {
      * @var array
      */
     private static $_autloadCSSExtensions      = array();
-    
+
+    /**
+     * Az automatikusan mindig betöltendő php fileokat tartalmazza.
+     * @var array
+     */
+    private static $_autloadPHPExtensions      = array();
+
     /**
      * Az modulehoz betöltendő js fileokat tartalmazza.
      * @var array
@@ -76,6 +87,12 @@ class Extensionmanager extends Core {
      * @var array
      */
     private static $_moduleCSSExtensions       = array();
+
+    /**
+     * Az modulehoz betöltendő php fileokat tartalmazza.
+     * @var array
+     */
+    private static $_modulePHPExtensions       = array();
 
     /**
      * A bővítmények elérését tartalmazó ini file.
@@ -117,6 +134,15 @@ class Extensionmanager extends Core {
             }
             catch(\Exception $ex) {
                 Debug::setDebugMessage(array(__METHOD__, self::initExtensionCSSFailed, "{MSG.ERR.INITIALIZE_STYLE_ERROR}", "error", $loc_Name));
+            }
+        }
+
+        foreach ($loc_IniContent->PHPExtensions as $loc_Name) {
+            try {
+                self::$_autloadPHPExtensions[] = self::_getExtLocation($loc_Name, 'PHPExtensions');
+            }
+            catch(\Exception $ex) {
+                Debug::setDebugMessage(array(__METHOD__, self::initExtensionPHPFailed, "{MSG.ERR.INITIALIZE_PHP_ERROR}", "error", $loc_Name));
             }
         }
 
@@ -176,12 +202,18 @@ class Extensionmanager extends Core {
             
             if(!empty(self::$_autloadCSSExtensions))
                 self::_registrateCSS (self::$_autloadCSSExtensions);
+
+            if(!empty(self::$_autloadPHPExtensions))
+                self::_registratePHP (self::$_autloadPHPExtensions);
         }
         if(!empty(self::$_moduleJSExtensions))
             self::_registrateJS (self::$_moduleJSExtensions);
         
         if(!empty(self::$_moduleCSSExtensions))
             self::_registrateCSS (self::$_moduleCSSExtensions);
+
+        if(!empty(self::$_modulePHPExtensions))
+            self::_registratePHP (self::$_modulePHPExtensions);
     }
     
     /**
@@ -214,6 +246,23 @@ class Extensionmanager extends Core {
 
         foreach ($pin_CSSArray as $loc_Path) {
             Httpresponse::addStyleFile(__ROOT_URL__ . $loc_Path);
+        }
+        return true;
+    }
+
+    /**
+     * Beregisztrálja a paraméterben kapott php könyvtárakat.
+     *
+     * @param array $pin_PHPArray                   A php könyvtárak tömbje.
+     * @return boolean
+     * @version 1.0
+     */
+    private static function _registratePHP(array $pin_PHPArray) : bool {
+        if(empty($pin_PHPArray))
+            return false;
+
+        foreach ($pin_PHPArray as $loc_Path) {
+            @require_once APPS_D_ROOT . $loc_Path;
         }
         return true;
     }
