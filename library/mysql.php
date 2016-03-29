@@ -1,5 +1,6 @@
 <?php
-
+namespace library;
+use \PDO, \PDOException;
 /**
  * Link: 
  * File: mysql.php
@@ -13,87 +14,227 @@
  * 
  */
 
-namespace library;
+
 
 class Mysql implements Database {
 
+################################################################################
+# 1. Constants #################################################################
+################################################################################
+
+    const   databaseConnectionError         = 'mys00001';
+
+################################################################################
+# 2. Public Properties #########################################################
+################################################################################
+
+################################################################################
+# 3. Protected Properties ######################################################
+################################################################################
+
     /**
-     *
-     * @param type $pin_Dsn
-     * @param type $pin_Username
-     * @param type $pin_Password
-     * @param type $pin_Option
+     * Az adatbázis objektumát tartalmazó attribútum.
+     * @var
      */
-    public function connect($pin_Dsn, $pin_Username, $pin_Password, $pin_Option)
-    {
-        // TODO: Implement connect() method.
+    protected $_dbObject;
+
+    /**
+     * Az adatbázis nevét tartalmazó attribútum.
+     * @var string
+     */
+    protected $_pdoDB = "";
+
+    /**
+     * Az adatbázis host címét vagy nevét tartalmazó attribútum.
+     * @var string
+     */
+    protected $_pdoHost = "";
+
+    /**
+     * Az adatbázis kapcsolathoz szükséges felhasználó nevét tartalmazó attribútum.
+     * @var string
+     */
+    protected $_pdoUsername = "";
+
+    /**
+     * Az adatbázis kapcsolathoz szükséges jelszót tartalmazó attribútum.
+     * @var string
+     */
+    protected $_pdoPassword = "";
+
+    /**
+     * Az adatbázis kapcsolat típusát tartalmazó attribútum.
+     * @var string
+     */
+    protected $_pdoDBType = "";
+
+    /**
+     * Az adatbázis kapcsolat opcióit tartalmató attribútum.
+     * @var array
+     */
+    protected $_pdoOption = array();
+
+################################################################################
+# 4. Public Methods ############################################################
+################################################################################
+
+    /**
+     * Kapcsolatot teremt a paraméterben megadott adatbázis sémával, a megadott username
+     * és password alapján.
+     *
+     * @param string $pin_Schema                                A séma neve
+     * @param string $pin_Host                                  A Host neve vagy címe
+     * @param string $pin_Username                              A username a kapcsolódáshoz
+     * @param string $pin_Password                              A password a kapcsolódáshoz
+     * @param array $pin_Option                                 Beállítások a kapcsolódáshoz
+     * @return boolean                                          Sikeres volt e a kapcsolat vagy sem
+     * @version 1.0
+     * @access public
+     */
+    public function __construct() {
+        $this->_pdoDB = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->SCHEMA;
+        $this->_pdoHost = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->HOST;
+        $this->_pdoUsername = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->USERNAME;
+        $this->_pdoPassword = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->PASSWORD;
+        $this->_pdoDBType = 'MySQL';
+        $this->_pdoOption = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+        $this->_dbObject = new \stdClass();
+
+        return $this->connect();
     }
 
     /**
-     *
-     * @param type $pin_Query
+     * @return boolean
      */
-    public function query($pin_Query)
+    public function connect()
     {
-        // TODO: Implement query() method.
+        try {
+            $this->_dbObject = new PDO('mysql:host='.$this->_pdoHost.';dbname='.$this->_pdoDB.'',
+                                        $this->_pdoUsername, $this->_pdoPassword, $this->_pdoOption);
+
+            $this->_dbObject->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->_dbObject->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+            $this->_dbObject->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            return true;
+        }
+        catch(PDOException $pout_Err) {
+            Debug::setDebugMessage(array(__METHOD__, self::databaseConnectionError, "{MSG.ERROR.DB_CONNECTION_ERROR}", "error", $pout_Err->getMessage()));
+            return false;
+        }
     }
 
     /**
+     * Beállítja lefuttatandóvá a paraméterben kapott adatbázis lekérdezést.
      *
-     * @param type $pin_AttributeName
-     * @param type $pin_AttributeValue
-     * @param type $pin_Option
+     * @param string $pin_Query A query amit le szeretnénk futtatni
+     * @version 1.0
+     * @access public
      */
-    public function setAttribute($pin_AttributeName, $pin_AttributeValue, $pin_Option)
+    public function query(string $pin_Query)
+    {
+        try
+        {
+            $loc_Query = $this->_dbObject->prepare($pin_Query);
+            $loc_Query->execute();
+
+            return $loc_Query->fetch();
+        }
+        catch(Exception $pout_Err) {
+            return $pout_Err->getMessage();
+        }
+    }
+
+    /**
+     * Beállítja a paraméterben kapott bind attribútumot.
+     *
+     * @param string $pin_AttributeName Az attribútum neve
+     * @param string $pin_AttributeValue Az attribútum értéke
+     * @param array $pin_Option Opciók tömbje
+     * @return boolean                                          Hiba esetén false-al különben true-val térünk vissza
+     * @version 1.0
+     * @access public
+     */
+    public function setAttribute(string $pin_AttributeName, string $pin_AttributeValue, array $pin_Option) : boolean
     {
         // TODO: Implement setAttribute() method.
     }
 
     /**
+     * Beállít egy limitet a query-hez.
      *
-     * @param type $pin_LimitFrom
-     * @param type $pin_NumberOfRecords
+     * @param integer $pin_LimitFrom Alsó limit
+     * @param integer $pin_NumberOfRecords Felső limit
+     * @return boolean                                          Hiba esetén false-al különben true-val térünk vissza
+     * @version 1.0
+     * @access public
      */
-    public function setLimit($pin_LimitFrom, $pin_NumberOfRecords)
+    public function setLimit(integer $pin_LimitFrom, integer $pin_NumberOfRecords) : boolean
     {
         // TODO: Implement setLimit() method.
     }
 
     /**
+     * Beállít egy rendezést a query-nek.
      *
-     * @param type $pin_OrderBy
-     * @param type $pin_ASC
+     * @param string $pin_OrderBy Mi szerint akarunk rendezni
+     * @param string $pin_ASC Növekvő vagy csökkenő sorrendben (ASC/DESC)
+     * @return boolean                                          Hiba esetén false-al különben true-val térünk vissza
+     * @version 1.0
+     * @access public
      */
-    public function setOrderByClause($pin_OrderBy, $pin_ASC = "ASC")
+    public function setOrderByClause(string $pin_OrderBy, string $pin_ASC = "ASC") : boolean
     {
         // TODO: Implement setOrderByClause() method.
     }
 
     /**
+     * Visszatér egy attribútum objektumával. Az objektum tartalmazza az értékeket, típust, stb.
      *
-     * @param type $pin_Attributes
+     * @param string|NULL $pin_Attributes Attribútum neve
+     * @return \stdClass                                        Az attribútum objektuma
+     * @version 1.0
+     * @access public
      */
-    public function getAttributes($pin_Attributes = NULL)
+    public function getAttributes(string $pin_Attributes = NULL) : \stdClass
     {
         // TODO: Implement getAttributes() method.
     }
 
     /**
+     * Visszatér a lekérdezett rekordok számával.
      *
+     * @return integer                                          A rekordok száma
+     * @version 1.0
+     * @access public
      */
-    public function getNumberOfRecords()
+    public function getNumberOfRecords() : integer
     {
         // TODO: Implement getNumberOfRecords() method.
     }
 
     /**
+     * Meghívja a paraméterben kapott sql procedure-t, vagy function-t, majd visszatér az objektumával.
      *
-     * @param type $pin_ProcedureName
+     * @param string $pin_ProcedureName A procedure neve
+     * @return \stdClass                                        A visszatérési objektum
+     * @version 1.0
+     * @access public
      */
-    public function callProcedure($pin_ProcedureName)
+    public function callProcedure(string $pin_ProcedureName) : \stdClass
     {
         // TODO: Implement callProcedure() method.
     }
+
+
+################################################################################
+# 5. Protected Methods #########################################################
+################################################################################
+
+
+################################################################################
+# 6. Private Methods ###########################################################
+################################################################################
+
 }
 
 ?>

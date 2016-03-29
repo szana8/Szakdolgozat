@@ -49,6 +49,9 @@ class Modulemanager extends Core {
 
 
     public static function initialize() {
+        $loc_dbObj = new Mysql();
+        self::$_needAuthenticate = $loc_dbObj->query("SELECT isAppAuthentication('".self::$_mainModule."') isUser FROM dual")->isUser;
+
         //A főmodule-t mindig betöltjük
         //Ha nincs meghatározva betöltendő module akkor a main-be megyünk.
         if(self::$_loadModule == null) {
