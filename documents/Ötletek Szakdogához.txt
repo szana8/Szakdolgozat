@@ -3,6 +3,9 @@
     - complier fv a fordításhoz
     - cahche-elés, a template változóit elmenteni cache-be így ha újra kell generálni nem kell kiszedni belőle újra
 
+- A main
+    - a user-ek szabhatját testre a dashboard-ot, így a main html egy "üres" html
+
 - Forráskód szabványok
     - camelCase-t használni
     - a forráskódban eklülöníteni a public, private protected metódusokat és attribútumokat
