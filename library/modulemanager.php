@@ -49,8 +49,7 @@ class Modulemanager extends Core {
 
 
     public static function initialize() {
-        $loc_dbObj = new Mysql();
-        self::$_needAuthenticate = $loc_dbObj->query("SELECT isAppAuthentication('".self::$_mainModule."') isUser FROM dual")->isUser;
+
 
         //A főmodule-t mindig betöltjük
         //Ha nincs meghatározva betöltendő module akkor a main-be megyünk.
@@ -62,11 +61,18 @@ class Modulemanager extends Core {
             
         }
     }
-    
+
+    public static function needAuthentication(string $pin_ModuleName) : bool {
+        $loc_dbObj = new \library\Mysql();
+        //return $loc_dbObj->query("SELECT isAppAuthentication('".$pin_ModuleName."') isUser FROM dual")->isUser;
+        return true;
+    }
+
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
-    
+
+
     
 ################################################################################
 # 6. Private Methods ###########################################################

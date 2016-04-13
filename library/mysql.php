@@ -117,7 +117,7 @@ class Mysql implements Database {
             $this->_dbObject->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
             return true;
         }
-        catch(PDOException $pout_Err) {
+        catch(\PDOException $pout_Err) {
             Debug::setDebugMessage(array(__METHOD__, self::databaseConnectionError, "{MSG.ERROR.DB_CONNECTION_ERROR}", "error", $pout_Err->getMessage()));
             return false;
         }
@@ -139,7 +139,7 @@ class Mysql implements Database {
 
             return $loc_Query->fetch();
         }
-        catch(Exception $pout_Err) {
+        catch(\Exception $pout_Err) {
             return $pout_Err->getMessage();
         }
     }

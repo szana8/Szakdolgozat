@@ -224,9 +224,11 @@ function app_register_shutdown(string $pin_Function) {
 
 
     //Inicializálunk
+/**
     \library\Httprequest::initialize();
     \library\Session::initialize();
     \library\Extensionmanager::initialize();
     \library\Httpresponse::initialize();
     \library\Language::initialize();
     \library\Modulemanager::initialize();
+ */

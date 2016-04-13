@@ -55,7 +55,7 @@ class Httprequest extends Core {
      * @param type $pin_Name
      * @return type
      */
-    public static function getGETElement($pin_Name) : string {
+    public static function getGETElement($pin_Name) {
         if(isset($_GET[$pin_Name]))
             return $_GET[$pin_Name];
         
