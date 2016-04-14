@@ -14,7 +14,19 @@ namespace library;
  */
 
 class Authentication extends Core {
-    //put your code here
+
+
+    /**
+     * Viszadja hogy a felhasználó be vna e jeletkezve vagy sem.
+     * @return bool
+     * @access public
+     * @version 1.0
+     */
+    public static function isAuth() : bool {
+        return true;
+    }
+
+
 }
 
 ?>

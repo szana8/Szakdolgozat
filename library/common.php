@@ -81,7 +81,7 @@ define("DEFAULT_DATE_FORMAT", (string) "Y-m-d H:i:s");
  * @return      string
  */
 function apps_dirpath(string $pin_Path) : string {
-    $v_path_trim = rtrim($pin_Path, APPS_ENV_SEPARATOR.APPS_DIRECTORY_SEPARATOR);
+    (string) $v_path_trim = rtrim($pin_Path, APPS_ENV_SEPARATOR.APPS_DIRECTORY_SEPARATOR);
     return(str_replace(APPS_ENV_SEPARATOR, APPS_DIRECTORY_SEPARATOR, $v_path_trim).APPS_DIRECTORY_SEPARATOR);
 }
 
@@ -96,12 +96,11 @@ function apps_dirpath(string $pin_Path) : string {
  * @param type      $pin_ClassName              Osztály neve namespace-el
  * @return boolean;
  */
-function autoload(string $pin_ClassName) : bool
-{        
-    $loc_Directory = explode("\\", $pin_ClassName);
-    $loc_Location = NULL;
+function autoload(string $pin_ClassName) : bool {
+    (array) $loc_Directory = explode("\\", $pin_ClassName);
+    (string) $loc_Location = NULL;
 
-    for($loc_Cycle=0;$loc_Cycle<=count($loc_Directory)-2;$loc_Cycle++) {
+    for((int) $loc_Cycle=0; $loc_Cycle<=count($loc_Directory)-2; $loc_Cycle++) {
         $loc_Location .= '/' . $loc_Directory[$loc_Cycle]; 
     }
 
@@ -115,7 +114,7 @@ function autoload(string $pin_ClassName) : bool
         $loc_Location .= '/'. end($loc_Directory);
     }
 
-    $loc_File = str_replace('/', APPS_DIRECTORY_SEPARATOR, APPS_D_ROOT . strtolower($loc_Location) . '.php');
+    (string) $loc_File = str_replace('/', APPS_DIRECTORY_SEPARATOR, APPS_D_ROOT . strtolower($loc_Location) . '.php');
 
     if(strlen($loc_File) <= 260) {
         if(is_file($loc_File)) {
@@ -147,7 +146,7 @@ function autoload(string $pin_ClassName) : bool
  */
 function app_root_uri() : string {
     
-    $loc_DocRoot = apps_dirpath(library\Enviroment::GetEnv("DOCUMENT_ROOT"));
+    (string) $loc_DocRoot = apps_dirpath(library\Enviroment::GetEnv("DOCUMENT_ROOT"));
     
     if(substr(APPS_D_ROOT, 0, strlen($loc_DocRoot)) == $loc_DocRoot) {
         return(APPS_DIRECTORY_SEPARATOR.preg_replace("#^".apps_dirpath(\library\Enviroment::GetEnv("DOCUMENT_ROOT"))."#", "", APPS_D_ROOT));
@@ -155,11 +154,11 @@ function app_root_uri() : string {
     else {
         // Ha alias miatt nem a document_root alatt helyezkedik el CI,
         // akkor a SCRIPT_FILENAME és SCRIPT_NAME segítségével határozzuk meg a root uri-t.
-        $loc_Paths = explode(APPS_DIRECTORY_SEPARATOR_DS, \library\Enviroment::GetEnv("SCRIPT_FILENAME"));
-        $loc_Uris = explode(APPS_DIRECTORY_SEPARATOR_DS, \library\Enviroment::GetEnv("SCRIPT_NAME"));
+        (string) $loc_Paths = explode(APPS_DIRECTORY_SEPARATOR_DS, \library\Enviroment::GetEnv("SCRIPT_FILENAME"));
+        (string) $loc_Uris = explode(APPS_DIRECTORY_SEPARATOR_DS, \library\Enviroment::GetEnv("SCRIPT_NAME"));
         $loc_Path = "";
-        for($loc_Index = count($loc_Paths) - 1; $loc_Index > -1; $loc_Index--) {
-            $loc_Path = implode(APPS_DIRECTORY_SEPARATOR_DS, $loc_Paths).APPS_DIRECTORY_SEPARATOR_DS;
+        for((int) $loc_Index = count($loc_Paths) - 1; $loc_Index > -1; $loc_Index--) {
+            (string) $loc_Path = implode(APPS_DIRECTORY_SEPARATOR_DS, $loc_Paths).APPS_DIRECTORY_SEPARATOR_DS;
             if($loc_Path == APPS_D_ROOT) {
                 unset($loc_Uris[$loc_Index]);
                 break;
@@ -193,8 +192,8 @@ define("__ROOT_URL__", (string)  __CLI__ ? "" : (((\library\Enviroment::GetEnv("
  * @version  1.0
  */
 function set_app_debug() {
-    $loc_FilaName = APPS_D_CONFIG . "config.ini";
-    $loc_IniObject = library\File::getIniContent($loc_FilaName);
+    (string) $loc_FilaName = APPS_D_CONFIG . "config.ini";
+    (object) $loc_IniObject = library\File::getIniContent($loc_FilaName);
 
     ini_set("display_error", (string)($loc_IniObject->Loging->DISPLAY == true ? 1 : 0));
     if($loc_IniObject->Loging->ERROR == true) {

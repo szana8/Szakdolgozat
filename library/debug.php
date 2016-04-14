@@ -192,7 +192,7 @@ class Debug {
      */
     public static function startDebugTrace() : bool {
         if(!Session::getSession(self::debugSessionTraceName)) {
-            $loc_FileName = APPS_D_TRACE . "l" . strtotime(date("".DEFAULT_DATE_FORMAT."")) . ".trc";
+            (string) $loc_FileName = APPS_D_TRACE . "l" . strtotime(date("".DEFAULT_DATE_FORMAT."")) . ".trc";
             File::createFile($loc_FileName, "Start debug trace: " . date("".DEFAULT_DATE_FORMAT.""));
             Session::setSession(self::debugSessionTrace, true);
             return Session::setSession(self::debugSessionTraceName, $loc_FileName);
@@ -208,7 +208,7 @@ class Debug {
      * @version 1.0
      */
     public static function stopDebugTrace() : bool {
-        $loc_Filename = "";
+        (string) $loc_Filename = "";
         fclose($loc_Filename);
         Session::setSession(self::debugSessionTrace, false);
         
@@ -223,7 +223,7 @@ class Debug {
      * @version 1.0
      */
     public static function isDebug() : bool {
-        $loc_IniObj = File::getIniContent(self::$_debugIniFile);
+        (object) $loc_IniObj = File::getIniContent(self::$_debugIniFile);
         foreach($loc_IniObj as $loc_Key => $loc_Value) {
             if(($loc_Key == "DEBUG") && ($loc_Value == 'true'))
                 return true;
@@ -263,12 +263,12 @@ class Debug {
     private static function parseDebugMsg(array $pin_DebugMessage, string $pin_DebugKey) : bool {
         if(empty($pin_DebugMessage) || !$pin_DebugKey)
             return false;
-        
-        $loc_MsgBckTrc  = $pin_DebugMessage[0];
-        $loc_MsgCode    = $pin_DebugMessage[1];
-        $loc_MsgValue   = $pin_DebugMessage[2];
-        $loc_MsgType    = $pin_DebugMessage[3];
-        $loc_MsgFile    = $pin_DebugMessage[4];
+
+        (string) $loc_MsgBckTrc  = $pin_DebugMessage[0];
+        (string) $loc_MsgCode    = $pin_DebugMessage[1];
+        (string) $loc_MsgValue   = $pin_DebugMessage[2];
+        (string) $loc_MsgType    = $pin_DebugMessage[3];
+        (string) $loc_MsgFile    = $pin_DebugMessage[4];
         
         self::$_debugMessages = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": "
                                 . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;
@@ -285,11 +285,11 @@ class Debug {
      * @version 1.0
      */
     private static function _parseTraceMsg(array $pin_DebugMessage) : bool {
-        $loc_MsgBckTrc  = $pin_DebugMessage[0];
-        $loc_MsgCode    = $pin_DebugMessage[1];
-        $loc_MsgValue   = $pin_DebugMessage[2];
-        $loc_MsgType    = $pin_DebugMessage[3];
-        $loc_MsgFile    = $pin_DebugMessage[4];
+        (string) $loc_MsgBckTrc  = $pin_DebugMessage[0];
+        (string) $loc_MsgCode    = $pin_DebugMessage[1];
+        (string) $loc_MsgValue   = $pin_DebugMessage[2];
+        (string) $loc_MsgType    = $pin_DebugMessage[3];
+        (string) $loc_MsgFile    = $pin_DebugMessage[4];
         
         self::$_traceMessage = "\n" . date("Y-M-d H:i:s") . " " . $loc_MsgType . ": "
                                 . $loc_MsgCode . " " . $loc_MsgBckTrc . " " . $loc_MsgValue . " " . $loc_MsgFile;

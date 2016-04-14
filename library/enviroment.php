@@ -78,7 +78,7 @@ class Enviroment extends Core {
         }
         // get DOCUMENT_ROOT
         if($pin_EnvKey == "DOCUMENT_ROOT") {
-            $loc_Offset = 0;
+            (int) $loc_Offset = 0;
             if(!strpos(self::GetEnv("SCRIPT_NAME"), ".php")) {
                 $loc_Offset = 4;
             }

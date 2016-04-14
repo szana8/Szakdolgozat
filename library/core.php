@@ -46,8 +46,7 @@ class Core {
      * @param \stdClass $pout_Object
      * @return \stdClass
      */
-    public static function arrayToObject(array $pin_Array, \stdClass &$pout_Object) : \stdClass
-    {
+    public static function arrayToObject(array $pin_Array, \stdClass &$pout_Object) : \stdClass {
         foreach ($pin_Array as $loc_Key => $loc_Value)
         {
           if (is_array($loc_Value)) {

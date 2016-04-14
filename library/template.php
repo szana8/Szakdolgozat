@@ -218,7 +218,7 @@ class Template {
             $loc_Const = $loc_Replaced;
             /*
             if(\library\Language::getLanguageElement($loc_Replaced)->success)
-                $loc_Const = $loc_Replaced;
+                 $loc_Const = \library\Language::getLanguageElement($loc_Replaced)->element;
             else
                 $loc_Const = $loc_Replaced;
             */
@@ -230,8 +230,9 @@ class Template {
             $loc_ReplacedResult = preg_replace($loc_PatternArray, $loc_ReplaceArray, self::$_templateSource[$pin_Template]);
             return $loc_ReplacedResult;
         }
-        else
-            return self::$_templateLanguage[$pin_Template];
+        else {
+            return '';
+        }
     }
 
     /**

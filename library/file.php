@@ -28,7 +28,7 @@ class File extends Core {
     /**
      * A file nem létezik hibakód.
      */
-    const   fileNotExists           = 'xf00000';
+    const   fileNotExists           = "xf00000";
     
     /**
      * Hibás file típus hibakód.
@@ -189,8 +189,8 @@ class File extends Core {
             throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
-        $loc_IniContent = new \stdClass();
-        $loc_IniContent = \parse_ini_file($pin_FileName, true);
+        //(object) $loc_IniContent = new \stdClass();
+        (array) $loc_IniContent = \parse_ini_file($pin_FileName, true);
         return self::arrayToObject($loc_IniContent, new \stdClass());
     }
     
@@ -405,7 +405,7 @@ class File extends Core {
             throw new \Exception("{MSG.ERROR.INVALID_FILE_NAME}", self::invalidFileName);
         }
         
-        $loc_Content = self::getFileContent($pin_FileName);
+        (string) $loc_Content = self::getFileContent($pin_FileName);
         return (boolean) strpos($loc_Content, $pin_SearchString);
     }
     

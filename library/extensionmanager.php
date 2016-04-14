@@ -117,8 +117,8 @@ class Extensionmanager extends Core {
      * @version 1.0
      */
     public static function initialize() {
-        $loc_IniContent = File::getIniContent(APPS_D_CONFIG . self::$_autloadIni);
-        $loc_Path = null;
+        (object) $loc_IniContent = File::getIniContent(APPS_D_CONFIG . self::$_autloadIni);
+
         foreach ($loc_IniContent->JavaScriptExtensions as $loc_Name) {
             try {
                 self::$_autloadJSExtensions[] = self::_getExtLocation($loc_Name, 'JavaScriptExtensions');
@@ -159,7 +159,11 @@ class Extensionmanager extends Core {
     public static function registrateExtensions() {
         self::_registrateExtensions(false);
     }
-    
+
+    public static function manualLoadCSSExtension(string $pin_ExtensionURL) {
+        self::$_moduleCSSExtensions[] = $pin_ExtensionURL;
+    }
+
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
@@ -177,7 +181,7 @@ class Extensionmanager extends Core {
      * @return boolean
      */
     private static function _getExtLocation(string $pin_ExtName, string $pin_Type) : string {
-        $loc_IniContent = File::getIniContent(APPS_D_CONFIG . self::$_extensionIni);
+        (object) $loc_IniContent = File::getIniContent(APPS_D_CONFIG . self::$_extensionIni);
         foreach ($loc_IniContent->$pin_Type as $loc_Name => $loc_Path) {
             if(trim($loc_Name) == trim($pin_ExtName)) {
                 return $loc_Path;
@@ -206,6 +210,7 @@ class Extensionmanager extends Core {
             if(!empty(self::$_autloadPHPExtensions))
                 self::_registratePHP (self::$_autloadPHPExtensions);
         }
+
         if(!empty(self::$_moduleJSExtensions))
             self::_registrateJS (self::$_moduleJSExtensions);
         

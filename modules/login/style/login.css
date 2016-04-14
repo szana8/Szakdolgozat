@@ -1,0 +1,13 @@
+.login-frame {
+    background-color: #ffffff;
+}
+.login-frame h3 {
+    border-bottom: 1px solid #CCCCCC;
+}
+.login-left {
+    border-right: 1px solid #CCCCCC;
+}
+.login-do-not-have {
+    text-align: left;
+    margin-top: 40px;
+}

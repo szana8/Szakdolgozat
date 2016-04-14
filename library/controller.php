@@ -23,8 +23,16 @@ class Controller {
 # 3. Private Properties ########################################################
 ################################################################################
 
+    /**
+     * Az url-ből hívott controller methódus.
+     * @var string
+     */
     private $_method        = '';
 
+    /**
+     * Az alap modul neve.
+     * @var string
+     */
     private $_mainModule    = 'main';
 
 ################################################################################
@@ -33,20 +41,29 @@ class Controller {
 
 
     /**
+     * Megnézzük, hogy volt e module hívás az url-ben, ha volt ellenőrízzük hogy szükséges e authentikáció
+     * a module futtatásához, majd elindítjuk. Ha nem volt moule hívás, betöltjük a main module-t.
      *
+     * @access public
+     * @version 1.0
      */
     public function Initialize() {
 
-        $loc_URL = Httprequest::getGETElement('url');
+        $this->_InitClasses();
+        (string) $loc_URL = Httprequest::getGETElement('url');
+        (array) $loc_Array = array();
+
         if(!is_null($loc_URL))
             $loc_Array = explode('/', $loc_URL);
         else
-            $loc_Array = null;
+            $loc_Array = array();
 
-        if(!is_null($loc_Array))
+        if(!empty($loc_Array))
             $this->_method = $loc_Array[0];
-        else
-            $this->_method = $this->_mainModule;
+        else {
+            $this->_method = 'startModule';
+            $loc_Array[1] = $this->_mainModule;
+        }
 
         if(method_exists($this, $this->_method)) {
             try {
@@ -60,21 +77,46 @@ class Controller {
         }
     }
 
+    /**
+     * @param array $pin_Param
+     */
     public function main(array $pin_Param = array()) {
         if(\library\Modulemanager::needAuthentication($this->_method) === true) {
             //ide jön az auth
             $this->_loadModule($this->_method);
         }
-        else {
-            //$this->_loadModule($this->_method);
-
-        }
     }
 
+    /**
+     * @param string $pin_Param
+     */
     public function ajaxCall(string $pin_Param) {
 
     }
 
+    /**
+     * @param array $pin_Param
+     */
+    public function startModule(array $pin_Param = array()) {
+        if($pin_Param[1] == '') {
+            $pin_Param[1] = $this->_mainModule;
+        }
+
+        if(\library\Modulemanager::needAuthentication($this->_method) === true) {
+            if(Authentication::isAuth()) {
+                $this->_loadModule($pin_Param[1]);
+            }
+            else {
+                $this->ShowErrorPage(500);
+            }
+        }
+        else
+            $this->_loadModule($pin_Param[1]);
+    }
+
+    /**
+     * @param int $pin_Code
+     */
     public function ShowErrorPage(Integer $pin_Code) {
         
     }
@@ -83,21 +125,32 @@ class Controller {
 # 5. Protected Methods #########################################################
 ################################################################################
 
-    public function _loadModule(string $pin_Module) {
+    /**
+     * @param string $pin_Module
+     */
+    protected function _loadModule(string $pin_Module) {
         @require_once APPS_D_MODS . $pin_Module . APPS_DIRECTORY_SEPARATOR . 'library/Controller.php';
-        $loc_Ctrl = new \modules\main\library\Controller;
-        $loc_Ctrl->Run();
+        (string) $loc_Class = '\\modules\\'.$pin_Module.'\\library\\Controller';
+
+        (object) $obj_Ctrl = new $loc_Class;
+        $obj_Ctrl->Run();
     }
 
-    protected function _InitClasses() {
+    /**
+     * @param string $pin_Module
+     */
+    protected function _loadModuleDependecies(string $pin_Module) {
 
+    }
+
+    /**
+     *
+     */
+    protected function _InitClasses() {
         \library\Httprequest::initialize();
         \library\Session::initialize();
         \library\Extensionmanager::initialize();
-
-        //\library\Httpresponse::initialize();
-        //\library\Language::initialize();
-        //\library\Modulemanager::initialize();
+        \library\Httpresponse::initialize();
     }
 
 ################################################################################
