@@ -1,0 +1,25 @@
+#* @vtlvariable name="grids" type="com.k15t.scroll.viewport.model.render.content.layouts.GridHelper" *#
+#* @vtlvariable name="pageLayout" type="com.k15t.scroll.viewport.model.render.content.layouts.PageLayout" *#
+
+$grids.setup(
+    {
+        "single": [12],
+        "three_equal": [4, 4, 4],
+        "three_with_sidebars": [2, 8, 2],
+        "two_equal": [6, 6],
+        "two_left_sidebar": [4, 8],
+        "two_right_sidebar": [8, 4]
+    }
+)
+
+#foreach($pageLayoutSection in $pageLayout.sections)
+
+    <div class="row">
+    #foreach($cell in $pageLayoutSection.cells)
+        <div class="column col-md-$grids.get($pageLayoutSection.type, $velocityCount)">
+            $cell.content
+        </div>
+    #end
+    </div>
+
+#end

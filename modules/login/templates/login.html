@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 login-frame">
+            <h3>{Label.Text.Welcome}</h3>
+            <div class="row">
+                <div class="col-md-5 col-sm-5 login-left">
+                    <form class="form-signin" id="UserLoginForm" name="UserLoginForm" method="POST" accept-charset="utf-8">
+                        <div class="col-md-12 col-sm-12">
+                            <div style="display:none;">
+                                <input type="hidden" name="_method" value="POST"/>
+                                <input type="hidden" name="url" id="UrlID" value="MainScreen">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">{Label.Text.Username}</label>
+                                <input name="Username" maxlength="10" type="text" id="UserLogin" class="form-control" placeholder="{Field.EmptyText.Username}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">{Label.Text.Password}</label>
+                                <input type="password" class="form-control" name="Password" placeholder="{Field.EmptyText.Password}" />
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="remember-me" name="CAST_REMEMBER"> {Label.Text.RememberMe}
+                                </label>
+                            </div>
+                            <div id="LoginResult"></div>
+                        </div>
+                        <div class="col-md-5" col-sm-5>
+                            <button class="btn btn btn-primary btn-block" data-loading-text="{Button.Attr.Text.PleaseWait}" id="validateBtn" type="submit">{Button.Text.Login}</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-5 col-sm-5 login-right">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 login-do-not-have">
+                            <h4>{Message.DoNotHaveLoginHeader}</h4>
+                            <p>{Message.DoNotHaveLoginMessage}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

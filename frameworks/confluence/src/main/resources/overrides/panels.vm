@@ -1,0 +1,33 @@
+#* @vtlvariable name="body" type="java.lang.String" *#
+#* @vtlvariable name="params" type="java.util.Map<java.lang.String, java.lang.Object>" *#
+#* @vtlvariable name="macroName" type="java.lang.String" *#
+#* @vtlvariable name="stringUtils" type="org.apache.commons.lang.StringUtils" *#
+#* @vtlvariable name="stringEscapeUtils" type="org.apache.commons.lang.StringEscapeUtils" *#
+
+## this macro override handles the macros:
+## * code
+## * noformat
+## * panel
+
+#if($macroName != "noformat")
+    #set($linenums = "linenums")
+#end
+
+#if($macroName != "panel")
+    #set($isCode = true)
+#end
+
+<div class="panel panel-default">
+    #if($params.title)
+        <div class="panel-heading">
+            <h3 class="panel-title">$params.title</h3>
+        </div>
+    #end
+    #if($isCode)
+        <pre class="prettyprint $linenums">$stringEscapeUtils.escapeHtml($body)</pre>
+    #else
+        <div class="panel-body">
+            $body
+        </div>
+    #end
+</div>

@@ -1,0 +1,25 @@
+#* @vtlvariable name="slideshow" type="com.k15t.scroll.viewport.ui.macro.slideshow.Slideshow" *#
+
+<div id="image-carousel" class="carousel slide">
+    <ol class="carousel-indicators">
+        #foreach($slide in $slideshow.slides)
+            #set( $index = $velocityCount - 1 )
+            <li data-target="#image-carousel" data-slide-to="$index" #if($index == 1) class="active" #end></li>
+        #end
+    </ol>
+    <div class="carousel-inner">
+        #foreach($slide in $slideshow.slides)
+            #set( $index = $velocityCount - 1 )
+            <div class="item#if($index == 1) active#end">
+                <img src="$slide.imageUrl" alt="$slide.imageAlt">
+                <div class="carousel-caption">$slide.imageCaption</div>
+            </div>
+        #end
+    </div>
+    <a class="left carousel-control" href="#image-carousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#image-carousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
+</div>

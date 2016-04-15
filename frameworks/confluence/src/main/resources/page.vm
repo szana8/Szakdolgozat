@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>$page.title</title>
+
+    $include.template("include-htmlhead.vm")
+
+</head>
+<body>
+
+    $include.template("include-header.vm")
+
+    <div class="container bc-page-container">
+        #if($versions)
+            <div class="btn-group pull-right" style="margin-top: 30px;">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                    Version: $versions.current.name &nbsp;<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                #foreach($version in $versions.available)
+                    <li><a href="?scroll-versions%3Aversion-name=$version.name">$version.name</a></li>
+                #end
+                </ul>
+            </div>
+        #end
+
+        <div class="row">
+
+            $include.template("include-sidebar.vm")
+
+            <div class="col-md-9" role="main">
+                <div class="bs-docs-section">
+
+                    <div class="page-header">
+                        <h1 id="overview">$page.title</h1>
+                    </div>
+##                    <p class="lead">$page.excerpt</p>
+
+                    #set ($contentAsHtml = $page.renderContent("overrides/page-layout.vm", {
+                        "info" : "overrides/admonitions.vm",
+                        "tip" : "overrides/admonitions.vm",
+                        "warning" : "overrides/admonitions.vm",
+                        "note" : "overrides/admonitions.vm",
+                        "code" : "overrides/panels.vm",
+                        "panel" : "overrides/panels.vm",
+                        "noformat" : "overrides/panels.vm",
+                        "tabs" : "overrides/tabs.vm"
+                    }))
+
+                    #set ($contentAsHtml = $stringUtils.replace($contentAsHtml, "confluenceTable", "table table-striped"))
+                    $contentAsHtml
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    $include.template("include-footer.vm")
+
+</body>

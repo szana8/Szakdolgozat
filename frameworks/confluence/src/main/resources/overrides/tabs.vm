@@ -1,0 +1,15 @@
+#* @vtlvariable name="tabs" type="java.util.List<com.k15t.scroll.viewport.ui.macro.tabs.Tab>" *#
+<div id="tabs">
+    <ul class="nav nav-tabs">
+        #foreach($tab in $tabs)
+            <li class="menu-item#if($velocityCount == 1) active#end">
+                <a href="#tab-$tab.tabIndex"><strong>$tab.tabLabel</strong></a>
+            </li>
+        #end
+    </ul>
+    #foreach($tab in $tabs)
+        <div class="tab-pane#if($velocityCount == 1) active#end" id="tab-$tab.tabIndex">
+            $tab.content
+        </div>
+    #end
+</div>
