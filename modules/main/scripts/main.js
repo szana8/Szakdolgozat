@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 
-function ready() {
-    alert('main');
+$(document).ready(function() {
+    setGadgetDefault();
+});
+
+function setGadgetDefault() {
+    $('.app-gadget').css('cursor', 'move');
 }

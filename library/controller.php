@@ -22,6 +22,7 @@ class Controller {
     
     const   moduleNotExists         = 'xc00001';
 
+
     const   moduleExceptionErr      = 'xc00002';
 
 
@@ -46,8 +47,14 @@ class Controller {
      */
     private $_mainModule    = 'main';
 
+    /**
+     * @var string
+     */
     private $_menu          = '';
 
+    /**
+     * @var string
+     */
     private static $_dependecies    = 'dependencies.ini';
 
 
@@ -184,6 +191,8 @@ class Controller {
         $loc_IniContent = new \stdClass();
         $loc_IniContent = \library\File::getIniContent(APPS_D_MODS . $pin_Module .  '/config/' . self::$_dependecies);
         \library\Extensionmanager::registrateModuleExtensions($loc_IniContent);
+
+        \library\Extensionmanager::manualLoadJSExtension(APPS_D_MODS . $pin_Module . '/scripts/'.$pin_Module.'.js');
     }
 
     /**

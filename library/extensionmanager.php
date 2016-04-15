@@ -164,6 +164,10 @@ class Extensionmanager extends Core {
         self::$_moduleCSSExtensions[] = $pin_ExtensionURL;
     }
 
+    public static function manualLoadJSExtension(string $pin_ExtensionURL) {
+        self::$_moduleJSExtensions[] = $pin_ExtensionURL;
+    }
+
     /**
      * @param object $pin_ExtObject
      */

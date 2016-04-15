@@ -1,0 +1,4 @@
+Start debug trace: 2016-04-13 20:58:21
+2016-Apr-13 20:58:22 info: xhr0004 library\Httpresponse::addScriptFile {MSG.SUCC.ADD_SCRIPT_FILE} http://localhost/Szakdolgozat/Szakdolgozat/modules/main/scripts/main.js
+2016-Apr-13 20:58:22 err: xf00000 library\File::_isFileExists {MSG.ERROR.FILE_NOT_EXISTS} C:/xampp/htdocs/Szakdolgozat/Szakdolgozat/modules/main/templates/main.html
+2016-Apr-13 20:58:22 err: xf00010 library\File::getFileContent {MSG.ERROR.INVALID_FILE_NAME} C:/xampp/htdocs/Szakdolgozat/Szakdolgozat/modules/main/templates/main.html
