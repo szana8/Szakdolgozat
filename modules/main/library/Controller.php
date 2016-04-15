@@ -42,7 +42,8 @@ class Controller {
         \library\Template::loadTemplate(APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . "main" .
                                         APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html");
         $loc_Template = \library\Template::renderTemplate();
-        \library\Httpresponse::sendContent($loc_Template->compiled);
+        //\library\Httpresponse::sendContent();
+        return $loc_Template->compiled;
     }
     
 ################################################################################

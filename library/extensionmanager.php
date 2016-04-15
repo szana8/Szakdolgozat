@@ -164,6 +164,39 @@ class Extensionmanager extends Core {
         self::$_moduleCSSExtensions[] = $pin_ExtensionURL;
     }
 
+    /**
+     * @param object $pin_ExtObject
+     */
+    public static function registrateModuleExtensions($pin_ExtObject) {
+        foreach ($pin_ExtObject->JavaScriptExtensions as $loc_Name) {
+            try {
+                self::$_moduleJSExtensions[] = self::_getExtLocation($loc_Name, 'JavaScriptExtensions');
+            }
+            catch(\Exception $ex) {
+                Debug::setDebugMessage(array(__METHOD__, self::initExtensionJSFailed, "{MSG.ERR.INITIALIZE_JS_ERROR}", "error", $loc_Name));
+            }
+        }
+
+        foreach ($pin_ExtObject->CSSExtensions as $loc_Name) {
+            try {
+                self::$_moduleCSSExtensions[] = self::_getExtLocation($loc_Name, 'CSSExtensions');
+            }
+            catch(\Exception $ex) {
+                Debug::setDebugMessage(array(__METHOD__, self::initExtensionCSSFailed, "{MSG.ERR.INITIALIZE_STYLE_ERROR}", "error", $loc_Name));
+            }
+        }
+
+        foreach ($pin_ExtObject->PHPExtensions as $loc_Name) {
+            try {
+                self::$_modulePHPExtensions[] = self::_getExtLocation($loc_Name, 'PHPExtensions');
+            }
+            catch(\Exception $ex) {
+                Debug::setDebugMessage(array(__METHOD__, self::initExtensionPHPFailed, "{MSG.ERR.INITIALIZE_PHP_ERROR}", "error", $loc_Name));
+            }
+        }
+        self::_registrateExtensions(false);
+    }
+
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################

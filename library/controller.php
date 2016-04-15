@@ -1,19 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Pisti
- * Date: 2016. 04. 13.
- * Time: 19:38
- */
-
 namespace library;
 
+/**
+ * Link:
+ * File: controller.php
+ * Namespace: library
+ *
+ * Description of file
+ *
+ *
+ *  Version     Date            Author               Changelog
+ *   1.0.0      2015.10.05.     HUSzanaI              Created
+ *
+ */
 
 class Controller {
 
 ################################################################################
 # 1. Constants #################################################################
 ################################################################################
+    
+    const   moduleNotExists         = 'xc00001';
+
+    const   moduleExceptionErr      = 'xc00002';
+
+
 
 ################################################################################
 # 2. Public Properties #########################################################
@@ -35,6 +46,12 @@ class Controller {
      */
     private $_mainModule    = 'main';
 
+    private $_menu          = '';
+
+    private static $_dependecies    = 'dependencies.ini';
+
+
+
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
@@ -49,7 +66,7 @@ class Controller {
      */
     public function Initialize() {
 
-        $this->_InitClasses();
+        $this->_initClasses();
         (string) $loc_URL = Httprequest::getGETElement('url');
         (array) $loc_Array = array();
 
@@ -68,34 +85,38 @@ class Controller {
         if(method_exists($this, $this->_method)) {
             try {
                 call_user_func_array(array($this, $this->_method), array($loc_Array));
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
+                Debug::setDebugMessage(array(__METHOD__, self::moduleExceptionErr, "{MSG.ERROR.MODULE_EXCEPTION_ERR}", "err", $e->getMessage()));
                 $this->ShowErrorPage(500);
             }
         }
         else {
+            Debug::setDebugMessage(array(__METHOD__, self::moduleNotExists, "{MSG.ERROR.MODULE_NOT_EXISTS}", "err", $this->_method));
             $this->ShowErrorPage(404);
         }
     }
 
+
     /**
-     * @param array $pin_Param
+     * Ajax hívásoknál használt controller metódus. Ha csak egy div-be szeretnénk betölteni egy module-t
+     * vagy egy részét ezt használjuk. Nem generál le menu-t footer-t, stb-t.
+     *
+     * @param array $pin_Param                         A module neve tömbként.
+     * @access public
+     * @version 1.0
      */
-    public function main(array $pin_Param = array()) {
-        if(\library\Modulemanager::needAuthentication($this->_method) === true) {
-            //ide jön az auth
-            $this->_loadModule($this->_method);
-        }
+    public function ajaxCall(array $pin_Param = array()) {
+        echo $pin_Param[1];
     }
 
     /**
-     * @param string $pin_Param
-     */
-    public function ajaxCall(string $pin_Param) {
-
-    }
-
-    /**
-     * @param array $pin_Param
+     * Alap module betöltő metódus. Megvizsgálja hogy szükséges e authentikáció a module-hoz, ha igen
+     * megnézi, hogy a user be van e jelentkezve, ha be van továbbengedi, ha nem átdobja a login page-re.
+     *
+     * @param array $pin_Param                          A module neve tömbként.
+     * @access public
+     * @version 1.0
      */
     public function startModule(array $pin_Param = array()) {
         if($pin_Param[1] == '') {
@@ -112,12 +133,18 @@ class Controller {
                 $this->ShowErrorPage(500);
             }
         }
-        else
+        else {
             $this->_loadModule($pin_Param[1]);
+        }
     }
 
     /**
-     * @param int $pin_Code
+     * Ha hiba van a module betöltésénél ez a metódus végzi el a post process-t majd irányít a megfelelő
+     * oldal-ra.
+     *
+     * @param int $pin_Code                         A hiba kódja
+     * @access public
+     * @version 1.0
      */
     public function ShowErrorPage(int $pin_Code) {
         echo $pin_Code;
@@ -129,32 +156,76 @@ class Controller {
 ################################################################################
 
     /**
+     * Protected function a module betöltő metódus-hoz.
      * @param string $pin_Module
      */
     protected function _loadModule(string $pin_Module) {
         @require_once APPS_D_MODS . $pin_Module . APPS_DIRECTORY_SEPARATOR . 'library/Controller.php';
         (string) $loc_Class = '\\modules\\'.$pin_Module.'\\library\\Controller';
-
         (object) $obj_Ctrl = new $loc_Class;
-        $obj_Ctrl->Run();
+        $loc_Module = $obj_Ctrl->Run();
+        $this->_loadModuleDependecies($pin_Module);
+
+
+        $loc_CoreElements = $this->_loadCoreElements();
+        $this->_loadMenu();
+        \library\Httpresponse::sendContent(str_replace(array("<%core.menu%>", "<%core.body%>"), array($this->_menu, $loc_Module), $loc_CoreElements));
     }
 
     /**
-     * @param string $pin_Module
+     * Beregisztrálja a module függőségeit a betöltés előtt, hogy a html fejléc biztosan tartalmazza
+     * a megfelelő javascript és css fileokat amikre a module-nak szüksége van.
+     *
+     * @param string $pin_Module                        A module neve
+     * @access protected
+     * @version 1.0
      */
     protected function _loadModuleDependecies(string $pin_Module) {
-
+        $loc_IniContent = new \stdClass();
+        $loc_IniContent = \library\File::getIniContent(APPS_D_MODS . $pin_Module .  '/config/' . self::$_dependecies);
+        \library\Extensionmanager::registrateModuleExtensions($loc_IniContent);
     }
 
     /**
-     *
+     * Betölti a menüt.
      */
-    protected function _InitClasses() {
+    protected function _loadMenu() {
+        $obj_Menu = new \library\Menu();
+        $this->_menu = $obj_Menu->createMenu();
+    }
+
+    /**
+     * Elvégzi a szükséges osztályok inicializálását az oldal betöltése előtt.
+     *
+     * @access proetcted
+     * @version 1.0
+     */
+    protected function _initClasses() {
         \library\Httprequest::initialize();
         \library\Session::initialize();
         \library\Extensionmanager::initialize();
         \library\Httpresponse::initialize();
         \library\Language::Initialize();
+    }
+
+    /**
+     * Betölti a keretrendszer core template-jeit.
+     *
+     * @return string
+     * @access protected
+     * @version 1.0
+     */
+    protected function _loadCoreElements() : string {
+        \library\Template::loadTemplate(APPS_D_ROOT . 'etc/templates/core.menu.html');
+        $loc_Menu = \library\Template::renderTemplate();
+
+        \library\Template::loadTemplate(APPS_D_ROOT . 'etc/templates/core.body.html');
+        $loc_Body = \library\Template::renderTemplate();
+
+        \library\Template::loadTemplate(APPS_D_ROOT . 'etc/templates/core.footer.html');
+        $loc_Footer = \library\Template::renderTemplate();
+
+        return $loc_Menu->compiled . "\n" . $loc_Body->compiled . "\n" . $loc_Footer->compiled;
     }
 
 ################################################################################

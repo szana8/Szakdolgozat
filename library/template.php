@@ -211,7 +211,7 @@ class Template {
      */
     private static function _translateLanguageVariables(string $pin_Template) : string {
         self::_getLanguageElements($pin_Template);
-
+        
         foreach(self::$_templateLanguage[$pin_Template] as $loc_MatchesValue)
         {
             $loc_Replaced = str_replace(array('{', '}'), array('', ''), $loc_MatchesValue);
@@ -231,7 +231,7 @@ class Template {
             return $loc_ReplacedResult;
         }
         else {
-            return '';
+            return self::$_templateSource[$pin_Template];
         }
     }
 
