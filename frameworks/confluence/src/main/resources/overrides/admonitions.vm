@@ -1,0 +1,39 @@
+#* @vtlvariable name="body" type="java.lang.String" *#
+#* @vtlvariable name="params" type="java.util.Map<java.lang.String, java.lang.Object>" *#
+#* @vtlvariable name="macroName" type="java.lang.String" *#
+#* @vtlvariable name="stringUtils" type="org.apache.commons.lang.StringUtils" *#
+#* @vtlvariable name="stringEscapeUtils" type="org.apache.commons.lang.StringEscapeUtils" *#
+
+## this macro override handles the macros:
+## * tip
+## * info
+## * note
+## * warning
+
+## macro confluence admonition type to bootstrap severity
+#if ( $macroName == "tip" )
+    #set( $severity = "success" )
+#elseif ( $macroName == "info" )
+    #set( $severity = "info" )
+#elseif ( $macroName == "note" )
+    #set( $severity = "warning" )
+#elseif ( $macroName == "warning" )
+    #set( $severity = "danger" )
+#else
+    #set( $severity = "default" )
+#end
+
+#if($params.title)
+    <div class="panel panel-$severity">
+        <div class="panel-heading">
+            <h3 class="panel-title">$params.title</h3>
+        </div>
+        <div class="panel-body">
+            $body
+        </div>
+    </div>
+#else
+    <div class="alert alert-$severity">
+        $body
+    </div>
+#end

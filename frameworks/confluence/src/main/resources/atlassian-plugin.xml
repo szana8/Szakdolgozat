@@ -1,0 +1,43 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <scroll-viewport-theme key="viewport-bootstrap-theme" name="Bootstrap Theme for Scroll Viewport" version="${project.version}" >
+        <!-- <resource name="blog.vm"                                    location="blog.vm" /> -->
+        <!-- <resource name="blogs.vm"                                   location="blogs.vm" /> -->
+        <resource name="error.vm"                                   location="error.vm" />
+        <resource name="include-htmlhead.vm"                        location="include-htmlhead.vm" />
+        <resource name="include-header.vm"                          location="include-header.vm" />
+        <resource name="include-footer.vm"                          location="include-footer.vm" />
+        <resource name="include-sidebar.vm"                         location="include-sidebar.vm" />
+        <resource name="include-blog-sidebar.vm"                    location="include-blog-sidebar.vm" />
+        <resource name="page.vm"                                    location="page.vm" />
+        <resource name="search.vm"                                  location="search.vm" />
+        <resource name="thumbnail.png"                              location="thumbnail.png" />
+        <resource name="css/app.css"                                location="css/app.css" />
+        <resource name="css/bootstrap.css"                          location="css/bootstrap.css" />
+        <resource name="css/prettify-tomorrow.css"                  location="css/prettify-tomorrow.css" />
+        <resource name="fonts/glyphicons-halflings-regular.eot"     location="fonts/glyphicons-halflings-regular.eot" />
+        <resource name="fonts/glyphicons-halflings-regular.svg"     location="fonts/glyphicons-halflings-regular.svg" />
+        <resource name="fonts/glyphicons-halflings-regular.ttf"     location="fonts/glyphicons-halflings-regular.ttf" />
+        <resource name="fonts/glyphicons-halflings-regular.woff"    location="fonts/glyphicons-halflings-regular.woff" />
+        <resource name="js/app.js"                                  location="js/app.js" />
+        <resource name="js/bootstrap.js"                            location="js/bootstrap.js" />
+        <resource name="js/html5shiv.min.js"                        location="js/html5shiv.min.js" />
+        <resource name="js/jquery.min.js"                           location="js/jquery.min.js" />
+        <resource name="js/jquery.cycle2.min.js"                    location="js/jquery.cycle2.min.js" />
+        <resource name="js/prettify.js"                             location="js/prettify.js" />
+        <resource name="js/respond.min.js"                          location="js/respond.min.js" />
+        <resource name="overrides/page-layout.vm"                   location="overrides/page-layout.vm" />
+        <resource name="overrides/admonitions.vm"                   location="overrides/admonitions.vm" />
+        <resource name="overrides/panels.vm"                        location="overrides/panels.vm" />
+        <resource name="overrides/slideshow.vm"                     location="overrides/slideshow.vm" />
+        <resource name="overrides/tabs.vm"                          location="overrides/tabs.vm" />
+    </scroll-viewport-theme>
+    
+</atlassian-plugin>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>$page.title</title>
+
+    $include.template("include-htmlhead.vm")
+
+</head>
+<body>
+
+    $include.template("include-header.vm")
+
+<div class="container bc-page-container">
+    <div class="row">
+
+        <div class="col-md-9" role="main">
+            <div class="bs-docs-section">
+
+                <div class="page-header">
+                    <h1 id="overview">$page.title</h1>
+                </div>
+                <p class="lead">$page.excerpt</p>
+
+                $page.content
+
+            </div>
+        </div>
+
+        $include.template("include-blog-sidebar.vm")
+
+    </div>
+</div>
+
+    $include.template("include-footer.vm")
+
+</body>

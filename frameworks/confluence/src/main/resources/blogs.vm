@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Blogs</title>
+
+    $include.template("include-htmlhead.vm")
+
+</head>
+<body>
+
+    $include.template("include-header.vm")
+
+<div class="container bc-page-container">
+    <div class="row">
+
+        <div class="col-md-9" role="main">
+            <div class="bs-docs-section">
+
+                <div class="page-header">
+                    <h1 id="overview">Blog</h1>
+                </div>
+                <p class="lead">
+                    #if($categoryName != "")
+                        $blogPosts.size() blog posts found in category '<em>$categoryName</em>'.
+                    #else
+                        $blogPosts.size() blog posts found.
+                    #end
+                </p>
+
+                <div class="list-group">
+                    #foreach($blogPost in $blogPosts)
+                    <a href="$blogPost.link" class="list-group-item">
+                        <h2 class="list-group-item-heading">$blogPost.title</h2>
+                        <p class="list-group-item-text">$blogPost.excerpt</p>
+                    </a>
+                #end
+                </div>
+
+
+            </div>
+        </div>
+
+        $include.template("include-blog-sidebar.vm")
+
+    </div>
+</div>
+
+    $include.template("include-footer.vm")
+
+</body>
