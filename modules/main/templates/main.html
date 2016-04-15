@@ -23,25 +23,30 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row grid">
+            <div class="col-md-6" id="gadgetParent_01">
                 <div class="panel panel-default">
                     <div class="panel-heading app-gadget" id="Gadget_01">
                         <div class="row">
                             <div class="col-sm-8">
                                 Gadget 1
                             </div>
-                            <div class="col-sm-4 text-right">
+                            <div class="col-sm-4 text-right" style="cursor: default;">
                                 <div class="btn-group btn-group-xs">
                                     <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="glyphicon glyphicon-triangle-bottom"></i>
                                     </button>
                                     <ul class="dropdown-menu pull-right">
                                         <li><a href="#">{Button.Label.Edit}</a></li>
-                                        <li><a href="#">{Button.Label.Minimize}</a></li>
+                                        <li><a href="#" class="gadget-minimize">{Button.Label.Minimize}</a></li>
+                                        <li><a href="#" class="gadget-maximize">{Button.Label.Maximize}</a></li>
                                         <li>
-                                            <ul class="list-inline">
-                                                <li><a href="#"><div class="colorize"></div></a></li>
+                                            <ul class="list-inline" style="margin-left: 15px;margin-top:5px;margin-bottom: 5px;">
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-blue"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-red"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-purple"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-orange"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-green"></div></a></li>
                                             </ul>
                                         </li>
                                         <li><a href="#">{Button.Label.Delete}</a></li>
@@ -57,11 +62,114 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading app-gadget">Gadget 2</div>
+            <div class="col-md-6" id="gadgetParent_02">
+                <div class="panel panel-default"><div class="panel-heading app-gadget" id="Gadget_02">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            Gadget 2
+                        </div>
+                        <div class="col-sm-4 text-right" style="cursor: default;">
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="glyphicon glyphicon-triangle-bottom"></i>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="#">{Button.Label.Edit}</a></li>
+                                    <li><a href="#" class="gadget-minimize">{Button.Label.Minimize}</a></li>
+                                    <li><a href="#" class="gadget-maximize">{Button.Label.Maximize}</a></li>
+                                    <li>
+                                        <ul class="list-inline" style="margin-left: 15px;margin-top:5px;margin-bottom: 5px;">
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-blue"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-red"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-purple"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-orange"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-green"></div></a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">{Button.Label.Delete}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="panel-body">
+                    This is a dashboard-style layout that uses Bootstrap 3. You can use this template as a starting point to create something more unique.
+                    Visit the Bootstrap Playground at Bootply to tweak this layout or discover more useful code snippets.
                 </div>
             </div>
         </div>
-    </div>
+
+            <div class="col-md-6" id="gadgetParent_03">
+                <div class="panel panel-default">
+                    <div class="panel-heading app-gadget" id="Gadget_03">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                Gadget 3
+                            </div>
+                            <div class="col-sm-4 text-right" style="cursor: default;">
+                                <div class="btn-group btn-group-xs">
+                                    <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="glyphicon glyphicon-triangle-bottom"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="#">{Button.Label.Edit}</a></li>
+                                        <li><a href="#" class="gadget-minimize">{Button.Label.Minimize}</a></li>
+                                        <li><a href="#" class="gadget-maximize">{Button.Label.Maximize}</a></li>
+                                        <li>
+                                            <ul class="list-inline" style="margin-left: 15px;margin-top:5px;margin-bottom: 5px;">
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-blue"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-red"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-purple"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-orange"></div></a></li>
+                                                <li class="colorize-list"><a href="#"><div class="colorize colorize-green"></div></a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">{Button.Label.Delete}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        This is a dashboard-style layout that uses Bootstrap 3. You can use this template as a starting point to create something more unique.
+                        Visit the Bootstrap Playground at Bootply to tweak this layout or discover more useful code snippets.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" id="gadgetParent_04">
+                <div class="panel panel-default"><div class="panel-heading app-gadget" id="Gadget_04">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            Gadget 4
+                        </div>
+                        <div class="col-sm-4 text-right" style="cursor: default;">
+                            <div class="btn-group btn-group-xs">
+                                <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="glyphicon glyphicon-triangle-bottom"></i>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="#">{Button.Label.Edit}</a></li>
+                                    <li><a href="#" class="gadget-minimize">{Button.Label.Minimize}</a></li>
+                                    <li><a href="#" class="gadget-maximize">{Button.Label.Maximize}</a></li>
+                                    <li>
+                                        <ul class="list-inline" style="margin-left: 15px;margin-top:5px;margin-bottom: 5px;">
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-blue"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-red"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-purple"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-orange"></div></a></li>
+                                            <li class="colorize-list"><a href="#"><div class="colorize colorize-green"></div></a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">{Button.Label.Delete}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="panel-body">
+                    This is a dashboard-style layout that uses Bootstrap 3. You can use this template as a starting point to create something more unique.
+                    Visit the Bootstrap Playground at Bootply to tweak this layout or discover more useful code snippets.
+                </div>
+                </div>
+            </div>
+        </div>
 </div>

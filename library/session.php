@@ -66,7 +66,7 @@ class Session extends Core {
     
     
     public static function initialize() {
-        session_start();
+        //session_start();
     }
 
 

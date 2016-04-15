@@ -24,5 +24,6 @@ if(count(get_included_files()) === 1) {
     'Button.Label.CreateDashboard' => 'Create Dashboard',
     'Button.Label.Edit' => 'Edit',
     'Button.Label.Minimize' => 'Minimize',
+    'Button.Label.Maximize' => 'Maximize',
     'Button.Label.Delete' => 'Delete'
 ));

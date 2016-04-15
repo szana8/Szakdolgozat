@@ -190,9 +190,11 @@ class Controller {
     protected function _loadModuleDependecies(string $pin_Module) {
         $loc_IniContent = new \stdClass();
         $loc_IniContent = \library\File::getIniContent(APPS_D_MODS . $pin_Module .  '/config/' . self::$_dependecies);
+        \library\Extensionmanager::manualLoadCSSExtension('modules/' . $pin_Module . '/style/'.$pin_Module.'.css');
+        \library\Extensionmanager::manualLoadJSExtension('modules/' . $pin_Module . '/scripts/'.$pin_Module.'.js');
+
         \library\Extensionmanager::registrateModuleExtensions($loc_IniContent);
 
-        \library\Extensionmanager::manualLoadJSExtension(APPS_D_MODS . $pin_Module . '/scripts/'.$pin_Module.'.js');
     }
 
     /**
