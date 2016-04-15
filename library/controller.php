@@ -102,6 +102,8 @@ class Controller {
             $pin_Param[1] = $this->_mainModule;
         }
 
+        \library\Language::setModuleLang($pin_Param[1]);
+        
         if(\library\Modulemanager::needAuthentication($this->_method) === true) {
             if(Authentication::isAuth()) {
                 $this->_loadModule($pin_Param[1]);
@@ -117,10 +119,11 @@ class Controller {
     /**
      * @param int $pin_Code
      */
-    public function ShowErrorPage(Integer $pin_Code) {
-        
+    public function ShowErrorPage(int $pin_Code) {
+        echo $pin_Code;
+        echo $this->_method;
     }
-    
+
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
@@ -151,6 +154,7 @@ class Controller {
         \library\Session::initialize();
         \library\Extensionmanager::initialize();
         \library\Httpresponse::initialize();
+        \library\Language::Initialize();
     }
 
 ################################################################################

@@ -216,12 +216,12 @@ class Template {
         {
             $loc_Replaced = str_replace(array('{', '}'), array('', ''), $loc_MatchesValue);
             $loc_Const = $loc_Replaced;
-            /*
+
             if(\library\Language::getLanguageElement($loc_Replaced)->success)
                  $loc_Const = \library\Language::getLanguageElement($loc_Replaced)->element;
             else
                 $loc_Const = $loc_Replaced;
-            */
+            
             $loc_ReplaceArray[] = $loc_Const;
             $loc_PatternArray[] = '/{'.$loc_Replaced.'}/';
         }
