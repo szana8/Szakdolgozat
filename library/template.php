@@ -101,7 +101,52 @@ class Template {
         self::_templateCompile(self::$_templateName);
         return self::$_templateCompile[self::$_templateName];
     }
+    
+    
+    public static function createMenu($pin_MenuArray) {
 
+        $loc_Menu = "<nav class=\"navbar navbar-default\">";
+        $loc_Menu .= "<div class=\"container-fluid\">";
+            $loc_Menu .= "<div class=\"navbar-header\">
+                            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">
+                                <span class=\"sr-only\">Toggle navigation</span>
+                                <span class=\"icon-bar\"></span>
+                                <span class=\"icon-bar\"></span>
+                                <span class=\"icon-bar\"></span>
+                              </button>
+                              <a class=\"navbar-brand\" href=\"#\">Brand</a>
+                            </div>";
+            $loc_Menu .= "<div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">";
+            $loc_Menu .= "<ul class=\"nav navbar-nav\">";
+
+                foreach ($pin_MenuArray as $loc_MenuArray)
+                {
+                    if(!isset($loc_MenuArray['children'])) {
+                        $loc_Menu .= "<li><a href=\"#\">";
+                        if(\library\Language::getLanguageElement(str_replace(array('}', '{'), '', $loc_MenuArray['name']))->success)
+                            $loc_Menu .= \library\Language::getLanguageElement(str_replace(array('}', '{'), '', $loc_MenuArray['name']))->element;
+                        else
+                            $loc_Menu .= $loc_MenuArray['name'];
+
+                        $loc_Menu .= "</a></li>";
+                    }
+                    else {
+                        $loc_Menu .= "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">".$loc_MenuArray['name']." <span class=\"caret\"></span></a>";
+                        $loc_Menu .= "<ul class=\"dropdown-menu\">";
+                        foreach ($loc_MenuArray['children'] as $loc_Child) {
+                            $loc_Menu .= "<li><a href=\"#\">".$loc_Child."</a></li>";
+                        }
+                        $loc_Menu .= "</ul>";
+                        $loc_Menu .= "</li>";
+                    }
+
+                }
+
+
+        $loc_Menu .= "</ul></div></nav>";
+
+        return $loc_Menu;
+    }
 
 ################################################################################
 # 5. Protected Methods #########################################################
@@ -190,6 +235,9 @@ class Template {
         return ture;
     }
 
+    /**
+     *
+     */
     private static function _addComment() {
 
     }
@@ -249,6 +297,8 @@ class Template {
         self::$_templateCompile[$pin_Template]->compiled = self::_translateLanguageVariables($pin_Template);
         self::$_templateCompile[$pin_Template]->info = self::_getTemplateInfo($pin_Template);
     }
+
+
 
 }
 

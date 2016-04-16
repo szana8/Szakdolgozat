@@ -60,7 +60,17 @@ class Core {
         
         return $pout_Object;
     }
-    
+
+    /**
+     * @return \stdClass
+     */
+    public static function arrayToHierarchy(array $pin_List, int $pin_Root) : \stdClass {
+        $loc_Parents = array();
+        foreach ($pin_List as $loc_Array) {
+            $loc_Parents[$loc_Array['parent']][] = $loc_Array;
+        }
+    }
+
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
@@ -78,7 +88,14 @@ class Core {
         Debug::DebugMsg($pin_Msg, $pin_Namespace, "", $pin_Type);
         return($pin_Msg);
     }
-   
+
+    protected static function _createBranch(&$pin_Parents, $pin_Children) {
+        $loc_Tree = array();
+        foreach ($pin_Children as $loc_Child) {
+           
+        }
+    }
+
 ################################################################################
 # 6. Private Methods ###########################################################
 ################################################################################

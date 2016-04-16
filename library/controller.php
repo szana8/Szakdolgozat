@@ -176,7 +176,7 @@ class Controller {
 
         $loc_CoreElements = $this->_loadCoreElements();
         $this->_loadMenu();
-        \library\Httpresponse::sendContent(str_replace(array("<%core.menu%>", "<%core.body%>"), array($this->_menu, $loc_Module), $loc_CoreElements));
+        \library\Httpresponse::sendContent(str_replace(array("<%core.menu%>", "<%core.body%>"), array($this->_menuString, $loc_Module), $loc_CoreElements));
     }
 
     /**
@@ -203,6 +203,8 @@ class Controller {
     protected function _loadMenu() {
         $obj_Menu = new \library\Menu();
         $this->_menu = $obj_Menu->createMenu();
+        $this->_menuString = \library\Template::createMenu($this->_menu);
+        //echo'<pre>', print_r($this->_menuString), '</pre>';
     }
 
     /**

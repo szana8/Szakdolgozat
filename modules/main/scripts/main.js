@@ -18,7 +18,6 @@ function setGadgetDefault() {
 
     $('.app-gadget').mouseleave(function(event) {
         $(this).find(".gadget-options").hide();
-        $("button.dropdown-toggle").dropdown("toggle");
     });
 
     $('.gadget-minimize').click(function() {

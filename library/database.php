@@ -28,7 +28,7 @@ interface Database {
      * @version 1.0
      * @access public
      */
-    public function __construct();
+    public function __construct($pin_FetchMode = \PDO::FETCH_OBJ);
 
     /**
      *

@@ -24,9 +24,12 @@ class Mysql implements Database {
 
     const   databaseConnectionError         = 'mys00001';
 
+
 ################################################################################
 # 2. Public Properties #########################################################
 ################################################################################
+
+    public $fetchMode   = PDO::FETCH_OBJ;
 
 ################################################################################
 # 3. Protected Properties ######################################################
@@ -91,7 +94,7 @@ class Mysql implements Database {
      * @version 1.0
      * @access public
      */
-    public function __construct() {
+    public function __construct($pin_FetchMode = \PDO::FETCH_OBJ) {
         $this->_pdoDB = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->SCHEMA;
         $this->_pdoHost = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->HOST;
         $this->_pdoUsername = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->USERNAME;
@@ -99,7 +102,7 @@ class Mysql implements Database {
         $this->_pdoDBType = 'MySQL';
         $this->_pdoOption = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
         $this->_dbObject = new \stdClass();
-
+        $this->fetchMode = $pin_FetchMode;
         return $this->connect();
     }
 
@@ -114,7 +117,7 @@ class Mysql implements Database {
 
             $this->_dbObject->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->_dbObject->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-            $this->_dbObject->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $this->_dbObject->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, $this->fetchMode);
             return true;
         }
         catch(\PDOException $pout_Err) {
@@ -137,7 +140,7 @@ class Mysql implements Database {
             $loc_Query = $this->_dbObject->prepare($pin_Query);
             $loc_Query->execute();
 
-            return $loc_Query->fetch();
+            return $loc_Query->fetchAll();
         }
         catch(\Exception $pout_Err) {
             return $pout_Err->getMessage();

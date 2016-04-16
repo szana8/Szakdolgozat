@@ -16,5 +16,6 @@ if(count(get_included_files()) === 1) {
 \library\Language::setLang(array(
     'APP_D_ROOT' => APPS_D_ROOT,
     'MSG.ERROR.INVALID_FILE_NAME' => 'Invalid file name!',
-    'LOGO' => 'Logo'
+    'LOGO' => 'Logo',
+    'APP.MENU.DASHBOARDS' => 'Dashboards'
 ));
