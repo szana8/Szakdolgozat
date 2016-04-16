@@ -41,13 +41,26 @@
 .colorize-green:hover {
     border: 2px solid #000000;
 }
+.colorize-green {
+    background-color: #f5f5f5;
+    border: 2px solid #f5f5f5;
+}
+.colorize-green:hover {
+    border: 2px solid #000000;
+}
 .placeholder {
-    border: 1px solid green;
-    background-color: white;
+    border: 1px dashed #BBBBBB;
+    background-color: #EEEEEE;
     -webkit-box-shadow: 0px 0px 10px #888;
     -moz-box-shadow: 0px 0px 10px #888;
     box-shadow: 0px 0px 10px #888;
 }
 .grid {
+    min-height: 50px;
+}
+.dashboard-list {
     border-left: 1px solid #CCCCCC;
+}
+.gadget-options {
+    display: none;
 }
