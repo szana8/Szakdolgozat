@@ -126,19 +126,16 @@ class Controller {
      * @version 1.0
      */
     public function startModule(array $pin_Param = array()) {
-        if($pin_Param[1] == '') {
+        if($pin_Param[1] == '')
             $pin_Param[1] = $this->_mainModule;
-        }
 
         \library\Language::setModuleLang($pin_Param[1]);
         
         if(\library\Modulemanager::needAuthentication($this->_method) === true) {
-            if(Authentication::isAuth()) {
+            if(AuthSQL::isAuth())
                 $this->_loadModule($pin_Param[1]);
-            }
-            else {
+            else
                 $this->ShowErrorPage(500);
-            }
         }
         else {
             $this->_loadModule($pin_Param[1]);
@@ -204,7 +201,6 @@ class Controller {
         $obj_Menu = new \library\Menu();
         $this->_menu = $obj_Menu->createMenu();
         $this->_menuString = \library\Template::createMenu($this->_menu);
-        //echo'<pre>', print_r($this->_menuString), '</pre>';
     }
 
     /**

@@ -27,25 +27,13 @@ class Menu {
                                            ,menu_parent_id
                                            ,sequence
                                       FROM apps.fnd_menus
+                                     WHERE enabled = "Y"
                                      ORDER BY menu_type ASC, 
                                               menu_parent_id ASC, 
                                               sequence ASC');
-        return $this->createMenuHierarchy($loc_List);
+        return $loc_List;
     }
 
-
-    public function createMenuHierarchy($pin_Array) {
-        $loc_Tree = array();
-        foreach ($pin_Array as $loc_Key => $loc_Item) {
-            if($loc_Item['menu_type'] == 1) {
-                $loc_Tree['parent'][$loc_Item['menu_id']] = array('name' => $loc_Item['menu_name'], 'id' => $loc_Item['menu_id']);
-            }
-            else {
-                $loc_Tree['parent'][$loc_Item['menu_parent_id']]['children'][$loc_Item['sequence']] = $loc_Item['menu_name'];
-            }
-        }
-        return $loc_Tree['parent'];
-    }
-
+    
 
 }

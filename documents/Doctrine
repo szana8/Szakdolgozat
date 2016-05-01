@@ -1,0 +1,3 @@
+Entity annotation:
+php vendor/doctrine/orm/bin/doctrine.php orm:convert-mapping --force --from-database annotation ./src/Entity
+

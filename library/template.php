@@ -101,11 +101,15 @@ class Template {
         self::_templateCompile(self::$_templateName);
         return self::$_templateCompile[self::$_templateName];
     }
-    
-    
-    public static function createMenu($pin_MenuArray) {
 
-        $loc_Menu = "<nav class=\"navbar navbar-default\">";
+
+    /**
+     * A menü generálását végzi, rekurzívan generál, így bármennyi almenü lehetséges.
+     * @param $pin_MenuArray                A menü elemeinek tömbje
+     * @return string                       A menü HTML kódja
+     */
+    public static function createMenu($pin_MenuArray) {
+        $loc_Menu = "";
         $loc_Menu .= "<div class=\"container-fluid\">";
             $loc_Menu .= "<div class=\"navbar-header\">
                             <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">
@@ -114,38 +118,35 @@ class Template {
                                 <span class=\"icon-bar\"></span>
                                 <span class=\"icon-bar\"></span>
                               </button>
-                              <a class=\"navbar-brand\" href=\"#\">Brand</a>
+                              <a class=\"navbar-brand\" href=\"#\">{APP.MENU.LOGO}</a>
                             </div>";
             $loc_Menu .= "<div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">";
-            $loc_Menu .= "<ul class=\"nav navbar-nav\">";
-
-                foreach ($pin_MenuArray as $loc_MenuArray)
-                {
-                    if(!isset($loc_MenuArray['children'])) {
-                        $loc_Menu .= "<li><a href=\"#\">";
-                        if(\library\Language::getLanguageElement(str_replace(array('}', '{'), '', $loc_MenuArray['name']))->success)
-                            $loc_Menu .= \library\Language::getLanguageElement(str_replace(array('}', '{'), '', $loc_MenuArray['name']))->element;
-                        else
-                            $loc_Menu .= $loc_MenuArray['name'];
-
-                        $loc_Menu .= "</a></li>";
-                    }
-                    else {
-                        $loc_Menu .= "<li class=\"dropdown\"><a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">".$loc_MenuArray['name']." <span class=\"caret\"></span></a>";
-                        $loc_Menu .= "<ul class=\"dropdown-menu\">";
-                        foreach ($loc_MenuArray['children'] as $loc_Child) {
-                            $loc_Menu .= "<li><a href=\"#\">".$loc_Child."</a></li>";
-                        }
-                        $loc_Menu .= "</ul>";
-                        $loc_Menu .= "</li>";
-                    }
-
-                }
+            $loc_Menu .= self::_generatePageTree($pin_MenuArray);
 
 
-        $loc_Menu .= "</ul></div></nav>";
+            $loc_Menu .= '<ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <form class="navbar-form navbar-right" role="search">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search">
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
+                            </li></ul>';
+        $loc_Menu .= '</div>';
 
-        return $loc_Menu;
+        self::$_templateName = md5('mainMenu');
+        self::$_templateSource[self::$_templateName] = $loc_Menu;
+        return self::renderTemplate()->compiled;
     }
 
 ################################################################################
@@ -298,7 +299,79 @@ class Template {
         self::$_templateCompile[$pin_Template]->info = self::_getTemplateInfo($pin_Template);
     }
 
+    /**
+     * Rekurzívan legenerálja a menü html kódját.
+     *
+     * @param $pin_Array                A menu tömbje
+     * @param int $pin_Parent           A szülő id-je
+     * @param int $pin_Depth            A mélység
+     * @return bool|string              A kigenerált menü
+     */
+    private static function _generatePageTree($pin_Array, $pin_Parent = 0, $pin_Depth=1){
 
+        if($pin_Depth > 100) return ''; // Make sure not to have an endless recursion
+
+        if($pin_Depth == 1)
+            $tree = '<ul class="nav navbar-nav">';
+        else if($pin_Depth >= 2) {
+            $tree = '<ul class="dropdown-menu">';
+        }
+        $loc_tmp = false;
+
+        for($i=0, $ni=count($pin_Array); $i < $ni; $i++){
+            if($pin_Array[$i]['menu_parent_id'] == $pin_Parent) {
+                $loc_tmp = true;
+                if($pin_Depth == 1) {
+                    if(self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1) == null) {
+                        $tree .= '<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= $pin_Array[$i]['menu_name'];
+                        $tree .= '</a>';
+                    }
+                    else {
+                        $tree .= '<li class="menu-item dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= $pin_Array[$i]['menu_name'];
+                        $tree .= '<span class="caret"></span>';
+                        $tree .= '</a>';
+                        $tree .= self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1);
+                    }
+                }
+                elseif ($pin_Depth == 2) {
+                    if(self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1) == null) {
+                        $tree .= '<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= $pin_Array[$i]['menu_name'];
+                        $tree .= '</a>';
+                    }
+                    else {
+                        $tree .= '<li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= $pin_Array[$i]['menu_name'];
+                        $tree .= '</a>';
+                        $tree .= self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1);
+                    }
+                }
+                else {
+                    if(self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1) == null) {
+                        $tree .= '<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= $pin_Array[$i]['menu_name'];
+                        $tree .= '</a>';
+                    }
+                    else {
+                        $tree .= '<li class="dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= $pin_Array[$i]['menu_name'];
+                        $tree .= '</a>';
+                        $tree .= self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1);
+                    }
+                }
+
+                //
+                $tree .= '</li>';
+            }
+        }
+        if($loc_tmp != true)
+            return false;
+
+        $tree .= '</ul>';
+        return $tree;
+    }
 
 }
 

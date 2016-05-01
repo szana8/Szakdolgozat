@@ -1,5 +1,5 @@
 <?php
-namespace library;
+namespace library\interfaces;
 /**
  * Link: 
  * File: database.php
@@ -55,7 +55,7 @@ interface Database {
      * @version 1.0
      * @access public
      */
-    public function setAttribute(string $pin_AttributeName, string $pin_AttributeValue, array $pin_Option) : boolean;
+    public function setAttribute(string $pin_AttributeName, string $pin_AttributeValue, array $pin_Option) : bool;
 
     /**
      * Beállít egy limitet a query-hez.
@@ -66,7 +66,7 @@ interface Database {
      * @version 1.0
      * @access public
      */
-    public function setLimit(integer $pin_LimitFrom, integer $pin_NumberOfRecords) : boolean;
+    public function setLimit(\integer $pin_LimitFrom, \integer $pin_NumberOfRecords) : bool;
 
     /**
      * Beállít egy rendezést a query-nek.
@@ -77,7 +77,7 @@ interface Database {
      * @version 1.0
      * @access public
      */
-    public function setOrderByClause(string $pin_OrderBy, string$pin_ASC = "ASC") : boolean;
+    public function setOrderByClause(string $pin_OrderBy, string $pin_ASC = "ASC") : bool;
 
     /**
      * Visszatér egy attribútum objektumával. Az objektum tartalmazza az értékeket, típust, stb.
@@ -96,7 +96,7 @@ interface Database {
      * @version 1.0
      * @access public
      */
-    public function getNumberOfRecords() : integer;
+    public function getNumberOfRecords() : \integer;
 
     /**
      * Meghívja a paraméterben kapott sql procedure-t, vagy function-t, majd visszatér az objektumával.

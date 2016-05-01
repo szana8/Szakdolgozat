@@ -16,7 +16,7 @@ use \PDO, \PDOException;
 
 
 
-class Mysql implements Database {
+class Mysql implements interfaces\Database {
 
 ################################################################################
 # 1. Constants #################################################################
@@ -157,9 +157,10 @@ class Mysql implements Database {
      * @version 1.0
      * @access public
      */
-    public function setAttribute(string $pin_AttributeName, string $pin_AttributeValue, array $pin_Option) : boolean
+    public function setAttribute(string $pin_AttributeName, string $pin_AttributeValue, array $pin_Option) : bool
     {
         // TODO: Implement setAttribute() method.
+        return false;
     }
 
     /**
@@ -171,9 +172,10 @@ class Mysql implements Database {
      * @version 1.0
      * @access public
      */
-    public function setLimit(integer $pin_LimitFrom, integer $pin_NumberOfRecords) : boolean
+    public function setLimit(\integer $pin_LimitFrom, \integer $pin_NumberOfRecords) : bool
     {
         // TODO: Implement setLimit() method.
+        return false;
     }
 
     /**
@@ -185,9 +187,10 @@ class Mysql implements Database {
      * @version 1.0
      * @access public
      */
-    public function setOrderByClause(string $pin_OrderBy, string $pin_ASC = "ASC") : boolean
+    public function setOrderByClause(string $pin_OrderBy, string $pin_ASC = "ASC") : bool
     {
         // TODO: Implement setOrderByClause() method.
+        return false;
     }
 
     /**
@@ -201,6 +204,8 @@ class Mysql implements Database {
     public function getAttributes(string $pin_Attributes = NULL) : \stdClass
     {
         // TODO: Implement getAttributes() method.
+        $obj_Tmp = new \stdClass();
+        return $obj_Tmp;
     }
 
     /**
@@ -210,9 +215,10 @@ class Mysql implements Database {
      * @version 1.0
      * @access public
      */
-    public function getNumberOfRecords() : integer
+    public function getNumberOfRecords() : \integer
     {
         // TODO: Implement getNumberOfRecords() method.
+        return 0;
     }
 
     /**
@@ -226,6 +232,8 @@ class Mysql implements Database {
     public function callProcedure(string $pin_ProcedureName) : \stdClass
     {
         // TODO: Implement callProcedure() method.
+        $obj_Tmp = new \stdClass();
+        return $obj_Tmp;
     }
 
 

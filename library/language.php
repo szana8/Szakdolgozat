@@ -73,6 +73,7 @@ class Language {
     public static function Initialize() {
         $_langObj = array();
         self::_loadLanguageCore();
+        self::_loadLanguageMenu();
         Debug::setDebugMessage(array(__METHOD__, self::langInitSuccess, "{MSG.INFO.LANG_INIT_SUCCESFULL}", "info"));
     }
 
@@ -153,6 +154,24 @@ class Language {
                 @require_once APPS_D_LOCALE . 'debug/debug.eng.php';
                 Debug::setDebugMessage(array(__METHOD__, self::langFileNotExists, "{MSG.ERROR.LANG_FILE_NOT_EXISTS}", "err", APPS_D_LOCALE . 'debug/debug.eng.php'));
             }
+        }
+    }
+
+    /**
+     * Privát metódus a keretrendszer menü nyelvi állományának betöltéséért felel. Ha a paraméter true
+     * akkor a debug nyelvi elemeket is betölti.
+     *
+     * @param bool $pin_Option                          Opciók
+     * @access private
+     * @version 1.0
+     */
+    private static function _loadLanguageMenu(bool $pin_Option = false) {
+        if(\library\File::getFileExists(APPS_D_LOCALE . 'core.' . self::$_lang . '.php')) {
+            @require_once APPS_D_LOCALE . 'menu.' . self::$_lang . '.php';
+        }
+        else {
+            @require_once APPS_D_LOCALE . 'menu.eng.php';
+            Debug::setDebugMessage(array(__METHOD__, self::langFileNotExists, "{MSG.ERROR.LANG_FILE_NOT_EXISTS}", "err", APPS_D_LOCALE . 'core.' . self::$_lang . '.php'));
         }
     }
 
