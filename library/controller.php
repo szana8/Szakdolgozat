@@ -128,8 +128,8 @@ class Controller {
     public function startModule(array $pin_Param = array()) {
         if($pin_Param[1] == '')
             $pin_Param[1] = $this->_mainModule;
-
-        \library\Language::setModuleLang($pin_Param[1]);
+        
+        \library\Language::setModuleLang(strtolower($pin_Param[1]));
         
         if(\library\Modulemanager::needAuthentication($this->_method) === true) {
             if(AuthSQL::isAuth())

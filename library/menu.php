@@ -21,19 +21,22 @@ class Menu {
      */
     public function createMenu() {
         $loc_DB = new \library\Mysql(\PDO::FETCH_ASSOC);
-        $loc_List = $loc_DB->query('SELECT menu_id
-                                           ,menu_name
-                                           ,menu_type
-                                           ,menu_parent_id
-                                           ,sequence
-                                      FROM apps.fnd_menus
-                                     WHERE enabled = "Y"
+        $loc_List = $loc_DB->query('SELECT fm.menu_id
+                                          ,menu_name
+                                          ,menu_type
+                                          ,menu_parent_id
+                                          ,sequence
+                                          ,fa.basepath
+                                      FROM apps.fnd_menus fm
+                                 LEFT JOIN apps.fnd_application fa 
+                                        ON fm.menu_id = fa.menu_id AND fa.enabled = "Y"
+                                     WHERE fm.enabled = "Y"
                                      ORDER BY menu_type ASC, 
                                               menu_parent_id ASC, 
                                               sequence ASC');
         return $loc_List;
     }
 
-    
+
 
 }

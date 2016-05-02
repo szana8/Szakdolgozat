@@ -307,8 +307,7 @@ class Template {
      * @param int $pin_Depth            A mélység
      * @return bool|string              A kigenerált menü
      */
-    private static function _generatePageTree($pin_Array, $pin_Parent = 0, $pin_Depth=1){
-
+    private static function _generatePageTree($pin_Array, $pin_Parent = 0, $pin_Depth=1) {
         if($pin_Depth > 100) return ''; // Make sure not to have an endless recursion
 
         if($pin_Depth == 1)
@@ -323,7 +322,7 @@ class Template {
                 $loc_tmp = true;
                 if($pin_Depth == 1) {
                     if(self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1) == null) {
-                        $tree .= '<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= '<li><a href="'.__ROOT_URL__.'startModule/'.$pin_Array[$i]['basepath'].'">';
                         $tree .= $pin_Array[$i]['menu_name'];
                         $tree .= '</a>';
                     }
@@ -337,7 +336,7 @@ class Template {
                 }
                 elseif ($pin_Depth == 2) {
                     if(self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1) == null) {
-                        $tree .= '<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= '<li><a href="'.__ROOT_URL__.'startModule/'.$pin_Array[$i]['basepath'].'">';
                         $tree .= $pin_Array[$i]['menu_name'];
                         $tree .= '</a>';
                     }
@@ -350,7 +349,7 @@ class Template {
                 }
                 else {
                     if(self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1) == null) {
-                        $tree .= '<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">';
+                        $tree .= '<li><a href="'.__ROOT_URL__.'startModule/'.$pin_Array[$i]['basepath'].'">';
                         $tree .= $pin_Array[$i]['menu_name'];
                         $tree .= '</a>';
                     }
@@ -361,8 +360,7 @@ class Template {
                         $tree .= self::_generatePageTree($pin_Array, $pin_Array[$i]['menu_id'], $pin_Depth + 1);
                     }
                 }
-
-                //
+                
                 $tree .= '</li>';
             }
         }

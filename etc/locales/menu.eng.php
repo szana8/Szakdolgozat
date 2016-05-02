@@ -24,7 +24,7 @@ if(count(get_included_files()) === 1) {
     'APP.MENU.MANAGE_RESPONSIBILITY_LOOKUP' => 'Responsibility Lookups',
     'APP.MENU.MANAGE_METADATA' => 'Metadata',
     'APP.MENU.PLUGINS' => 'Plugins',
-    'APP.MENU.PLUGIN_LIST' => 'Plugin List',
+    'APP.MENU.PLUGINS_LIST' => 'Plugins List',
     'APP.MENU.MODULE_LIST' => 'Module List',
     'APP.MENU.INSTALL_PLUGIN' => 'Install Plugin',
     'APP.MENU.INSTALL_MODULE' => 'Install Module'
