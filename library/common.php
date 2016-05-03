@@ -105,7 +105,7 @@ function autoload(string $pin_ClassName) : bool {
     }
 
     if($loc_Directory[0] == 'modules') {
-        $loc_Location .= '/library/'. end($loc_Directory);
+        $loc_Location .= '/' . end($loc_Directory);
     }
     elseif($loc_Directory[0] == 'WebServices') {
         $loc_Location .= '/' . end($loc_Directory) . '/' .  end($loc_Directory);

@@ -40,11 +40,7 @@ class Controller {
 ################################################################################
     
     public function Run() {
-        \library\Httpresponse::addScriptFile(__ROOT_URL__ . 'modules/main/scripts/main.js');
-        \library\Template::loadTemplate(APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . "main" .
-                                        APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html");
-        $loc_Template = \library\Template::renderTemplate();
-        return $loc_Template->compiled;
+        return View::Run();
     }
     
 ################################################################################
