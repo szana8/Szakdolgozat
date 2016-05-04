@@ -1,4 +1,8 @@
 <?php
+namespace modules\PluginsList\library;
+use library\File;
+use library\Httpresponse;
+
 /**
  * Link:
  * File: Controller.php
@@ -12,7 +16,8 @@
  *
  */
 
-namespace modules\PluginsList\library;
+
+
 
 class Controller
 {
@@ -28,24 +33,45 @@ class Controller
 # 3. Protected Properties ######################################################
 ################################################################################
 
+    /**
+     * @var string
+     */
     private static $_moduleName = "Pluginslist";
+
+    /**
+     * @var
+     */
+    private $_addonList;
 
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
 
-    public function Run() {
-        //\library\Httpresponse::addScriptFile(__ROOT_URL__ . 'modules/main/scripts/main.js');
-        \library\Template::loadTemplate(APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . self::$_moduleName .
-            APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html");
-        $loc_Template = \library\Template::renderTemplate();
-        return $loc_Template->compiled;
+    /**
+     * @return string
+     */
+    public function Run() : string {
+        //Httpresponse::addStyleFile(__ROOT_URL__ . 'modules/pluginslist/style/pluginslist.css');
+
+        return View::Run(self::_loadAddons());
     }
 
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
 
+    /**
+     * @return \stdClass
+     * @throws \Exception
+     */
+    private static function _loadAddons() : \stdClass {
+        try {
+            return File::getIniContent(APPS_D_CONFIG . "extensions.ini");
+        }
+        catch(\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
 ################################################################################
 # 6. Private Methods ###########################################################
