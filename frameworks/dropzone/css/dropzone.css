@@ -99,7 +99,7 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  font-size: 30px;
+  font-size: 10px;
   text-align: center;
   right: -10px;
   top: -10px;
@@ -154,11 +154,11 @@
   display: block;
 }
 .dropzone {
-  border: 1px solid rgba(0,0,0,0.03);
-  min-height: 360px;
+  border: 2px dashed #0087F7;
+  min-height: 100px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  background: rgba(0,0,0,0.03);
+  background: white;
   padding: 23px;
 }
 .dropzone .dz-default.dz-message {
@@ -170,9 +170,9 @@
   -o-transition: opacity 0.3s ease-in-out;
   -ms-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-  background-image: url("../images/spritemap.png");
-  background-repeat: no-repeat;
-  background-position: 0 0;
+  //background-image: url("../images/spritemap.png");
+  //background-repeat: no-repeat;
+  //background-position: 0 0;
   position: absolute;
   width: 428px;
   height: 123px;
@@ -190,7 +190,10 @@
   }
 }
 .dropzone .dz-default.dz-message span {
-  display: none;
+  font-size: 14pt;
+  text-align: center;
+  margin-top: 50px;
+  display: block;
 }
 .dropzone.dz-square .dz-default.dz-message {
   background-position: 0 -123px;
@@ -214,7 +217,7 @@
 .dropzone-previews .dz-preview {
   -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
   box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
-  font-size: 14px;
+  font-size: 12px;
 }
 .dropzone .dz-preview.dz-image-preview:hover .dz-details img,
 .dropzone-previews .dz-preview.dz-image-preview:hover .dz-details img {

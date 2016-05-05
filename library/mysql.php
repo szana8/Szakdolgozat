@@ -118,7 +118,7 @@ class Mysql implements interfaces\Database {
             $this->_dbObject->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->_dbObject->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
             $this->_dbObject->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, $this->fetchMode);
-            return true;
+            return $this->_dbObject;
         }
         catch(\PDOException $pout_Err) {
             Debug::setDebugMessage(array(__METHOD__, self::databaseConnectionError, "{MSG.ERROR.DB_CONNECTION_ERROR}", "error", $pout_Err->getMessage()));

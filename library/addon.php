@@ -1,27 +1,21 @@
 <?php
-namespace modules\PluginsList\library;
-use library\Addon;
-use library\File;
-use library\Httpresponse;
-use library\Mysql;
-
 /**
  * Link:
- * File: Controller.php
- * Namespace: modules\Pluginslist
+ * File: Addon.php
+ * Namespace: library
  *
- * Description of Controller
+ * Description of Addon
  *
  *
  *  Version     Date            Author               Changelog
- *   1.0.0      2016. 05. 02.     Pisti                Created
+ *   1.0.0      2016. 05. 04.     Pisti                Created
  *
  */
 
+namespace library;
 
 
-
-class Controller
+class Addon
 {
 ################################################################################
 # 1. Constants #################################################################
@@ -35,51 +29,23 @@ class Controller
 # 3. Protected Properties ######################################################
 ################################################################################
 
-    /**
-     * @var string
-     */
-    private static $_moduleName = "Pluginslist";
-
-    /**
-     * @var
-     */
-    private $_addonList;
 
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
 
-    /**
-     * @return string
-     */
-    public function Run() : string {
-        //Httpresponse::addStyleFile(__ROOT_URL__ . 'modules/pluginslist/style/pluginslist.css');
-
-        return View::Run(self::_loadAddons());
+    public static function getAddons() {
+        $loc_DB = new \library\Mysql(\PDO::FETCH_ASSOC);
+        $loc_List = $loc_DB->query('SELECT * FROM fnd_addons ORDER BY name');
+        return $loc_List;
     }
 
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
 
-    /**
-     * @return \stdClass
-     * @throws \Exception
-     */
-    private static function _loadAddons() {
-        try {
-            $obj_Addons = new Addon();
-            return $obj_Addons->getAddons();
-        }
-        catch(\Exception $e) {
-            echo $e->getMessage();
-        }
-    }
-
 ################################################################################
 # 6. Private Methods ###########################################################
 ################################################################################
-
-
 
 }

@@ -1,22 +1,62 @@
+<div class="plugin-dialogs">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{Button.Label.UploadAddon}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bs-callout bs-callout-warning">
+                        {Text.UploadInfo}
+                        <ul>
+                            <li>{List.Element.GroupID}</li>
+                            <li>{List.Element.ArtifactID}</li>
+                            <li>{List.Element.Version}</li>
+                            <li>{List.Element.Name}</li>
+                            <li>{List.Element.Description}</li>
+                        </ul>
+                    </div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">{Label.Text.UploadFromThisComputer}</label>
+                            <div class="col-sm-8">
+                                <input type="file" name="addonFile" id="addonFileID" class="form-control" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">{Button.Label.Upload}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{Button.Label.Cancel}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-2">
         <ul class="nav nav-pills nav-stacked plugins-nav">
-            <li><h4>Add-ons</h4></li>
-            <li><a href="#">Versions and licences</a></li>
-            <li><a href="#">Find new addons</a></li>
-            <li class="active"><a href="#">Manage addons</a></li>
+            <li><h4>{Button.Label.Addons}</h4></li>
+            <li><a href="#">{Button.Label.VersionAndLicences}</a></li>
+            <li><a href="#">{Button.Label.FindNewAddons}</a></li>
+            <li class="active"><a href="#">{Button.Label.ManageAddons}</a></li>
             <li class="nav-divider"></li>
         </ul>
     </div>
     <div class="col-sm-10 plugin-list">
         <div class="row">
+            <div class="col-sm-12" id="addon-respons-div"></div>
+        </div>
+        <div class="row">
             <div class="col-sm-11">
-                <h3>Manage Add-ons</h3>
-                <p>You may install update and enable/disable add-ons here. <a href="#">Find new add-ons.</a></p>
+                <h3>{Button.Label.ManageAddons}</h3>
+                <p>{Text.InstallUpdate} <a href="#">{Button.Label.FindNewAddons}</a></p>
                 <div class="bs-callout bs-callout-info" role="alert">
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    All add-on data displayed below is for the lates known product version.
-                    <b>Add-on compatibility whith this version is unverified. Install add-ons at your own risk.</b>
+                    {Text.AddonData}
+                    <b>{Text.AddonCompatibility}</b>
                 </div>
             </div>
         </div>
@@ -24,19 +64,21 @@
             <div class="col-sm-11">
                 <form class="form-inline">
                     <select name="ext-class" class="form-control">
-                        <option value="">All</option>
-                        <option value="">PHP Extensions</option>
-                        <option value="">CSS Extensions</option>
-                        <option value="">JavaScript Extensions</option>
+                        <option value="">{Select.Value.All}</option>
+                        <option value="">{Select.Value.PhpExtension}</option>
+                        <option value="">{Select.Value.CssExtension}</option>
+                        <option value="">{Select.Value.JavaScriptExtensions}</option>
                     </select>
                     <select name="ext-type" class="form-control">
-                        <option value="">All</option>
-                        <option value="">Framework</option>
-                        <option value="">User installed</option>
+                        <option value="">{Select.Value.All}</option>
+                        <option value="">{Select.Value.Framework}</option>
+                        <option value="">{Select.Value.Autoload}</option>
                     </select>
-                    <input type="text" name="search-plugin" class="form-control" placeholder="Search by name" />
+                    <input type="text" name="search-plugin" class="form-control" placeholder="Search by name"/>
                     <div class="pull-right">
-                        <button class="btn btn-primary"><i class="glyphicon glyphicon-upload"></i> Upload add-on</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i
+                                class="glyphicon glyphicon-upload"></i> {Button.Label.UploadAddon}
+                        </button>
                     </div>
                 </form>
             </div>

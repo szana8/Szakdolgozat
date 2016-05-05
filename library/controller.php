@@ -137,7 +137,6 @@ class Controller {
         
         \library\Language::setModuleLang(strtolower($pin_Param[1]));
 
-        /*
         if(\library\Modulemanager::needAuthentication($this->_method) === true) {
             if(AuthSQL::isAuth())
                 $this->_loadModule($pin_Param[1]);
@@ -146,8 +145,7 @@ class Controller {
         }
         else {
             $this->_loadModule($pin_Param[1]);
-        }*/
-        $this->_loadModule($pin_Param[1]);
+        }
     }
 
     /**
@@ -180,7 +178,7 @@ class Controller {
 
 
         $loc_CoreElements = $this->_loadCoreElements();
-        //$this->_loadMenu();
+        $this->_loadMenu();
         \library\Httpresponse::sendContent(str_replace(array("<%core.menu%>", "<%core.body%>"), array($this->_menuString, $loc_Module), $loc_CoreElements));
     }
 

@@ -33,7 +33,7 @@ class View
 # 4. Public Methods ############################################################
 ################################################################################
 
-    public static function Run(\stdClass $pin_AddonObj) : string {
+    public static function Run($pin_AddonObj) : string {
         self::_createAddonList($pin_AddonObj);
         $loc_String = self::_loadTemplate();
         $loc_String = str_replace('%MODULE.LIST.ADDONS_LIST%', self::$_addonString, $loc_String);
@@ -57,17 +57,30 @@ class View
      * @param \stdClass $pin_AddonObj
      * @return string
      */
-    private static function _createAddonList(\stdClass $pin_AddonObj) {
-        foreach ($pin_AddonObj->CSSExtensions as $loc_Key => $loc_Object) {
+    private static function _createAddonList($pin_AddonObj) {
+
+        foreach ($pin_AddonObj as $loc_Key => $loc_Object) {
+            switch($loc_Object['type']):
+                case 1:
+                    $loc_Icon = 'php-plugin';
+                    break;
+                case 2:
+                    $loc_Icon = 'plugin';
+                    break;
+                case 3:
+                    $loc_Icon = 'css-plugin';
+                    break;
+            endswitch;
+
             self::$_addonString .= '<div class="list-group">
                                         <a class="list-group-item">
                                             <div class="row">
                                                 <div class="col-sm-10">
-                                                    <h4 class="list-group-item-heading"><img src="'.__ROOT_URL__.'images/plugin.png" width="30px" /> '.$loc_Key.'</h4>
+                                                    <h4 class="list-group-item-heading"><img src="'.__ROOT_URL__.'images/'.$loc_Icon.'.png" width="30px" /> '.$loc_Object['name'].'</h4>
                                                     <p>
                                                         <ul class="list-inline addon-version">
-                                                            <li >Installed version: 1.11</li>
-                                                            <li>Location: '.$loc_Object.'</li>
+                                                            <li >Installed version: '.$loc_Object['version'].'</li>
+                                                            <li>Location: '.$loc_Object['location'].'</li>
                                                         </ul>
                                                     </p>
                                                 </div>
@@ -77,59 +90,7 @@ class View
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <p>The '.$loc_Key.' is a CSSExtension. You can not update or delete this. </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>';
-        }
-
-        foreach ($pin_AddonObj->JavaScriptExtensions as $loc_Key => $loc_Object) {
-            self::$_addonString .= '<div class="list-group">
-                                        <a class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-sm-10">
-                                                    <h4 class="list-group-item-heading"><img src="'.__ROOT_URL__.'images/plugin.png" width="30px" /> '.$loc_Key.'</h4>
-                                                    <p>
-                                                        <ul class="list-inline addon-version">
-                                                            <li >Installed version: 1.11</li>
-                                                            <li>Location: '.$loc_Object.'</li>
-                                                        </ul>
-                                                    </p>
-                                                </div>
-                                                <div class="col-sm-2 text-right">
-                                                    <button class="btn btn-primary" style="margin-top: 20px;"><i class="glyphicon glyphicon-refresh"></i>Update</button>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <p>The '.$loc_Key.' is a JavaScriptExtensions. You can not update or delete this. </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>';
-        }
-
-        foreach ($pin_AddonObj->PHPExtensions as $loc_Key => $loc_Object) {
-            self::$_addonString .= '<div class="list-group">
-                                        <a class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-sm-10">
-                                                    <h4 class="list-group-item-heading"><img src="'.__ROOT_URL__.'images/plugin.png" width="30px" /> '.$loc_Key.'</h4>
-                                                    <p>
-                                                        <ul class="list-inline addon-version">
-                                                            <li >Installed version: 1.11</li>
-                                                            <li>Location: '.$loc_Object.'</li>
-                                                        </ul>
-                                                    </p>
-                                                </div>
-                                                <div class="col-sm-2 text-right">
-                                                    <button class="btn btn-primary" style="margin-top: 20px;"><i class="glyphicon glyphicon-refresh"></i> Update</button>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <p>The '.$loc_Key.' is a PHPExtensions. You can not update or delete this. </p>
+                                                    <p>'.$loc_Object['description'].'</p>
                                                 </div>
                                             </div>
                                         </a>

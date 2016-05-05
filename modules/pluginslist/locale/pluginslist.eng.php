@@ -14,16 +14,30 @@ if(count(get_included_files()) === 1) {
 }
 
 \library\Language::setLang(array(
-    'Button.Label.AddGadget' => 'Add Gadget',
-    'Button.Label.EditLayout' => 'Edit Layout',
-    'Button.Label.Tools' => 'Tools',
-    'Button.Label.CopyDashboard' => 'Copy Dashboard',
-    'Button.Label.EditDashboard' => 'Edit Dashboard',
-    'Button.Label.DeleteDashboard' => 'Delete Dashboard',
-    'Button.Label.FindDashboard' => 'Find Dashboard',
-    'Button.Label.CreateDashboard' => 'Create Dashboard',
-    'Button.Label.Edit' => 'Edit',
-    'Button.Label.Minimize' => 'Minimize',
-    'Button.Label.Maximize' => 'Maximize',
-    'Button.Label.Delete' => 'Delete'
+    'Button.Label.Upload' => 'Upload',
+    'Button.Label.Cancel' => 'Cancel',
+    'Button.Label.Addons' => 'Add-ons',
+    'Button.Label.VersionAndLicences' => 'Versions and licences',
+    'Button.Label.FindNewAddons' => 'Find new add-ons',
+    'Button.Label.ManageAddons' => 'Manage add-ons',
+    'Text.UploadInfo' => 'Upload the .zip file for a custom third party add-on here.
+                          The .zip has to contains a pom.xml with the following information:',
+    'List.Element.GroupID' => 'GroupID',
+    'List.Element.ArtifactID' => 'ArtifactID',
+    'List.Element.Version' => 'Version',
+    'List.Element.Name' => 'Name',
+    'List.Element.Description' => 'Description',
+    'Text.ManageAddons' => 'Manage Add-ons',
+    'Text.InstallUpdate' => 'You may install update and enable/disable add-ons here.',
+    'Text.AddonData' => 'All add-on data displayed below is for the lates known product version.',
+    'Text.AddonCompatibility' => 'Add-on compatibility whith this version is unverified. Install add-ons at your own risk.',
+    'Select.Value.All' => 'All',
+    'Select.Value.PhpExtension' => 'PHP Extensions',
+    'Select.Value.CssExtension' => 'CSS Extensions',
+    'Select.Value.JavaScriptExtensions' => 'JavaScript Extensions',
+    'Select.Value.Framework' => 'Framework',
+    'Select.Value.Autoload' => 'Autoload',
+    'Button.Label.UploadAddon' => 'Upload Add-on',
+    'Text.AddonList' => 'Add-on list',
+    'Label.Text.UploadFromThisComputer' => 'From my computer'
 ));

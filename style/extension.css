@@ -61,8 +61,40 @@
     color: #1b809e
 }
 
-.navbar {
-    background: #205081;
-    color: #fff;
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #ffffff;  /*Sets the text hover color on navbar*/
+    background-color: #337ab7;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >
+a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: white; /*BACKGROUND color for active*/
+    background-color: #337ab7;
+}
+
+.navbar-default {
+    background-color: #205081;
     border-bottom-color: #2e3d54;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #205081;  /*change color of links in drop down here*/
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+    text-decoration: none;
+    //background-color: #337ab7; /*Change rollover cell color here*/
+}
+
+
+.navbar-default .navbar-nav > li > a {
+    color: white; /*Change active text color here*/
+}
+.modal-header {
+
 }
