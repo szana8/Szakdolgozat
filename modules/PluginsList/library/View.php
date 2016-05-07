@@ -60,7 +60,7 @@ class View
     private static function _createAddonList($pin_AddonObj) {
 
         foreach ($pin_AddonObj as $loc_Key => $loc_Object) {
-            switch($loc_Object['type']):
+            switch($loc_Object->type):
                 case 1:
                     $loc_Icon = 'php-plugin';
                     break;
@@ -76,11 +76,11 @@ class View
                                         <a class="list-group-item">
                                             <div class="row">
                                                 <div class="col-sm-10">
-                                                    <h4 class="list-group-item-heading"><img src="'.__ROOT_URL__.'images/'.$loc_Icon.'.png" width="30px" /> '.$loc_Object['name'].'</h4>
+                                                    <h4 class="list-group-item-heading"><img src="'.__ROOT_URL__.'images/'.$loc_Icon.'.png" width="30px" /> '.$loc_Object->name.'</h4>
                                                     <p>
                                                         <ul class="list-inline addon-version">
-                                                            <li >Installed version: '.$loc_Object['version'].'</li>
-                                                            <li>Location: '.$loc_Object['location'].'</li>
+                                                            <li>Installed version: '.$loc_Object->version.'</li>
+                                                            <li>Location: '.$loc_Object->location.'</li>
                                                         </ul>
                                                     </p>
                                                 </div>
@@ -90,7 +90,7 @@ class View
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <p>'.$loc_Object['description'].'</p>
+                                                    <p>'.$loc_Object->description.'</p>
                                                 </div>
                                             </div>
                                         </a>

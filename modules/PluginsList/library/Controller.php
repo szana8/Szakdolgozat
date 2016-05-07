@@ -4,6 +4,7 @@ use library\Addon;
 use library\File;
 use library\Httpresponse;
 use library\Mysql;
+use library\Zip;
 
 /**
  * Link:
@@ -36,12 +37,14 @@ class Controller
 ################################################################################
 
     /**
+     * A module neve.
      * @var string
      */
     private static $_moduleName = "Pluginslist";
 
     /**
-     * @var
+     * A rendszerbe telepített pluginek listája.
+     * @var array
      */
     private $_addonList;
 
@@ -50,10 +53,20 @@ class Controller
 ################################################################################
 
     /**
-     * @return string
+     * A main függvénye a module-nak. Ezt indítja a keretrenszer.
+     * @return string   A module kimenete.
+     * @version 1.0
+     * @access public
      */
     public function Run() : string {
-        //Httpresponse::addStyleFile(__ROOT_URL__ . 'modules/pluginslist/style/pluginslist.css');
+        /*
+        $obj_Zip = new Zip();
+        $obj_Zip->setZipFile('test.zip');
+        $obj_Zip->getZipStream();
+        */
+
+        $obj_Addons = new Addon();
+        $obj_Addons->isPOMExists('test.zip');
 
         return View::Run(self::_loadAddons());
     }
@@ -63,8 +76,11 @@ class Controller
 ################################################################################
 
     /**
-     * @return \stdClass
-     * @throws \Exception
+     * Betölti a plugineket egy objektumba majd visszatér vele.
+     * @return \stdClass        A pluginek információit tartalmazó objektum.
+     * @throws \Exception       Kivétel a betöltéskor.
+     * @version 1.0
+     * @access private
      */
     private static function _loadAddons() {
         try {
