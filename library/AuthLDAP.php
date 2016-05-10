@@ -1,14 +1,25 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Pisti
- * Date: 2016. 04. 30.
- * Time: 21:33
+ * Link:
+ * File: Xml.php
+ * Namespace: library
+ *
+ * Description of AuthLDAP: Az LDAP-os azonosításért felelős osztály.
+ *
+ *
+ *  Version     Date            Author               Changelog
+ *   1.0.0      2016. 05. 05.     Pisti                Created
+ *
  */
 
 namespace library;
-
 use library\interfaces\Authentication;
+
+if(count(get_included_files()) === 1) {
+    echo "<html><head><title>Object not found!</title></head>You can not call this"
+        . " file directly!</html>";
+    exit();
+}
 
 class AuthLDAP implements Authentication {
 

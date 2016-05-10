@@ -8,6 +8,11 @@
 
 namespace modules\PluginsList\library;
 
+if(count(get_included_files()) === 1) {
+    echo "<html><head><title>Object not found!</title></head>You can not call this"
+        . " file directly!</html>";
+    exit();
+}
 
 class View
 {

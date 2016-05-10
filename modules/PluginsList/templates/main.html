@@ -62,17 +62,17 @@
         </div>
         <div class="row">
             <div class="col-sm-11">
-                <form class="form-inline">
-                    <select name="ext-class" class="form-control">
-                        <option value="">{Select.Value.All}</option>
-                        <option value="">{Select.Value.PhpExtension}</option>
-                        <option value="">{Select.Value.CssExtension}</option>
-                        <option value="">{Select.Value.JavaScriptExtensions}</option>
+                <form class="form-inline" id="ext-form-id" name="ext-form">
+                    <select name="ext-class" id="ext-class-id" class="form-control">
+                        <option value="all">{Select.Value.All}</option>
+                        <option value="phpextension">{Select.Value.PhpExtension}</option>
+                        <option value="cssextension">{Select.Value.CssExtension}</option>
+                        <option value="javascriptextensio">{Select.Value.JavaScriptExtensions}</option>
                     </select>
-                    <select name="ext-type" class="form-control">
-                        <option value="">{Select.Value.All}</option>
-                        <option value="">{Select.Value.Framework}</option>
-                        <option value="">{Select.Value.Autoload}</option>
+                    <select name="ext-type" id="ext-type-id" class="form-control">
+                        <option value="all">{Select.Value.All}</option>
+                        <option value="framework">{Select.Value.Framework}</option>
+                        <option value="autoload">{Select.Value.Autoload}</option>
                     </select>
                     <input type="text" name="search-plugin" class="form-control" placeholder="Search by name"/>
                     <div class="pull-right">

@@ -156,9 +156,13 @@ class Controller {
      * @access public
      * @version 1.0
      */
-    public function ShowErrorPage(int $pin_Code) {
+    public function showErrorPage(int $pin_Code) {
         echo $pin_Code;
         echo $this->_method;
+    }
+
+    public function loadLanguageELements() {
+        echo json_encode(Language::getLangObj());
     }
 
 ################################################################################
@@ -197,6 +201,7 @@ class Controller {
         \library\Extensionmanager::manualLoadJSExtension('modules/' . $pin_Module . '/scripts/'.$pin_Module.'.js');
 
         \library\Extensionmanager::registrateModuleExtensions($loc_IniContent);
+        
 
     }
 

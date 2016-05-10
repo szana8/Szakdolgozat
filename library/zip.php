@@ -121,13 +121,13 @@ class Zip extends File {
      */
     private function _extractZip() : \ZipArchive {
         $obj_Zip = new \ZipArchive();
-        if(!$this->getFileExists(APPS_D_ROOT . 'tmp/' . $this->_zipFile)) {
+        if(!$this->getFileExists(APPS_D_TMP . $this->_zipFile)) {
             $obj_Zip->status = 'error';
             return $obj_Zip;
         }
-        
+
         try {
-            $obj_Zip->open(APPS_D_ROOT . 'tmp/' . $this->_zipFile);
+            $obj_Zip->open(APPS_D_TMP . $this->_zipFile);
             return $obj_Zip;
         } catch(\Exception $e) {
             Debug::setDebugMessage(array(__METHOD__, self::errorZipFileOpen, "{MSG.ERROR.ERROR_ZIP_FILE_OPEN}", "err", $this->_zipFile));

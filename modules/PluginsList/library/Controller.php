@@ -4,6 +4,7 @@ use library\Addon;
 use library\File;
 use library\Httpresponse;
 use library\Mysql;
+use library\Xml;
 use library\Zip;
 
 /**
@@ -59,14 +60,8 @@ class Controller
      * @access public
      */
     public function Run() : string {
-        /*
-        $obj_Zip = new Zip();
-        $obj_Zip->setZipFile('test.zip');
-        $obj_Zip->getZipStream();
-        */
-
-        $obj_Addons = new Addon();
-        $obj_Addons->isPOMExists('test.zip');
+        $obj_Xml = new Xml(APPS_D_PLGS . 'adldap/pom.xml');
+        $obj_Xml->getAttribute('groupId');
 
         return View::Run(self::_loadAddons());
     }

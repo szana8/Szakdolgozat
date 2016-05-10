@@ -391,7 +391,7 @@ class Httpresponse extends Core {
         foreach (self::$_htmlHeader['metatag'] as $loc_MetaType => $loc_MetaContent) {
             $loc_MetaTags .= "  <meta name=\"".strtoupper($loc_MetaType)."\" content=\"".$loc_MetaContent."\">\n";
         }
-        
+
         $loc_ScriptFiles = "";
         foreach (self::$_htmlHeader['script_file'] as $loc_ScriptFile) {
             $loc_ScriptFiles .= "   <script type=\"text/javascript\" src=\"".$loc_ScriptFile."\"></script>\n";
@@ -411,7 +411,7 @@ class Httpresponse extends Core {
         foreach (self::$_htmlHeader['style'] as $loc_Style) {
             $loc_Style .= "    <style type=\"text/css\">".$loc_Style."</style>";
         }
-        
+
         $loc_HTML = str_replace(array("{ROOT_URI}", 
                                       "{TITLE}",
                                       "{HTMLHEADER}", 
@@ -421,7 +421,9 @@ class Httpresponse extends Core {
                                       $loc_MetaTags.$loc_ScriptFiles.$loc_StyleFiles.$loc_Scripts.$loc_Styles,
                                 $loc_Content),
                                 $loc_HTML);
-        
+
+
+
         self::$_contentType = "html";
         self::$_charset = "utf-8";
         self::_sendContent($loc_HTML, $pin_Cache);

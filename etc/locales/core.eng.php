@@ -15,5 +15,7 @@ if(count(get_included_files()) === 1) {
 
 \library\Language::setLang(array(
     'APP_D_ROOT' => APPS_D_ROOT,
+    '__ROOT_URI__' => __ROOT_URI__,
+    '__ROOT_URL__' => __ROOT_URL__,
     'MSG.ERROR.INVALID_FILE_NAME' => 'Invalid file name!'
 ));

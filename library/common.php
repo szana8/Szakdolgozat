@@ -23,7 +23,7 @@ ignore_user_abort(true);
 
 define("APPS_NAME", (string) "Application");
 
-define("APPS_VER", (string) "1.0.0");
+define("APPS_VER", (string) "1.0.0 dev");
 
 //Kód futásának kezdete
 define("APPS_START_TIME", (int) microtime());
