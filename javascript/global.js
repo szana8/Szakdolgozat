@@ -34,12 +34,21 @@
         });
     }
 
-    $(document).ready(function() {
-        $.ajax({
-            url: "index.php?url=loadLanguageELements",
-            success: function (data) {
-                var languageObj = jQuery.parseJSON(data);
-                alert(languageObj.__ROOT_URL__);
-            }
-        });
-    });
+   function getPhpLanguageElement(pin_ElementName) {
+       $.ajax({
+           type:   "POST",
+           async:  false,
+           url: "index.php?url=loadLanguageELements",
+           data: {
+             variableName: pin_ElementName
+           },
+           beforeSend: function() {
+           },
+           success: function (data) {
+               return data;
+           },
+           error: function() {
+               return false;
+           }
+       });
+   }

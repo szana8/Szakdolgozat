@@ -60,10 +60,10 @@ class Controller
      * @access public
      */
     public function Run() : string {
-        $obj_Xml = new Xml(APPS_D_PLGS . 'adldap/pom.xml');
-        $obj_Xml->getAttribute('groupId');
-
-        return View::Run(self::_loadAddons());
+        //$obj_Xml = new Xml(APPS_D_PLGS . 'adldap/pom.xml');
+        //$obj_Xml->getAttribute('groupId');
+        View::$_addonObj = self::_loadAddons();
+        return View::Run();
     }
 
 ################################################################################

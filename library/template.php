@@ -58,6 +58,11 @@ class Template {
     private static $_templateLanguage   = array();
 
     /**
+     * @var array
+     */
+    private static $_templateVariablesValues = array();
+
+    /**
      * Cache-elés ki be kapcsolása.
      */
     private static $_templateCache      = false;
@@ -149,6 +154,31 @@ class Template {
         return self::renderTemplate()->compiled;
     }
 
+    /**
+     * Lefordítja a javascript-ben lévő nyelvi elemeket.
+     * @param $pout_String                  A fordítandó javascript file
+     * @return string                       A lefordított script
+     * @throws \Exception
+     * @version 1.0
+     * @access public
+     */
+    public static function translateScript($pout_String) :string {
+        self::$_templateName = md5($pout_String);
+        self::$_templateSource[self::$_templateName] = File::getFileContent($pout_String);
+        return self::renderTemplate()->compiled;
+    }
+
+    /**
+     * Beállítja a paraméterben kapott template-ben a változó-hoz a megadott értéket.
+     * @param $pin_templateName
+     * @param $pin_ElementName
+     * @param $pin_ElementValue
+     */
+    public static function setTemplateData($pin_templateName, $pin_ElementName, $pin_ElementValue) {
+        self::$_templateVariablesValues[md5($pin_templateName)][$pin_ElementName] = $pin_ElementValue;
+    }
+
+
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
@@ -186,7 +216,7 @@ class Template {
      */
     private static function _getVariables(string $pin_Template) {
         $loc_Template = self::$_templateSource[$pin_Template];
-        preg_match_all("/%(.*)%/", $loc_Template, $loc_Mathces);
+        preg_match_all("/{%(.*)%}/", $loc_Template, $loc_Mathces);
         self::$_templateVariables[$pin_Template] = $loc_Mathces[1];
     }
 
@@ -285,6 +315,45 @@ class Template {
     }
 
     /**
+     * Beállítja a template-ben lévő változók értékét.
+     * @param string $pin_Template          A template neve.
+     * @return mixed                        A template string-je
+     * @version 1.0
+     * @access private
+     */
+    private static function _setTemplateVariables(string $pin_Template) {
+        if(!isset(self::$_templateVariables[$pin_Template])) {
+            return self::$_templateSource[$pin_Template];
+        }
+
+        foreach(self::$_templateVariables[$pin_Template] as $loc_MatchesValue)
+        {
+            $loc_Replaced = str_replace(array('{%', '%}'), array(''), $loc_MatchesValue);
+            $loc_Const = $loc_Replaced;
+
+            if(isset(self::$_templateVariablesValues[$pin_Template][$loc_Replaced])) {
+
+                $loc_Const = self::$_templateVariablesValues[$pin_Template][$loc_Replaced];
+            }
+            else  {
+                $loc_Const = "";
+            }
+
+            $loc_ReplaceArray[] = $loc_Const;
+            $loc_PatternArray[] = '/{%'.$loc_Replaced.'%}/';
+        }
+
+        if(isset($loc_PatternArray)) {
+            $loc_ReplacedResult = preg_replace($loc_PatternArray, $loc_ReplaceArray, self::$_templateSource[$pin_Template]);
+            self::$_templateSource[$pin_Template] = $loc_ReplacedResult;
+            return $loc_ReplacedResult;
+        }
+        else {
+            return self::$_templateSource[$pin_Template];
+        }
+    }
+
+    /**
      * Befordítja a paraméterben kaporr template-et. Kicseréli a nyelvi elemeket,
      * változókat, stb.
      *
@@ -295,6 +364,7 @@ class Template {
     private static function _templateCompile(string $pin_Template) {
         self::$_templateCompile[$pin_Template] = new \stdClass();
         self::$_templateCompile[$pin_Template]->raw = self::$_templateSource[$pin_Template];
+        self::$_templateCompile[$pin_Template]->data = self::_setTemplateVariables($pin_Template);;
         self::$_templateCompile[$pin_Template]->compiled = self::_translateLanguageVariables($pin_Template);
         self::$_templateCompile[$pin_Template]->info = self::_getTemplateInfo($pin_Template);
     }

@@ -64,10 +64,10 @@
             <div class="col-sm-11">
                 <form class="form-inline" id="ext-form-id" name="ext-form">
                     <select name="ext-class" id="ext-class-id" class="form-control">
-                        <option value="all">{Select.Value.All}</option>
-                        <option value="phpextension">{Select.Value.PhpExtension}</option>
-                        <option value="cssextension">{Select.Value.CssExtension}</option>
-                        <option value="javascriptextensio">{Select.Value.JavaScriptExtensions}</option>
+                        <option value="all" {%ext-all-checked%}>{Select.Value.All}</option>
+                        <option value="phpextension" {%ext-phpextension-checked%}>{Select.Value.PhpExtension}</option>
+                        <option value="cssextension" {%ext-cssextension-checked%}>{Select.Value.CssExtension}</option>
+                        <option value="javascriptextension" {%ext-javascriptextension-checked%}>{Select.Value.JavaScriptExtensions}</option>
                     </select>
                     <select name="ext-type" id="ext-type-id" class="form-control">
                         <option value="all">{Select.Value.All}</option>
@@ -91,3 +91,6 @@
         </div>
     </div>
 </div>
+<script>
+    readyPluginList();
+</script>

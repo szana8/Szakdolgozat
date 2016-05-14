@@ -8,6 +8,9 @@
 
 namespace modules\PluginsList\library;
 
+use library\Httprequest;
+use library\JavaScript;
+
 if(count(get_included_files()) === 1) {
     echo "<html><head><title>Object not found!</title></head>You can not call this"
         . " file directly!</html>";
@@ -28,32 +31,46 @@ class View
 # 3. Protected Properties ######################################################
 ################################################################################
 
-    private static $_moduleName = "Pluginslist";
+    private static $_moduleName         = "Pluginslist";
 
-    private $_addonList;
+    private $_addonList                 = array();
 
-    private static $_addonString = "";
+    private static $_addonString        = "";
+
+    private static $_mainTemplate       = APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . "Pluginslist"
+    . APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html";
+
+    public static $_addonObj;
 
 ################################################################################
 # 4. Public Methods ############################################################
 ################################################################################
 
-    public static function Run($pin_AddonObj) : string {
-        self::_createAddonList($pin_AddonObj);
+    public static function Run() : string {
         $loc_String = self::_loadTemplate();
-        $loc_String = str_replace('%MODULE.LIST.ADDONS_LIST%', self::$_addonString, $loc_String);
         return $loc_String;
     }
+
 ################################################################################
 # 5. Protected Methods #########################################################
 ################################################################################
+
+
+    private static function _setElementsValue() {
+        self::_createAddonList(self::$_addonObj);
+        $loc_TemplateName = self::$_mainTemplate;
+        \library\Template::setTemplateData($loc_TemplateName, "MODULE.LIST.ADDONS_LIST", self::$_addonString);
+        \library\Template::setTemplateData($loc_TemplateName, "ext-".Httprequest::getURLElement("url", 2)."-checked", "selected");
+    }
 
     /**
      * @return string
      */
     private static function _loadTemplate() : string {
-        \library\Template::loadTemplate(APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . self::$_moduleName
-            . APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html");
+        $loc_TemplateName = self::$_mainTemplate;
+        \library\Template::loadTemplate($loc_TemplateName);
+        self::_setElementsValue();
+
         $loc_Template = \library\Template::renderTemplate();
         return $loc_Template->compiled;
     }

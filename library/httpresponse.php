@@ -404,7 +404,7 @@ class Httpresponse extends Core {
         
         $loc_Scripts = "";
         foreach (self::$_htmlHeader['script'] as $loc_Script) {
-            $loc_Scripts .= "   <script text=\"javascript\">".$loc_Script."</script> \n";
+            $loc_Scripts .= "   <script text=\"javascript\">".Template::translateScript($loc_Script)."</script> \n";
         }
         
         $loc_Styles = "";

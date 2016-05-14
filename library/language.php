@@ -123,18 +123,6 @@ class Language {
     }
 
     /**
-     * Beállítja a nyelvi elemeket, hogy a JavaScript-ből is tudjuk használni.
-     */
-    public static function setJavaScriptLanguage() {
-        $loc_String = 'var __ROOT__URL = "http://";';
-
-        foreach (self::$_langObj as $loc_Key => $loc_LangItem) {
-            //$loc_String .= 'var '.$loc_Key.' = "'.$loc_LangItem.'";\n';
-        }
-        return $loc_String;
-    }
-
-    /**
      * @return array
      */
     public static function getLangObj() {

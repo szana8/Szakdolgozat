@@ -79,7 +79,21 @@ class Httprequest extends Core {
         
         return null;
     }
-    
+
+    /**
+     * @param $pin_GetID
+     * @param $pin_Index
+     * @return mixed
+     */
+    public static function getURLElement($pin_GetID, $pin_Index) {
+        if(isset($_GET[$pin_GetID])) {
+            $loc_Tmp = $_GET[$pin_GetID];
+            $loc_Array = explode("/", $loc_Tmp);
+            if(isset($loc_Array[$pin_Index]))
+                return $loc_Array[$pin_Index];
+        }
+        return null;
+    }
     
 ################################################################################
 # 5. Protected Methods #########################################################

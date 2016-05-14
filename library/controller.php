@@ -162,7 +162,8 @@ class Controller {
     }
 
     public function loadLanguageELements() {
-        echo json_encode(Language::getLangObj());
+        $loc_Tmp = Language::getLangObj();
+        echo json_encode($loc_Tmp[$_POST['variableName']]);
     }
 
 ################################################################################
@@ -198,8 +199,7 @@ class Controller {
         $loc_IniContent = new \stdClass();
         $loc_IniContent = \library\File::getIniContent(APPS_D_MODS . $pin_Module .  '/config/' . self::$_dependecies);
         \library\Extensionmanager::manualLoadCSSExtension('modules/' . $pin_Module . '/style/'.$pin_Module.'.css');
-        \library\Extensionmanager::manualLoadJSExtension('modules/' . $pin_Module . '/scripts/'.$pin_Module.'.js');
-
+        \library\Httpresponse::addScript('modules/' . $pin_Module . '/scripts/'.$pin_Module.'.js');
         \library\Extensionmanager::registrateModuleExtensions($loc_IniContent);
         
 
