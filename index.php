@@ -16,6 +16,9 @@ session_start();
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
+    \library\Session::setSession("username", "HUSzanaI");
+    \library\Session::setSession("isValid", true);
+
     $loc_Controller = new library\Controller();
     $loc_Controller->Initialize();
 ?>

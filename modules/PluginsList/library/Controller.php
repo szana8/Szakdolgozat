@@ -2,6 +2,7 @@
 namespace modules\PluginsList\library;
 use library\Addon;
 use library\File;
+use library\Httprequest;
 use library\Httpresponse;
 use library\Mysql;
 use library\Xml;
@@ -54,16 +55,50 @@ class Controller
 ################################################################################
 
     /**
-     * A main függvénye a module-nak. Ezt indítja a keretrenszer.
+     * A main függvénye a module-nak. Ezt indítja a keretrenszer. Minden ebből a fv-ből
+     * hívódik.
      * @return string   A module kimenete.
      * @version 1.0
      * @access public
      */
     public function Run() : string {
-        //$obj_Xml = new Xml(APPS_D_PLGS . 'adldap/pom.xml');
-        //$obj_Xml->getAttribute('groupId');
-        View::$_addonObj = self::_loadAddons();
+        switch(Httprequest::getURLElement("url", 2)):
+            case "licence":
+                return $this->setLicence();
+                break;
+            default:
+                return $this->setAddonsList();
+                break;
+        endswitch;
+    }
+
+    /**
+     * Vissza adja a telepített pluginek listát.
+     * @return string           A pluginek listája.
+     * @version 1.0
+     * @acces public
+     */
+    public function setAddonsList() : string {
+        switch(Httprequest::getURLElement("url", 2)):
+            case "phpextension":
+                $loc_AddonType = 1;
+                break;
+            case "cssextension":
+                $loc_AddonType = 3;
+                break;
+            case "javascriptextension":
+                $loc_AddonType = 2;
+                break;
+            default:
+                $loc_AddonType = null;
+        endswitch;
+
+        View::$_addonObj = self::_loadAddons($loc_AddonType);
         return View::Run();
+    }
+
+    public function setLicence() : string {
+        return View::Licence();
     }
 
 ################################################################################
@@ -77,10 +112,10 @@ class Controller
      * @version 1.0
      * @access private
      */
-    private static function _loadAddons() {
+    private static function _loadAddons($pin_AddonType) {
         try {
             $obj_Addons = new Addon();
-            return $obj_Addons->getAddons();
+            return $obj_Addons->getAddons($pin_AddonType);
         }
         catch(\Exception $e) {
             echo $e->getMessage();

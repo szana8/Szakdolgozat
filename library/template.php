@@ -114,40 +114,8 @@ class Template {
      * @return string                       A menü HTML kódja
      */
     public static function createMenu($pin_MenuArray) {
-        $loc_Menu = "";
-        $loc_Menu .= "<div class=\"container-fluid\">";
-            $loc_Menu .= "<div class=\"navbar-header\">
-                            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">
-                                <span class=\"sr-only\">Toggle navigation</span>
-                                <span class=\"icon-bar\"></span>
-                                <span class=\"icon-bar\"></span>
-                                <span class=\"icon-bar\"></span>
-                              </button>
-                              <a class=\"navbar-brand\" href=\"#\">{APP.MENU.LOGO}</a>
-                            </div>";
-            $loc_Menu .= "<div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">";
-            $loc_Menu .= self::_generatePageTree($pin_MenuArray);
-
-
-            $loc_Menu .= '<ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <form class="navbar-form navbar-right" role="search">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Search">
-                                    </div>
-                                </form>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
-                                    </ul>
-                            </li></ul>';
-        $loc_Menu .= '</div>';
+        $loc_Menu = File::getFileContent(APPS_D_ROOT . "etc/templates/custom/main.menu.html");
+        $loc_Menu = str_replace("{%CORE.GENERATED_MENU%}", self::_generatePageTree($pin_MenuArray), $loc_Menu);
 
         self::$_templateName = md5('mainMenu');
         self::$_templateSource[self::$_templateName] = $loc_Menu;

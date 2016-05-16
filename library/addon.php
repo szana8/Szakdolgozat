@@ -32,8 +32,6 @@ class Addon
 # 2. Public Properties #########################################################
 ################################################################################
 
-
-
 ################################################################################
 # 3. Protected Properties ######################################################
 ################################################################################
@@ -50,9 +48,14 @@ class Addon
      * @version 1.0
      * @access publiuc
      */
-    public static function getAddons() : array {
-        $loc_DB = new \library\Mysql(\PDO::FETCH_OBJ);
-        $loc_List = $loc_DB->query('SELECT * FROM fnd_addons ORDER BY name');
+    public static function getAddons(int $pin_Type = null) {
+        $loc_Mysql = new \library\Mysql(\PDO::FETCH_OBJ);
+        $loc_DB = $loc_Mysql->connect();
+        $loc_Query = $loc_DB->prepare('SELECT * FROM fnd_addons WHERE type = COALESCE(:type, type) ORDER BY name');
+        $loc_Query->bindValue("type", $pin_Type, \PDO::PARAM_INT);
+        $loc_Query->execute();
+        $loc_List = $loc_Query->fetchAll(\PDO::FETCH_OBJ);
+
         return $loc_List;
     }
 

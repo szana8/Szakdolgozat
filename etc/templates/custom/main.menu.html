@@ -1,0 +1,59 @@
+<div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">{APP.MENU.LOGO}</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        {%CORE.GENERATED_MENU%}
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <form class="navbar-form navbar-right" role="search" style="margin-right: 10px;">
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-question-sign"></i> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">{MENU.ITEM.LABEL.ADMINISTRATION}</li>
+                    <li><a href="#">{MENU.ITEM.LABEL.USER_MANAGEMENT}</a></li>
+                    <li><a href="#">{MENU.ITEM.LABEL.ISSUES}</a></li>
+                    <li><a href="{__ROOT_URL__}startModule/PluginsList">{MENU.ITEM.LABEL.ADDONS}</a></li>
+                    <li><a href="#">{MENU.ITEM.LABEL.SYSTEM}</a></li>
+                    <li><a href="#">{MENU.ITEM.LABEL.AUDIT_LOG}</a></li>
+
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{__ROOT_URL__}images/default_user.png" height="18px"> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">{MENU.ITEM.LABEL.PROFILE_OPTIONS}</li>
+                    <li><a href="#">{MENU.ITEM.LABEL.PROFILE}</a></li>
+                    <li class="disabled"><a href="#">{MENU.ITEM.LABEL.MARKETPLACE}</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">{MENU.ITEM.LABEL.HOME}</li>
+                    <li><a href="{__ROOT_URL__}">{MENU.ITEM.LABEL.DASHBOARD}</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{__ROOT_URL__}startModule/login/out">{MENU.ITEM.LABEL.LOGOUT}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

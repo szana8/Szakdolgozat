@@ -61,8 +61,29 @@
     color: #1b809e
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: #205081;
+}
+h2 {
+    font-size: 24px;
+    line-height: 32px;
+}
+h1, h2, h3 {
+    font-family: "Circular Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-font-variant-ligatures: no-common-ligatures;
+    font-variant-ligatures: no-common-ligatures;
+}
+h2 {
+    color: #333333;
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 1.25;
+    text-transform: none;
+    margin: 30px 0 0 0;
+}
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    box-sizing: border-box;
     color: #ffffff;  /*Sets the text hover color on navbar*/
     background-color: #337ab7;
 }
@@ -74,6 +95,7 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 }
 
 .navbar-default {
+
     background-color: #205081;
     border-bottom-color: #2e3d54;
 }
@@ -97,4 +119,7 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 }
 .modal-header {
 
+}
+.dropdown-header {
+    font-weight: bold;
 }

@@ -24,7 +24,10 @@ class Httprequest extends Core {
 ################################################################################
 # 1. Constants #################################################################
 ################################################################################    
-    
+
+    /**
+     * A HTTP request inicializálásakor fellépő hiba kódja.
+     */
     const   initHttpRequest         = 'xhq0001';
 
 
@@ -35,7 +38,11 @@ class Httprequest extends Core {
 ################################################################################
 # 3. Protected Properties ######################################################
 ################################################################################
-    
+
+    /**
+     * Ebben a property-ben tároljuk a httpRequest-eket
+     * @var array
+     */
     private static $_httpRequestArray   = array();
     
 ################################################################################
@@ -43,7 +50,7 @@ class Httprequest extends Core {
 ################################################################################
     
     /**
-     * 
+     * Inicializáló függvény.
      */
     public static function initialize() {
         self::$_httpRequestArray = array('DateTime' => date('Y-m-d H:i:s'));
@@ -51,11 +58,13 @@ class Httprequest extends Core {
     }
     
     /**
-     * 
-     * @param type $pin_Name
-     * @return type
+     * Vissza adja a GET globális változóból a paraméterben megadott elem értékét.
+     * @param string $pin_Name        Az elem neve
+     * @return string                 Az elem értéke
+     * @version 1.0
+     * @access public
      */
-    public static function getGETElement($pin_Name) {
+    public static function getGETElement(string $pin_Name) {
         if(isset($_GET[$pin_Name]))
             return $_GET[$pin_Name];
         
@@ -70,10 +79,13 @@ class Httprequest extends Core {
     }
 
     /**
-     * 
-     * @return type
+     * Vissza adja a POST globális változóból a paraméterben megadott elem értékét.
+     * @param string $pin_Name        Az elem neve
+     * @return string                 Az elem értéke
+     * @version 1.0
+     * @access public
      */
-    public static function getPOSTData($pin_Name) : string {
+    public static function getPOSTData(string $pin_Name) : string {
         if(!empty($_POST[$pin_Name]))
             return $_POST[$pin_Name];
         
@@ -85,14 +97,14 @@ class Httprequest extends Core {
      * @param $pin_Index
      * @return mixed
      */
-    public static function getURLElement($pin_GetID, $pin_Index) {
+    public static function getURLElement(string $pin_GetID, string $pin_Index) : string {
         if(isset($_GET[$pin_GetID])) {
             $loc_Tmp = $_GET[$pin_GetID];
             $loc_Array = explode("/", $loc_Tmp);
             if(isset($loc_Array[$pin_Index]))
                 return $loc_Array[$pin_Index];
         }
-        return null;
+        return "";
     }
     
 ################################################################################

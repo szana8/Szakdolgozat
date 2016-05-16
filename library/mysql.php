@@ -112,7 +112,7 @@ class Mysql implements interfaces\Database {
     public function connect()
     {
         try {
-            $this->_dbObject = new PDO('mysql:host='.$this->_pdoHost.';dbname='.$this->_pdoDB.'',
+            $this->_dbObject = new \PDO('mysql:host='.$this->_pdoHost.';dbname='.$this->_pdoDB.'',
                                         $this->_pdoUsername, $this->_pdoPassword, $this->_pdoOption);
 
             $this->_dbObject->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

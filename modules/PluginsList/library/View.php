@@ -40,6 +40,9 @@ class View
     private static $_mainTemplate       = APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . "Pluginslist"
     . APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "main.html";
 
+    private static $_licenceTemplate    = APPS_D_ROOT . "modules" . APPS_DIRECTORY_SEPARATOR . "Pluginslist"
+    . APPS_DIRECTORY_SEPARATOR . "templates" . APPS_DIRECTORY_SEPARATOR . "licence.html";
+
     public static $_addonObj;
 
 ################################################################################
@@ -49,6 +52,14 @@ class View
     public static function Run() : string {
         $loc_String = self::_loadTemplate();
         return $loc_String;
+    }
+
+    public static function Licence() : string {
+        $loc_TemplateName = self::$_licenceTemplate;
+        \library\Template::loadTemplate($loc_TemplateName);
+
+        $loc_Template = \library\Template::renderTemplate();
+        return $loc_Template->compiled;
     }
 
 ################################################################################
@@ -92,6 +103,8 @@ class View
                 case 3:
                     $loc_Icon = 'css-plugin';
                     break;
+                default:
+                    $loc_Icon = 'php-plugin';
             endswitch;
 
             self::$_addonString .= '<div class="list-group">

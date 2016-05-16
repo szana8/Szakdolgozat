@@ -181,7 +181,6 @@ class Controller {
         $loc_Module = $obj_Ctrl->Run();
         $this->_loadModuleDependecies($pin_Module);
 
-
         $loc_CoreElements = $this->_loadCoreElements();
         $this->_loadMenu();
         \library\Httpresponse::sendContent(str_replace(array("<%core.menu%>", "<%core.body%>"), array($this->_menuString, $loc_Module), $loc_CoreElements));
@@ -209,9 +208,13 @@ class Controller {
      * Betölti a menüt.
      */
     protected function _loadMenu() {
-        $obj_Menu = new \library\Menu();
-        $this->_menu = $obj_Menu->createMenu();
-        $this->_menuString = \library\Template::createMenu($this->_menu);
+        if(Session::getSession("username") == "" || Session::getSession("isValid") != true)
+            $this->_menuString = "";
+        else {
+            $obj_Menu = new \library\Menu();
+            $this->_menu = $obj_Menu->createMenu();
+            $this->_menuString = \library\Template::createMenu($this->_menu);
+        }
     }
 
     /**

@@ -14,7 +14,7 @@ if(count(get_included_files()) === 1) {
 
 
 \library\Language::setLang(array(
-    'APP.MENU.LOGO' => '<img src="'.__ROOT_URL__.'images/db_logo.png" width="25px">',
+    'APP.MENU.LOGO' => '<img style="position: relative;margin-top: -10px" src="'.__ROOT_URL__.'images/Atlassian_Logo.png">',
     'APP.MENU.DASHBOARDS' => 'Dashboards',
     'APP.MENU.SYSTEM' => 'System',
     'APP.MENU.SERVER_MANAGEMENT' => 'Server Management',
