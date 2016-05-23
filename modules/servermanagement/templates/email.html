@@ -1,0 +1,96 @@
+<h3>{Button.Label.ServerManagement} - {Button.Label.Email}</h3>
+<hr />
+<form class="form-horizontal" name="form-email" id="form-email-id">
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{Label.Text.Enabled}</label>
+                <div class="col-sm-8">
+                    <input type="checkbox" name="enabled" id="enabled-id" checked class="checkbox" />
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Name}</label>
+                <div class="col-sm-8">
+                    <input type="text" name="name" id="name-id" required class="form-control" />
+                    <small>The name if this server within the application</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{Label.Text.Description}</label>
+                <div class="col-sm-8">
+                    <input type="text" name="description" id="description-id" required class="form-control" />
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.FromAddress}</label>
+                <div class="col-sm-8">
+                    <input type="text" name="from-address" id="from-address-id" required class="form-control" />
+                    <small>The default address this server will use to send emails from</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.EmailPrefix}</label>
+                <div class="col-sm-8">
+                    <input type="text" name="email-prefix" id="email-prefix-id" required class="form-control" />
+                    <small>This prefix will be prepended to all outgoing email subjects</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4>{Label.Text.SMTPHost}</h4>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Protocol}</label>
+                <div class="col-sm-8">
+                    <select required name="protocol" id="protocol-id" class="form-control">
+                        <option value="SMTP">{Form.Select.Option.Select}</option>
+                        <option value="SMTP">{Form.Select.Option.SMTP}</option>
+                        <option value="POP">{Form.Select.Option.POP3}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Hostname}</label>
+                <div class="col-sm-8">
+                    <input type="text" name="hostname" id="hostname-id" required class="form-control" />
+                    <small>The SMTP host name of your real server</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.PORT}</label>
+                <div class="col-sm-8">
+                    <input type="text" name="port" id="port-id" required class="form-control" />
+                    <small>Optional . SMTP port number to use. Leave blank for default (Defaults: SMTP - 25, SMTPS - 465)</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{Label.Text.TLS}</label>
+                <div class="col-sm-8">
+                    <input type="checkbox" name="tls" id="tls-id" checked class="checkbox" />
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Username}</label>
+                <div class="col-sm-8">
+                    <input type="text" name="username" id="username-id" required class="form-control" />
+                    <small>Your SMTP username</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Password}</label>
+                <div class="col-sm-8">
+                    <input type="password" name="password" id="password-id" required class="form-control" />
+                    <small>Your SMTP password</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="button" class="btn btn-primary">{Button.Label.Save}</button>
+                    <button type="button" class="btn btn-default">{Button.Label.Cancel}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

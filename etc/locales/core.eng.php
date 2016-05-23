@@ -29,5 +29,10 @@ if(count(get_included_files()) === 1) {
     'MENU.ITEM.LABEL.ADDONS' => 'Add-ons',
     'MENU.ITEM.LABEL.ISSUES' => 'Issues',
     'MENU.ITEM.LABEL.SYSTEM' => 'System',
-    'MENU.ITEM.LABEL.AUDIT_LOG' => 'Audit Log'
+    'MENU.ITEM.LABEL.AUDIT_LOG' => 'Audit Log',
+    'Form.Select.Option.Select' => 'Please Select One',
+    'Button.Label.Cancel' => 'Cancel',
+    'Button.Label.Save' => 'Save',
+    'Label.Text.Enabled' => 'Enabled',
+    'Label.Text.Disabled' => 'Disabled'
 ));

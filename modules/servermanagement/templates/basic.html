@@ -1,0 +1,61 @@
+<h3>{Button.Label.ServerManagement} - {Button.Label.Basic}</h3>
+<hr />
+<div class="row">
+    <div class="col-sm-5">
+        <form class="form-horizontal" name="form-basic" id="form-basic-id">
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.DatabaseType}</label>
+                <div class="col-sm-8">
+                    <select required name="database-type" id="database-type-id" class="form-control">
+                        <option value="">{Form.Select.Option.Select}</option>
+                        <option value="MySQL">{Form.Select.Option.MySQL}</option>
+                        <option value="Postgre">{Form.Select.Option.PostreSQL}</option>
+                        <option value="Oracle">{Form.Select.Option.OracleDB}</option>
+                        <option value="Mssql">{Form.Select.Option.MSSQL}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.HostName}</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="hostname" id="hostname-id" />
+                    <small>{Label.Text.Host}</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.PORT}</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="port" id="port-id" />
+                    <small>{Label.Text.Tcp}</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Username}</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="username" id="username-id" />
+                    <small>{Label.Text.UsernameInfo}</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Password}</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" name="password" id="password-id" />
+                    <small>{Label.Text.PasswordInfo}</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <label class="col-sm-4 control-label">{Label.Text.Schema}</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="schema" id="schema-id" />
+                    <small>{Label.Text.SchemaInfo}</small>
+                </div>
+            </div>
+            <div class="form-group required">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="button" class="btn btn-primary">{Button.Label.Save}</button>
+                    <button type="button" class="btn btn-warning">{Button.Label.Test}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

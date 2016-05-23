@@ -123,3 +123,8 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
 .dropdown-header {
     font-weight: bold;
 }
+
+.form-group.required .control-label:after {
+    content:"*";
+    color:red;
+}

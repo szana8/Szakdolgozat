@@ -1,0 +1,12 @@
+Start debug trace: 2016-05-21 15:42:56
+2016-May-21 15:42:56 info: xhq0001 library\Httprequest::initialize {MSG.ERROR.INIT_HTTP_REQEST} 2016-05-21 15:42:56
+2016-May-21 15:42:56 info: xhr0004 library\Httpresponse::addScriptFile {MSG.SUCC.ADD_SCRIPT_FILE} http://localhost/Szakdolgozat/Szakdolgozat/frameworks\jquery\jquery-1.11.1.min.js
+2016-May-21 15:42:56 info: xhr0004 library\Httpresponse::addScriptFile {MSG.SUCC.ADD_SCRIPT_FILE} http://localhost/Szakdolgozat/Szakdolgozat/frameworks\jquery-ui-1.11.4\jquery-ui.min.js
+2016-May-21 15:42:56 info: xhr0004 library\Httpresponse::addScriptFile {MSG.SUCC.ADD_SCRIPT_FILE} http://localhost/Szakdolgozat/Szakdolgozat/frameworks\bootstrap-3.3.6-dist\js\bootstrap.min.js
+2016-May-21 15:42:56 info: xhr0004 library\Httpresponse::addScriptFile {MSG.SUCC.ADD_SCRIPT_FILE} http://localhost/Szakdolgozat/Szakdolgozat/javascript\global.js
+2016-May-21 15:42:56 info: xhr0005 library\Httpresponse::addStyleFile {MSG.SUCC.ADD_STYLE_FILE} http://localhost/Szakdolgozat/Szakdolgozat/frameworks\jquery-ui-1.11.4\jquery-ui.min.css
+2016-May-21 15:42:56 info: xhr0005 library\Httpresponse::addStyleFile {MSG.SUCC.ADD_STYLE_FILE} http://localhost/Szakdolgozat/Szakdolgozat/frameworks\bootstrap-3.3.6-dist\css\bootstrap.css
+2016-May-21 15:42:56 info: xhr0005 library\Httpresponse::addStyleFile {MSG.SUCC.ADD_STYLE_FILE} http://localhost/Szakdolgozat/Szakdolgozat/style\extension.css
+2016-May-21 15:42:56 info: xhq0001 library\Extensionmanager::initialize {MSG.INFO.INITIALIZE_EXT_MANAGER} 
+2016-May-21 15:42:56 info: xl00001 library\Language::Initialize {MSG.INFO.LANG_INIT_SUCCESFULL} 
+2016-May-21 15:42:56 err: xf00000 library\File::_isFileExists {MSG.ERROR.FILE_NOT_EXISTS} C:/xampp/htdocs/Szakdolgozat/Szakdolgozat/modules/servermanagement/locale/servermanagement.eng.php

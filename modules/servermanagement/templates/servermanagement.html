@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-sm-2">
+        <ul class="nav nav-pills nav-stacked plugins-nav">
+            <li><h4>{Button.Label.ServerManagement}</h4></li>
+            <li {%basic-active%}><a href="{__ROOT_URL__}startModule/ServerManagement/basic">{Button.Label.Basic}</a></li>
+            <li {%ldap-active%}><a href="{__ROOT_URL__}startModule/ServerManagement/ldap">{Button.Label.Ldap}</a></li>
+            <li {%email-active%}><a href="{__ROOT_URL__}startModule/ServerManagement/email">{Button.Label.Email}</a></li>
+            <li {%application-active%}><a href="{__ROOT_URL__}startModule/ServerManagement/application">{Button.Label.ApplicationProperties}</a></li>
+            <li {%language-active%}><a href="{__ROOT_URL__}startModule/ServerManagement/language">{Button.Label.LanguageLocalization}</a></li>
+            <li class="nav-divider"></li>
+        </ul>
+    </div>
+    <div class="col-sm-10">
+        {%SERVER.MANAGEMENT.FORM%}
+    </div>
+</div>
