@@ -54,5 +54,12 @@ if(count(get_included_files()) === 1) {
     'Label.Text.Protocol' => 'Protocol',
     'Form.Select.Option.SMTP' => 'SMTP',
     'Form.Select.Option.POP3' => 'POP3',
-    'Label.Text.TLS' => 'TLS'
+    'Label.Text.TLS' => 'TLS',
+    'Label.Text.Title' => 'Application Title',
+    'Label.Text.Title' => 'The name of the installation',
+    'Label.Text.Mode' => 'Mode',
+    'Radio.Label.Private' => 'Private',
+    'Label.Text.ModePrivate' => 'Only administrators can create new users',
+    'Radio.Label.Public' => 'Public',
+    'Label.Text.ModePublic' => 'Anyone can sign up'
 ));

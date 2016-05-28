@@ -95,10 +95,10 @@ class Mysql implements interfaces\Database {
      * @access public
      */
     public function __construct($pin_FetchMode = \PDO::FETCH_OBJ) {
-        $this->_pdoDB = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->SCHEMA;
-        $this->_pdoHost = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->HOST;
-        $this->_pdoUsername = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->USERNAME;
-        $this->_pdoPassword = \library\File::getIniContent(APPS_D_CONFIG . "connection.ini")->PASSWORD;
+        $this->_pdoDB = \library\File::getIniContent(APPS_D_CONFIG . "db-config.ini")->SCHEMA;
+        $this->_pdoHost = \library\File::getIniContent(APPS_D_CONFIG . "db-config.ini")->HOST;
+        $this->_pdoUsername = \library\File::getIniContent(APPS_D_CONFIG . "db-config.ini")->USERNAME;
+        $this->_pdoPassword = \library\File::getIniContent(APPS_D_CONFIG . "db-config.ini")->PASSWORD;
         $this->_pdoDBType = 'MySQL';
         $this->_pdoOption = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
         $this->_dbObject = new \stdClass();
